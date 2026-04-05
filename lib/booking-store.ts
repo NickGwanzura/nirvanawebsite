@@ -1,85 +1,57 @@
-// Client-side booking store using localStorage
-// In production, this should be replaced with a proper database
+import { IBooking } from '@/models/Booking'
 
-export interface Booking {
-  id: string
-  name: string
-  email: string
-  phone: string
-  sessionType: "group" | "semi-private" | "private" | "corporate"
-  date: string // ISO date string
-  time: string
-  status: "confirmed" | "pending" | "cancelled"
-  createdAt: string
-  notes?: string
-}
+export type Booking = IBooking & { _id: string }
 
-const STORAGE_KEY = "nirvana_bookings"
-
-export function getBookings(): Booking[] {
-  if (typeof window === "undefined") return []
-  const stored = localStorage.getItem(STORAGE_KEY)
-  return stored ? JSON.parse(stored) : []
-}
-
-export function addBooking(booking: Omit<Booking, "id" | "createdAt" | "status">): Booking {
-  const bookings = getBookings()
-  const newBooking: Booking = {
-    ...booking,
-    id: crypto.randomUUID(),
-    status: "confirmed",
-    createdAt: new Date().toISOString(),
+// Client-side API functions
+export async function getBookings(): Promise<Booking[]> {
+  const response = await fetch('/api/bookings')
+  if (!response.ok) {
+    throw new Error('Failed to fetch bookings')
   }
-  bookings.push(newBooking)
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(bookings))
-  return newBooking
+  return response.json()
 }
 
-export function updateBooking(id: string, updates: Partial<Booking>): Booking | null {
-  const bookings = getBookings()
-  const index = bookings.findIndex(b => b.id === id)
-  if (index === -1) return null
+export async function createBooking(data: Omit<Booking, '_id' | 'createdAt'>): Promise<Booking> {
+  const response = await fetch('/api/bookings', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
   
-  bookings[index] = { ...bookings[index], ...updates }
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(bookings))
-  return bookings[index]
-}
-
-export function deleteBooking(id: string): boolean {
-  const bookings = getBookings()
-  const filtered = bookings.filter(b => b.id !== id)
-  if (filtered.length === bookings.length) return false
-  
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(filtered))
-  return true
-}
-
-export function getBookingsByDate(date: string): Booking[] {
-  return getBookings().filter(b => b.date === date && b.status !== "cancelled")
-}
-
-export function generateWhatsAppMessage(booking: Booking): string {
-  const sessionLabels = {
-    group: "Group Session",
-    "semi-private": "Semi-Private Session",
-    private: "Private Session",
-    corporate: "Corporate Wellness",
+  if (!response.ok) {
+    const error = await response.json()
+    throw new Error(error.error || 'Failed to create booking')
   }
   
-  const message = `Hello Nirvana Pilates!
-
-I've just booked a session:
-
-Name: ${booking.name}
-Session: ${sessionLabels[booking.sessionType]}
-Date: ${new Date(booking.date).toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}
-Time: ${booking.time}
-
-Looking forward to it!`
-
-  return encodeURIComponent(message)
+  return response.json()
 }
 
-export function getWhatsAppLink(booking: Booking, phoneNumber = "263771234567"): string {
-  return `https://wa.me/${phoneNumber}?text=${generateWhatsAppMessage(booking)}`
+export async function updateBooking(id: string, data: Partial<Booking>): Promise<Booking> {
+  const response = await fetch(`/api/bookings/${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+  
+  if (!response.ok) {
+    const error = await response.json()
+    throw new Error(error.error || 'Failed to update booking')
+  }
+  
+  return response.json()
+}
+
+export async function deleteBooking(id: string): Promise<void> {
+  const response = await fetch(`/api/bookings/${id}`, {
+    method: 'DELETE',
+  })
+  
+  if (!response.ok) {
+    const error = await response.json()
+    throw new Error(error.error || 'Failed to delete booking')
+  }
 }
