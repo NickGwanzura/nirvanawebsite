@@ -1,0 +1,177 @@
+"use client"
+
+import { useState, useEffect } from "react"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { Menu, X, Lock } from "lucide-react"
+
+const navLinks = [
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
+  { href: "/#classes", label: "Classes" },
+  { href: "/#schedule", label: "Schedule" },
+  { href: "/book", label: "Book" },
+]
+
+export function Navbar() {
+  const [isScrolled, setIsScrolled] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const pathname = usePathname()
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50)
+    }
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  const isActive = (href: string) => {
+    if (href.startsWith("/#")) {
+      return pathname === "/"
+    }
+    return pathname === href
+  }
+
+  return (
+    <>
+      {/* Inject CSS to force logo colors */}
+      <style jsx global>{`
+        .navbar-logo svg {
+          width: 100% !important;
+          height: 100% !important;
+        }
+        .navbar-logo svg path,
+        .navbar-logo svg polygon {
+          fill: #1a1a1a !important;
+        }
+      `}</style>
+      
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out ${
+          isScrolled
+            ? "bg-[#faf9f7]/90 backdrop-blur-md"
+            : "bg-transparent"
+        }`}
+      >
+        <nav className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="flex h-20 lg:h-28 items-center justify-between">
+            {/* Logo - Inline SVG with forced dark color */}
+            <Link href="/" className="select-none navbar-logo h-12 lg:h-20 w-36 lg:w-56">
+              <svg viewBox="0 0 841.89 595.28" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+                <g fill="#1a1a1a">
+                  <path d="M278.43,203.46c0,7.62.01,17.88.04,30.79.03,12.91.04,24.91.02,35.98-.02,11.07-.08,17.66-.19,19.77-.03.08-.04.17-.04.25-.03,1.07-.19,2.24-.48,3.52-.3,1.28-.92,2.23-1.88,2.85-.62.28-1.24.32-1.85.11-.62-.21-1.18-.51-1.69-.91-1.69-1.38-3.16-2.99-4.43-4.85-.45-.59-.9-1.17-1.35-1.73-1.18-1.49-5.2-6.48-12.06-14.99-6.86-8.5-14.69-18.22-23.5-29.17-8.81-10.95-16.76-20.82-23.86-29.61-7.1-8.8-11.47-14.25-13.13-16.36-.56-.7-1.14-1.41-1.73-2.11-.08-.11-.17-.22-.25-.34v116.47h1.69v-87.68c2.56,3.15,7.71,9.51,15.47,19.1,7.76,9.58,16.05,19.84,24.87,30.77,7.93,9.75,14.68,18.08,20.26,24.98,5.58,6.9,8.49,10.5,8.75,10.81,1.71,1.55,3.44,2.22,5.16,2.02,1.73-.2,3.42-.87,5.08-2.02,1.66-1.15,3.2-2.37,4.64-3.67.7-.62,1.4-1.24,2.11-1.86v-109.05h-1.69c0,.73.01,3.04.04,6.91Z"/>
+                  <path d="M442.83,306.19c.11.28.22.56.34.84.23.56.46,1.11.72,1.64,1.4,2.81,3.65,4.3,6.74,4.47h5.52c6.27-13.97,12.39-27.99,18.38-42.07,2.92-6.83,5.84-13.63,8.77-20.4,1.55-3.54,3.08-7.07,4.59-10.58,2.3-5.31,4.61-10.61,6.91-15.89,1.07-2.45,2.12-4.89,3.16-7.33,2.87-6.63,5.76-13.26,8.68-19.9h-1.85c-4.08,9.41-8.16,18.84-12.27,28.29-2.05,4.69-4.09,9.39-6.11,14.08h-.04c-4.13,9.55-8.28,19.11-12.44,28.67-4.92,11.35-9.85,22.71-14.8,34.06l-45.53-105.09h-18l24.74,57.29c1.57,3.65,3.15,7.31,4.72,10.96,1.6,3.65,3.19,7.31,4.76,10.96,2.16,5,4.33,10.01,6.49,15.01,2.16,5,4.33,10.01,6.49,15.01Z"/>
+                  <path d="M593.11,225.46c2.56,3.15,7.72,9.51,15.47,19.1,7.76,9.58,16.05,19.84,24.87,30.77,7.92,9.75,14.68,18.08,20.26,24.98,5.58,6.9,8.49,10.5,8.75,10.81,1.71,1.55,3.44,2.22,5.16,2.02,1.73-.2,3.42-.87,5.08-2.02,1.66-1.15,3.2-2.37,4.64-3.67.7-.62,1.4-1.24,2.11-1.86v-109.05h-1.69c0,.73.01,3.04.04,6.91,0,7.62.01,17.88.04,30.79.03,12.91.03,24.91.02,35.98-.01,11.07-.08,17.66-.19,19.77-.03.08-.04.17-.04.25-.03,1.07-.19,2.24-.48,3.52-.3,1.28-.92,2.23-1.88,2.85-.62.28-1.24.32-1.86.11-.62-.21-1.18-.51-1.69-.91-1.69-1.38-3.16-2.99-4.43-4.85-.45-.59-.9-1.17-1.35-1.73-1.18-1.49-5.2-6.48-12.06-14.99-6.86-8.5-14.69-18.22-23.5-29.17-8.81-10.95-16.76-20.82-23.86-29.61-7.1-8.8-11.47-14.25-13.13-16.36-.56-.7-1.14-1.41-1.73-2.11-.08-.11-.17-.22-.25-.34v116.47h1.69v-87.68Z"/>
+                  <path d="M705.75,280.35l.74-1.69,26.01-57.12,24.98,54.86,1.03,2.26.79,1.69,13.22,29.05c1.52,2.16,3.81,3.46,6.87,3.88.42.06,5.41.08,14.96.08h2.02l-3.76-8.26-13.56-29.78h0l-35.77-78.57h-1.75l-53.08,116.6h2.27l15.01-33.01Z"/>
+                  <path d="M476.18,313.36l15.01-33.01.74-1.69,26.01-57.12,24.98,54.86,1.03,2.26.79,1.69,13.22,29.05c1.52,2.16,3.81,3.46,6.87,3.88.42.06,5.41.08,14.96.08h2.02l-3.76-8.26-13.56-29.78h0l-35.77-78.57h-1.75l-53.08,116.6h2.27Z"/>
+                  <path d="M293.4,196.97v116.18h14.57v-116.26s-.04.06-.07.08h-14.5Z"/>
+                  <path d="M153.57,250.87c-7.03-40.84-59.28-64.58-95.37-73.43,31.29,13.43,81.5,37.9,87.54,74.62,3.13,19.54-8.3,37.86-20.79,52.3-13.32,15.08-29.31,27.96-45.58,40.48,33.09-18.22,79.65-50.75,74.2-93.98Z"/>
+                  <path d="M103.98,303.46c1.54-1.83,3.27-4,3.94-6.41,2.06-6.65-.23-12.75.23-18.47.1-.39.13-.61.33-.86,0-.11.2-.1.23-.23.12-.06.27-.13.41-.21,14.99-2.33,24.83-11.34,18.23-27.05-4.67-10.66-12.87-19.09-21.1-26.82-5.53-5-11.3-9.69-17.47-13.81,8.59,9.52,41.84,42.71,31.34,54.95-3.46,3.55-8.5,4.21-13.43,5.25-6.71,2.21-7.09,9.13-6.17,14.59.53,4.05.91,7.62.08,10.56-3.03,6.24-9.63,11.74-14.31,17.1-9.43,10.28-20.5,20.83-26.69,33.48-.81,1.89-1.49,3.95-1.42,6,.41-2,1.38-3.76,2.51-5.4,8.18-11.06,20.05-20.12,30.04-29.54,4.57-4.16,9.1-8.38,13.22-13.12Z"/>
+                  <path d="M142.88,295.84c5.21,9.8,15.46,24.42,12.14,35.43-4.95,10.16-24.43,8.6-34.87,9.66,11.88,3.35,29.9,6.48,38.82-4.59,8.64-13.69-5.98-31.92-16.09-40.49Z"/>
+                  <path d="M143.64,191.64c14.34-13.45,6.27-37.15-14.19-36.91-11.94.19-22.24,10.87-21.71,22.72.58,18.97,22.6,26.98,35.9,14.19ZM129.45,160.62c14.58.24,24.6,19.37,13.77,30.6-7.02,7.76-20.13,6.7-26.7-.84-10.74-11.1-2.63-30.55,12.93-29.76Z"/>
+                  <path d="M412.23,334.7c-3.29-3.54-6.43-7.3-9.1-11.32-6.75-10.19-13.2-20.59-19.77-30.91-5.67-8.91-10.72-18.32-19.82-24.44,3.5-.9,6.84-1.46,9.97-2.6,12.76-4.64,21.22-13.39,23.52-26.95,2.19-12.91-1.21-24.33-11.5-33.01-6.9-5.82-14.96-8.73-23.6-9.71l-41.07-.53h-4.78v117.92h14.8v-17.9h-.03c-.01-21.63-.02-43.26-.03-64.89,0-6.86-.2-13.72.03-20.57.07-1.98.42-3.96,1.14-5.73,1.61-3.97,5.07-6.9,11.31-6.53,4.94.3,9.93-.07,14.87.3,9.02.67,16.4,4.63,21.53,12.16,6.87,10.06,7.74,21.22,5.01,32.72-3.05,12.83-11.11,20.99-24.21,23.13-5.87.96-11.99.37-18,.51-1.06.02-2.11.13-3.17.2,0,.23,0,.46,0,.69.57.13,1.13.3,1.7.37,11.33,1.35,19.9,6.92,25.86,16.65,3.64,5.93,7.45,11.76,11.2,17.62,6.88,10.74,13.4,21.73,22.21,31.1,7.45,7.92,16.53,11.56,27.83,11.05-7.25-1.94-10.84-3.86-15.89-9.31Z"/>
+                </g>
+              </svg>
+            </Link>
+
+            {/* Desktop Navigation — Center */}
+            <div className="hidden md:flex md:items-center md:gap-12 lg:gap-16">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`relative text-[12px] uppercase tracking-[0.2em] transition-all duration-300 font-medium ${
+                    isActive(link.href)
+                      ? "text-foreground"
+                      : "text-foreground/50 hover:text-foreground/80"
+                  }`}
+                >
+                  {link.label}
+                  <span 
+                    className={`absolute -bottom-1 left-0 h-px bg-foreground/30 transition-all duration-300 ${
+                      isActive(link.href) ? "w-full" : "w-0 group-hover:w-full"
+                    }`}
+                  />
+                </Link>
+              ))}
+            </div>
+
+            {/* Right Side — CTA + Admin */}
+            <div className="hidden md:flex md:items-center md:gap-6">
+              {/* Primary CTA */}
+              <Link
+                href="/book"
+                className="text-[11px] uppercase tracking-[0.15em] font-medium px-6 py-3 bg-foreground text-background transition-all duration-300 hover:bg-foreground/90 hover:shadow-lg"
+              >
+                Book a Session
+              </Link>
+
+              {/* Admin Access — Discreet */}
+              <Link
+                href="/admin"
+                className="flex items-center gap-1.5 text-[11px] text-foreground/40 hover:text-foreground/70 transition-all duration-300 tracking-wide"
+                aria-label="Admin access"
+              >
+                <Lock size={12} strokeWidth={1.5} />
+                <span className="hidden lg:inline">Admin</span>
+              </Link>
+            </div>
+
+            {/* Mobile Menu Button */}
+            <button
+              className="md:hidden p-2 text-foreground/80 hover:text-foreground transition-colors"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              {isMobileMenuOpen ? <X size={22} strokeWidth={1.5} /> : <Menu size={22} strokeWidth={1.5} />}
+            </button>
+          </div>
+
+          {/* Mobile Menu */}
+          <div
+            className={`md:hidden transition-all duration-500 ease-out overflow-hidden ${
+              isMobileMenuOpen ? "max-h-[400px] opacity-100" : "max-h-0 opacity-0"
+            }`}
+          >
+            <div className="flex flex-col gap-6 pt-6 pb-10 border-t border-foreground/10 mt-2">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={`text-[12px] uppercase tracking-[0.2em] font-medium transition-colors ${
+                    isActive(link.href)
+                      ? "text-foreground"
+                      : "text-foreground/50 hover:text-foreground/80"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
+              
+              {/* Mobile CTA */}
+              <Link
+                href="/book"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="inline-flex w-fit text-[11px] uppercase tracking-[0.15em] font-medium px-6 py-3 bg-foreground text-background mt-2"
+              >
+                Book a Session
+              </Link>
+
+              {/* Mobile Admin Access */}
+              <Link
+                href="/admin"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex items-center gap-2 text-[11px] text-foreground/40 hover:text-foreground/70 transition-colors tracking-wide"
+              >
+                <Lock size={12} strokeWidth={1.5} />
+                Admin Access
+              </Link>
+            </div>
+          </div>
+        </nav>
+      </header>
+    </>
+  )
+}
