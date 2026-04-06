@@ -160,16 +160,26 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Studio Image */}
-      <section className="pb-32 lg:pb-40">
+      {/* Studio Images */}
+      <section className="pb-20 md:pb-32 lg:pb-40">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="relative aspect-[4/3] md:aspect-[16/9] lg:aspect-[21/9] overflow-hidden">
-            <Image
-              src="/images/studio-interior.jpg"
-              alt="Nirvana Pilates Studio interior"
-              fill
-              className="object-cover"
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="relative aspect-[4/5] overflow-hidden">
+              <Image
+                src="/images/about/SKC01880-64.jpg"
+                alt="Nirvana Pilates Studio"
+                fill
+                className="object-cover hover:scale-[1.02] transition-transform duration-700 ease-out"
+              />
+            </div>
+            <div className="relative aspect-[4/5] overflow-hidden">
+              <Image
+                src="/images/about/SKC01881-65.jpg"
+                alt="Nirvana Pilates Studio"
+                fill
+                className="object-cover hover:scale-[1.02] transition-transform duration-700 ease-out"
+              />
+            </div>
           </div>
           <p className="text-center text-sm text-muted-foreground mt-6">
             Our studio in Hillside, Bulawayo
