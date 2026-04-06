@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { Users, UserCheck, User, Building2, Sparkles, Check, Plus, Minus } from "lucide-react"
+import { Users, UserCheck, User, Building2, Check, Plus, Minus } from "lucide-react"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 
@@ -99,45 +99,42 @@ export default function ClassesPage() {
         <div className="mx-auto max-w-7xl">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {services.map((service) => {
-              const isPremium = "premium" in service && service.premium
+              const isAccent = "premium" in service && service.premium
               return (
                 <div
                   key={service.title}
-                  className={`relative flex flex-col p-10 lg:p-12 ${
-                    isPremium
-                      ? "bg-foreground text-background"
-                      : "bg-secondary/40 hover:bg-secondary/70 transition-colors duration-300"
-                  }`}
+                  className={`group relative flex flex-col p-10 lg:p-12 bg-secondary/40
+                    hover:bg-secondary/70 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5
+                    transition-all duration-400 ease-out
+                    ${isAccent ? "ring-1 ring-foreground/10" : ""}
+                  `}
                 >
-                  {isPremium && (
-                    <div className="absolute top-8 right-8">
-                      <Sparkles className="w-4 h-4 text-background/30" />
-                    </div>
-                  )}
+                  <service.icon
+                    className="w-5 h-5 mb-10 text-foreground/30 group-hover:text-foreground/50 transition-colors duration-300"
+                    strokeWidth={1.5}
+                  />
 
-                  <service.icon className={`w-5 h-5 mb-10 ${isPremium ? "text-background/40" : "text-foreground/30"}`} />
-
-                  <h2 className={`font-serif text-3xl font-light tracking-[-0.01em] mb-2 ${isPremium ? "text-background" : "text-foreground"}`}>
+                  <h2 className="font-serif text-3xl font-light tracking-[-0.01em] mb-2 text-foreground group-hover:tracking-[-0.02em] transition-all duration-300">
                     {service.title}
                   </h2>
 
-                  <p className={`text-[13px] tracking-wide mb-8 ${isPremium ? "text-background/40" : "text-foreground/40"}`}>
+                  <p className="text-[12px] uppercase tracking-[0.25em] text-foreground/35 mb-8 group-hover:text-foreground/50 transition-colors duration-300">
                     {service.price} · {service.duration}
                   </p>
 
-                  <p className={`text-[14px] leading-[1.8] mb-8 ${isPremium ? "text-background/60" : "text-foreground/55"}`}>
+                  <p className="text-[14px] text-foreground/55 leading-[1.8] mb-6 group-hover:text-foreground/70 transition-colors duration-300">
                     {service.description}
                   </p>
 
-                  <div className={`text-[11px] uppercase tracking-[0.3em] mb-auto ${isPremium ? "text-background/30" : "text-foreground/30"}`}>
+                  <p className="text-[11px] uppercase tracking-[0.3em] text-foreground/25 mt-auto group-hover:text-foreground/40 transition-colors duration-300">
                     {service.capacity}
-                  </div>
+                  </p>
 
                   {"features" in service && service.features && (
-                    <ul className="mt-10 space-y-3 border-t border-background/10 pt-8">
+                    <ul className="mt-8 space-y-3 border-t border-foreground/8 pt-8">
                       {service.features.map((f: string) => (
-                        <li key={f} className="flex items-center gap-3 text-[13px] text-background/55">
-                          <Check className="w-3 h-3 shrink-0 text-background/30" />
+                        <li key={f} className="flex items-center gap-3 text-[13px] text-foreground/45 group-hover:text-foreground/60 transition-colors duration-300">
+                          <Check className="w-3 h-3 shrink-0 text-foreground/25" />
                           {f}
                         </li>
                       ))}

@@ -41,15 +41,18 @@ export function WhyPilates() {
           {reasons.map((reason) => (
             <div
               key={reason.number}
-              className="bg-background p-10 lg:p-12 flex flex-col hover:shadow-[0_8px_40px_rgba(0,0,0,0.06)] transition-shadow duration-500"
+              className="group bg-background p-10 lg:p-12 flex flex-col
+                hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)]
+                hover:-translate-y-0.5
+                transition-all duration-400 ease-out"
             >
-              <span className="block font-serif text-[11px] tracking-[0.3em] text-foreground/25 mb-10">
+              <span className="block font-serif text-[11px] tracking-[0.3em] text-foreground/20 mb-10 transition-colors duration-300 group-hover:text-foreground/40">
                 {reason.number}
               </span>
-              <h3 className="font-serif text-2xl md:text-3xl text-foreground font-light tracking-[-0.01em] mb-6 leading-[1.2]">
+              <h3 className="font-serif text-2xl md:text-3xl text-foreground font-light tracking-[-0.01em] mb-6 leading-[1.2] transition-all duration-300 group-hover:tracking-[-0.02em]">
                 {reason.title}
               </h3>
-              <p className="text-[15px] text-foreground/55 leading-[1.8] mt-auto">
+              <p className="text-[15px] text-foreground/50 leading-[1.8] mt-auto transition-colors duration-300 group-hover:text-foreground/70">
                 {reason.body}
               </p>
             </div>
