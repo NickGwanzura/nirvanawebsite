@@ -1,11 +1,19 @@
 "use client"
 
-import { useState } from "react"
+import { Suspense, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { Lock } from "lucide-react"
 
 export default function AdminLoginPage() {
+  return (
+    <Suspense fallback={<AdminLoginShell />}>
+      <AdminLoginContent />
+    </Suspense>
+  )
+}
+
+function AdminLoginContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [password, setPassword] = useState("")
@@ -38,6 +46,22 @@ export default function AdminLoginPage() {
     }
   }
 
+  return <AdminLoginShell error={error} loading={loading} password={password} setPassword={setPassword} onSubmit={handleSubmit} />
+}
+
+function AdminLoginShell({
+  error,
+  loading = false,
+  password = "",
+  setPassword,
+  onSubmit,
+}: {
+  error?: string
+  loading?: boolean
+  password?: string
+  setPassword?: (value: string) => void
+  onSubmit?: (e: React.FormEvent) => void
+}) {
   return (
     <main className="min-h-screen bg-background flex items-center justify-center px-6">
       <div className="w-full max-w-sm">
@@ -59,14 +83,14 @@ export default function AdminLoginPage() {
           Admin Access
         </p>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={onSubmit} className="space-y-4">
           <div>
             <label htmlFor="admin-password" className="sr-only">Password</label>
             <input
               id="admin-password"
               type="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => setPassword?.(e.target.value)}
               required
               autoFocus
               placeholder="Enter password"

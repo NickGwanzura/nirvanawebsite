@@ -1,13 +1,8 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
-import { createHmac } from "crypto"
+import { getExpectedAdminToken } from "@/lib/admin-auth"
 
-function getExpectedToken(): string {
-  const secret = process.env.ADMIN_SECRET ?? "fallback-dev-secret-change-in-production"
-  return createHmac("sha256", secret).update("admin-session").digest("hex")
-}
-
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
   // Only guard /admin/* — let /admin/login pass through
@@ -16,8 +11,9 @@ export function middleware(request: NextRequest) {
   }
 
   const token = request.cookies.get("admin_token")?.value
+  const expectedToken = await getExpectedAdminToken()
 
-  if (!token || token !== getExpectedToken()) {
+  if (!token || token !== expectedToken) {
     const loginUrl = new URL("/admin/login", request.url)
     loginUrl.searchParams.set("from", pathname)
     return NextResponse.redirect(loginUrl)

@@ -1,10 +1,5 @@
 import { NextResponse } from "next/server"
-import { createHmac } from "crypto"
-
-function getExpectedToken(): string {
-  const secret = process.env.ADMIN_SECRET ?? "fallback-dev-secret-change-in-production"
-  return createHmac("sha256", secret).update("admin-session").digest("hex")
-}
+import { getExpectedAdminToken } from "@/lib/admin-auth"
 
 export async function POST(request: Request) {
   try {
@@ -21,7 +16,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Invalid password" }, { status: 401 })
     }
 
-    const token = getExpectedToken()
+    const token = await getExpectedAdminToken()
     const response = NextResponse.json({ ok: true })
 
     response.cookies.set("admin_token", token, {

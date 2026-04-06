@@ -55,8 +55,8 @@ export default function AdminPage() {
     getBookings().then(setBookings)
   }, [])
 
-  const refreshBookings = () => {
-    setBookings(getBookings())
+  const refreshBookings = async () => {
+    setBookings(await getBookings())
   }
 
   const getDaysInMonth = (year: number, month: number) => {
@@ -75,18 +75,18 @@ export default function AdminPage() {
     setCurrentDate(new Date(year, month + direction, 1))
   }
 
-  const handleStatusChange = (id: string, status: Booking["status"]) => {
-    updateBooking(id, { status })
-    refreshBookings()
-    if (selectedBooking?.id === id) {
+  const handleStatusChange = async (id: string, status: Booking["status"]) => {
+    await updateBooking(id, { status })
+    await refreshBookings()
+    if (selectedBooking?._id === id) {
       setSelectedBooking({ ...selectedBooking, status })
     }
   }
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (confirm("Are you sure you want to delete this booking?")) {
-      deleteBooking(id)
-      refreshBookings()
+      await deleteBooking(id)
+      await refreshBookings()
       setSelectedBooking(null)
     }
   }
@@ -225,7 +225,7 @@ export default function AdminPage() {
                           <div className="mt-1 space-y-0.5">
                             {dayBookings.slice(0, 2).map((b) => (
                               <div
-                                key={b.id}
+                                key={b._id}
                                 className={`text-[10px] px-1 py-0.5 truncate ${statusColors[b.status].bg} ${statusColors[b.status].text}`}
                               >
                                 {b.time} {b.name.split(" ")[0]}
@@ -256,7 +256,7 @@ export default function AdminPage() {
                       const StatusIcon = statusColors[booking.status].icon
                       return (
                         <button
-                          key={booking.id}
+                          key={booking._id}
                           onClick={() => setSelectedBooking(booking)}
                           className="w-full p-4 text-left hover:bg-muted/30 transition-colors flex items-center gap-4"
                         >
@@ -327,7 +327,7 @@ export default function AdminPage() {
                     <p className="text-[11px] uppercase tracking-[0.25em] text-foreground/50 font-medium mb-3">Status</p>
                     <div className="flex gap-2">
                       <button
-                        onClick={() => handleStatusChange(selectedBooking.id, "confirmed")}
+                        onClick={() => handleStatusChange(selectedBooking._id, "confirmed")}
                         className={`flex-1 py-2 text-xs font-medium transition-colors ${
                           selectedBooking.status === "confirmed"
                             ? "bg-emerald-600 text-white"
@@ -337,7 +337,7 @@ export default function AdminPage() {
                         Confirm
                       </button>
                       <button
-                        onClick={() => handleStatusChange(selectedBooking.id, "pending")}
+                        onClick={() => handleStatusChange(selectedBooking._id, "pending")}
                         className={`flex-1 py-2 text-xs font-medium transition-colors ${
                           selectedBooking.status === "pending"
                             ? "bg-amber-600 text-white"
@@ -347,7 +347,7 @@ export default function AdminPage() {
                         Pending
                       </button>
                       <button
-                        onClick={() => handleStatusChange(selectedBooking.id, "cancelled")}
+                        onClick={() => handleStatusChange(selectedBooking._id, "cancelled")}
                         className={`flex-1 py-2 text-xs font-medium transition-colors ${
                           selectedBooking.status === "cancelled"
                             ? "bg-red-600 text-white"
@@ -360,7 +360,7 @@ export default function AdminPage() {
                   </div>
 
                   <button
-                    onClick={() => handleDelete(selectedBooking.id)}
+                    onClick={() => handleDelete(selectedBooking._id)}
                     className="w-full py-3 border border-red-200 text-red-600 text-xs font-medium hover:bg-red-50 transition-colors flex items-center justify-center gap-2"
                   >
                     <Trash2 size={14} />
@@ -382,7 +382,7 @@ export default function AdminPage() {
                   ) : (
                     upcomingBookings.map((booking) => (
                       <button
-                        key={booking.id}
+                        key={booking._id}
                         onClick={() => setSelectedBooking(booking)}
                         className="w-full p-4 text-left hover:bg-muted/30 transition-colors"
                       >
