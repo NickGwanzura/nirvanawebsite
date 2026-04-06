@@ -2,13 +2,13 @@ import Image from "next/image"
 
 export function GroupExperience() {
   return (
-    <section className="py-40 lg:py-56 bg-secondary/40">
+    <section className="py-20 md:py-32 lg:py-40 bg-secondary/40">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 lg:gap-32 items-center">
           {/* Image */}
           <div className="relative aspect-[4/5] overflow-hidden">
             <Image
-              src="/images/group-pilates.jpg"
+              src="/images/SECTION.jpg"
               alt="Group Pilates session at Nirvana"
               fill
               className="object-cover"
@@ -30,9 +30,9 @@ export function GroupExperience() {
             </p>
 
             {/* Stats */}
-            <div className="mt-20 flex gap-20">
+            <div className="mt-20 flex gap-8 md:gap-14 lg:gap-20">
               {[
-                { number: "6", label: "Max size" },
+                { number: "8", label: "Max size" },
                 { number: "50", label: "Minutes" },
                 { number: "5+", label: "Years" },
               ].map((stat) => (

@@ -51,13 +51,15 @@ export function WhatsAppWidget() {
         <span className="absolute inset-0 rounded-full bg-[#25D366] animate-ping opacity-20" />
       </div>
 
-      {/* Toggle button (small close hint) */}
+      {/* Toggle button — minimum 44px tap target */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="absolute -top-2 -left-2 w-6 h-6 bg-foreground/10 hover:bg-foreground/20 rounded-full flex items-center justify-center transition-colors"
+        className="absolute -top-3 -left-3 w-11 h-11 flex items-center justify-center transition-colors"
         aria-label={isOpen ? "Close chat" : "Open chat"}
       >
-        <X className="w-3 h-3 text-foreground/60" />
+        <span className="w-6 h-6 bg-foreground/10 hover:bg-foreground/20 rounded-full flex items-center justify-center transition-colors">
+          <X className="w-3 h-3 text-foreground/60" />
+        </span>
       </button>
     </div>
   )

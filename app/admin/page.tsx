@@ -2,17 +2,19 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { 
-  Calendar, 
-  ChevronLeft, 
-  ChevronRight, 
-  Users, 
-  Clock, 
-  Trash2, 
+import { useRouter } from "next/navigation"
+import {
+  Calendar,
+  ChevronLeft,
+  ChevronRight,
+  Users,
+  Clock,
+  Trash2,
   X,
   CheckCircle2,
   XCircle,
-  AlertCircle
+  AlertCircle,
+  LogOut
 } from "lucide-react"
 import { getBookings, updateBooking, deleteBooking, type Booking } from "@/lib/booking-store"
 
@@ -30,10 +32,16 @@ const statusColors: Record<string, { bg: string; text: string; icon: typeof Chec
 }
 
 export default function AdminPage() {
+  const router = useRouter()
   const [bookings, setBookings] = useState<Booking[]>([])
   const [currentDate, setCurrentDate] = useState(new Date())
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null)
   const [view, setView] = useState<"calendar" | "list">("calendar")
+
+  const handleLogout = async () => {
+    await fetch("/api/admin/auth", { method: "DELETE" })
+    router.replace("/admin/login")
+  }
 
   const year = currentDate.getFullYear()
   const month = currentDate.getMonth()
@@ -44,7 +52,7 @@ export default function AdminPage() {
   ]
 
   useEffect(() => {
-    setBookings(getBookings())
+    getBookings().then(setBookings)
   }, [])
 
   const refreshBookings = () => {
@@ -107,9 +115,19 @@ export default function AdminPage() {
             <Link href="/" className="font-serif text-2xl tracking-[-0.01em] text-foreground font-light">
               Nirvana
             </Link>
-            <span className="text-[11px] uppercase tracking-[0.25em] text-foreground/50 font-medium">
-              Admin Dashboard
-            </span>
+            <div className="flex items-center gap-6">
+              <span className="text-[11px] uppercase tracking-[0.25em] text-foreground/50 font-medium">
+                Admin Dashboard
+              </span>
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-1.5 text-[11px] text-foreground/40 hover:text-foreground/70 transition-colors tracking-wide"
+                aria-label="Sign out"
+              >
+                <LogOut size={13} strokeWidth={1.5} />
+                <span>Sign out</span>
+              </button>
+            </div>
           </div>
         </div>
       </header>

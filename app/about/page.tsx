@@ -15,7 +15,7 @@ export default function AboutPage() {
             <p className="text-[11px] uppercase tracking-[0.5em] text-muted-foreground mb-8">
               Our Story
             </p>
-            <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl font-light leading-[0.95] tracking-tight text-foreground mb-10">
+            <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light leading-[0.95] tracking-tight text-foreground mb-10">
               Meet Noma
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl">
@@ -33,7 +33,7 @@ export default function AboutPage() {
             {/* Image */}
             <div className="relative aspect-[4/5] overflow-hidden">
               <Image
-                src="/images/Lindiwe.jpg"
+                src="/images/noma.jpg"
                 alt="Noma, founder of Nirvana Pilates Studio"
                 fill
                 className="object-cover"
@@ -163,7 +163,7 @@ export default function AboutPage() {
       {/* Studio Image */}
       <section className="pb-32 lg:pb-40">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="relative aspect-[21/9] overflow-hidden">
+          <div className="relative aspect-[4/3] md:aspect-[16/9] lg:aspect-[21/9] overflow-hidden">
             <Image
               src="/images/studio-interior.jpg"
               alt="Nirvana Pilates Studio interior"
@@ -178,7 +178,7 @@ export default function AboutPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-32 lg:py-40 bg-primary text-primary-foreground">
+      <section className="py-20 md:py-28 lg:py-32 bg-primary text-primary-foreground">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 text-center">
           <p className="text-[11px] uppercase tracking-[0.5em] text-primary-foreground/60 mb-8">
             Begin Your Journey

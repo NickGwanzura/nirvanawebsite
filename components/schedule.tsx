@@ -13,7 +13,7 @@ const scheduleData = [
 
 export function Schedule() {
   return (
-    <section id="schedule" className="py-40 lg:py-56 bg-background">
+    <section id="schedule" className="py-20 md:py-32 lg:py-40 bg-background scroll-mt-24">
       <div className="mx-auto max-w-4xl px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-32">

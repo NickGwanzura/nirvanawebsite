@@ -3,7 +3,9 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { ArrowLeft, ChevronLeft, ChevronRight, Check } from "lucide-react"
-import { addBooking, getBookingsByDate, getWhatsAppLink, type Booking } from "@/lib/booking-store"
+import { createBooking, getBookings, getWhatsAppLink, type Booking } from "@/lib/booking-store"
+import { Navbar } from "@/components/navbar"
+import { Footer } from "@/components/footer"
 
 const sessionTypes = [
   { id: "group", label: "Group Session", price: "$15", duration: "55 min" },
@@ -41,6 +43,8 @@ export default function BookingPage() {
   const [formData, setFormData] = useState({ name: "", email: "", phone: "", notes: "" })
   const [bookedSlots, setBookedSlots] = useState<Booking[]>([])
   const [confirmedBooking, setConfirmedBooking] = useState<Booking | null>(null)
+  const [submitting, setSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState("")
 
   const year = currentDate.getFullYear()
   const month = currentDate.getMonth()
@@ -55,10 +59,11 @@ export default function BookingPage() {
   ]
 
   useEffect(() => {
-    if (selectedDate) {
-      const dateStr = selectedDate.toISOString().split("T")[0]
-      setBookedSlots(getBookingsByDate(dateStr))
-    }
+    if (!selectedDate) return
+    const dateStr = selectedDate.toISOString().split("T")[0]
+    getBookings().then((all) => {
+      setBookedSlots(all.filter((b) => b.date === dateStr))
+    })
   }, [selectedDate])
 
   const navigateMonth = (direction: number) => {
@@ -96,22 +101,31 @@ export default function BookingPage() {
     }
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!selectedDate || !selectedTime) return
 
-    const booking = addBooking({
-      name: formData.name,
-      email: formData.email,
-      phone: formData.phone,
-      sessionType: selectedSession,
-      date: selectedDate.toISOString().split("T")[0],
-      time: selectedTime,
-      notes: formData.notes,
-    })
+    setSubmitting(true)
+    setSubmitError("")
 
-    setConfirmedBooking(booking)
-    setStep("confirmation")
+    try {
+      const booking = await createBooking({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        sessionType: selectedSession,
+        date: selectedDate.toISOString().split("T")[0],
+        time: selectedTime,
+        notes: formData.notes,
+        status: "pending",
+      })
+      setConfirmedBooking(booking)
+      setStep("confirmation")
+    } catch {
+      setSubmitError("Something went wrong. Please try again.")
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   const handleWhatsApp = () => {
@@ -122,23 +136,7 @@ export default function BookingPage() {
 
   return (
     <main className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md">
-        <nav className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="flex h-24 lg:h-28 items-center justify-between">
-            <Link href="/" className="font-serif text-2xl tracking-[-0.01em] text-foreground font-light">
-              Nirvana
-            </Link>
-            <Link 
-              href="/"
-              className="flex items-center gap-2 text-[11px] uppercase tracking-[0.25em] text-foreground/50 transition-colors hover:text-foreground font-medium"
-            >
-              <ArrowLeft size={14} />
-              Back
-            </Link>
-          </div>
-        </nav>
-      </header>
+      <Navbar />
 
       {/* Content */}
       <section className="pt-48 pb-40 px-6 lg:px-8">
@@ -390,11 +388,16 @@ export default function BookingPage() {
                   </div>
                 </div>
 
+                {submitError && (
+                  <p className="text-[12px] text-red-500/80 text-center mt-6">{submitError}</p>
+                )}
+
                 <button
                   type="submit"
-                  className="w-full mt-10 py-4 bg-foreground text-background text-[11px] uppercase tracking-[0.25em] font-medium hover:bg-foreground/90 transition-colors"
+                  disabled={submitting}
+                  className="w-full mt-10 py-4 bg-foreground text-background text-[11px] uppercase tracking-[0.25em] font-medium hover:bg-foreground/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Confirm Booking
+                  {submitting ? "Confirming…" : "Confirm Booking"}
                 </button>
               </form>
             </div>
@@ -415,7 +418,7 @@ export default function BookingPage() {
 
               {/* Booking Details */}
               <div className="p-8 bg-secondary/50 text-left mb-12">
-                <div className="grid grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
                     <p className="text-[11px] uppercase tracking-[0.25em] text-foreground/50 font-medium mb-2">Session</p>
                     <p className="text-foreground">{sessionTypes.find(s => s.id === confirmedBooking.sessionType)?.label}</p>
@@ -458,6 +461,7 @@ export default function BookingPage() {
           )}
         </div>
       </section>
+      <Footer />
     </main>
   )
 }

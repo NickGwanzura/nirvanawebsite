@@ -6,7 +6,7 @@ const services = [
   {
     icon: Users,
     title: "Group",
-    price: "$12",
+    price: "$15",
     description: "Scheduled classes in a calm, focused environment",
   },
   {
@@ -33,7 +33,7 @@ const services = [
 
 export function Services() {
   return (
-    <section id="services" className="py-40 lg:py-56 bg-background">
+    <section id="classes" className="py-20 md:py-32 lg:py-40 bg-background">
       <div className="mx-auto max-w-6xl px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-32">

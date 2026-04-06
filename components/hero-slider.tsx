@@ -6,16 +6,12 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 
 const slides = [
   {
-    src: "/images/hero/SKC01882-66.jpg",
-    alt: "Pilates studio session",
-  },
-  {
-    src: "/images/hero/SKC01884-67.jpg",
-    alt: "Pilates movement",
-  },
-  {
-    src: "/images/hero/SKC01884-67 (1).jpg",
+    src: "/images/hero/SKC01884-67-2.jpg",
     alt: "Wellness journey",
+  },
+  {
+    src: "/images/hero/reformer-session.png",
+    alt: "Reformer Pilates session",
   },
 ]
 
@@ -68,8 +64,8 @@ export function HeroSlider() {
             className="object-cover"
             sizes="100vw"
           />
-          {/* Subtle overlay for text readability */}
-          <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-transparent to-background/40" />
+          {/* Minimal overlay — text readability only */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20" />
         </div>
       ))}
 
@@ -98,13 +94,14 @@ export function HeroSlider() {
             key={index}
             onClick={() => goToSlide(index, index > currentIndex ? "right" : "left")}
             disabled={isTransitioning}
-            className={`relative h-1 transition-all duration-500 ${
-              index === currentIndex ? "w-8 bg-white" : "w-4 bg-white/40 hover:bg-white/60"
+            className={`relative flex items-center justify-center h-11 transition-all duration-500 ${
+              index === currentIndex ? "w-12" : "w-8"
             }`}
             aria-label={`Go to slide ${index + 1}`}
           >
+            <span className={`absolute h-1 transition-all duration-500 ${index === currentIndex ? "w-8 bg-white" : "w-4 bg-white/40 hover:bg-white/60"}`} />
             {index === currentIndex && (
-              <span className="absolute inset-0 bg-white animate-pulse opacity-50" />
+              <span className="absolute h-1 w-8 bg-white animate-pulse opacity-50" />
             )}
           </button>
         ))}

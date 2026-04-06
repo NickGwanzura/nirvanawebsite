@@ -2,10 +2,13 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { ChevronDown, ArrowLeft } from "lucide-react"
+import { Plus, Minus } from "lucide-react"
+import { Navbar } from "@/components/navbar"
+import { Footer } from "@/components/footer"
 
 const faqs = [
   {
+    id: "getting-started",
     category: "Getting Started",
     questions: [
       {
@@ -23,11 +26,12 @@ const faqs = [
     ]
   },
   {
+    id: "classes",
     category: "Classes & Sessions",
     questions: [
       {
         q: "What is the difference between group, semi-private, and private sessions?",
-        a: "Group sessions accommodate up to 8 participants, offering a community atmosphere. Semi-private sessions have 2-4 participants, allowing for more personalised attention. Private sessions are one-on-one with an instructor, fully tailored to your specific needs and goals."
+        a: "Group sessions accommodate up to 8 participants, offering a community atmosphere. Semi-private sessions have 2–4 participants, allowing for more personalised attention. Private sessions are one-on-one with an instructor, fully tailored to your specific needs and goals."
       },
       {
         q: "How long are the classes?",
@@ -35,11 +39,12 @@ const faqs = [
       },
       {
         q: "How often should I practice?",
-        a: "For optimal results, we recommend 2-3 sessions per week. Consistency is more important than frequency—regular practice, even once a week, will yield benefits."
+        a: "For optimal results, we recommend 2–3 sessions per week. Consistency is more important than frequency — regular practice, even once a week, will yield meaningful benefits."
       },
     ]
   },
   {
+    id: "booking",
     category: "Booking & Cancellation",
     questions: [
       {
@@ -48,7 +53,7 @@ const faqs = [
       },
       {
         q: "What is your cancellation policy?",
-        a: "We require 12 hours notice for cancellations. Late cancellations or no-shows may be charged the full session fee. We understand emergencies happen—please contact us if you have special circumstances."
+        a: "We require 12 hours notice for cancellations. Late cancellations or no-shows may be charged the full session fee. We understand emergencies happen — please contact us if you have special circumstances."
       },
       {
         q: "Can I reschedule my booking?",
@@ -57,6 +62,7 @@ const faqs = [
     ]
   },
   {
+    id: "corporate",
     category: "Corporate Wellness",
     questions: [
       {
@@ -65,7 +71,7 @@ const faqs = [
       },
       {
         q: "How many employees can participate?",
-        a: "We can accommodate groups of 5-20 participants for corporate sessions. Larger groups can be split into multiple sessions for optimal instruction quality."
+        a: "We can accommodate groups of 5–20 participants for corporate sessions. Larger groups can be split into multiple sessions for optimal instruction quality."
       },
       {
         q: "Do you offer ongoing corporate packages?",
@@ -79,109 +85,159 @@ export default function FAQsPage() {
   const [openItems, setOpenItems] = useState<string[]>([])
 
   const toggleItem = (id: string) => {
-    setOpenItems(prev => 
-      prev.includes(id) 
-        ? prev.filter(item => item !== id)
-        : [...prev, id]
+    setOpenItems(prev =>
+      prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]
     )
   }
 
   return (
     <main className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md">
-        <nav className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="flex h-24 lg:h-28 items-center justify-between">
-            <Link href="/" className="font-serif text-2xl tracking-[-0.01em] text-foreground font-light">
-              Nirvana
-            </Link>
-            <Link 
-              href="/"
-              className="flex items-center gap-2 text-[11px] uppercase tracking-[0.25em] text-foreground/50 transition-colors hover:text-foreground font-medium"
-            >
-              <ArrowLeft size={14} />
-              Back
-            </Link>
-          </div>
-        </nav>
-      </header>
+      <Navbar />
 
       {/* Hero */}
-      <section className="pt-48 pb-24 px-6 lg:px-8">
-        <div className="mx-auto max-w-3xl text-center">
-          <p className="text-[11px] uppercase tracking-[0.5em] text-foreground/50 font-medium mb-8">
+      <section className="pt-48 pb-20 px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <p className="text-[11px] uppercase tracking-[0.5em] text-foreground/40 mb-8">
             Support
           </p>
-          <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl font-light tracking-[-0.02em] text-foreground leading-[0.95]">
+          <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light tracking-[-0.02em] text-foreground leading-[1.05] max-w-2xl">
             Frequently Asked Questions
           </h1>
-          <p className="mt-10 text-foreground/60 text-lg font-light max-w-xl mx-auto leading-relaxed">
-            Everything you need to know about our studio, classes, and how to get started.
-          </p>
         </div>
       </section>
 
-      {/* FAQs */}
-      <section className="pb-40 px-6 lg:px-8">
-        <div className="mx-auto max-w-3xl">
-          {faqs.map((category, categoryIndex) => (
-            <div key={category.category} className={categoryIndex > 0 ? "mt-20" : ""}>
-              <h2 className="font-serif text-2xl md:text-3xl font-light tracking-[-0.01em] text-foreground mb-10">
-                {category.category}
-              </h2>
-              <div className="border-t border-border">
-                {category.questions.map((faq, index) => {
-                  const itemId = `${categoryIndex}-${index}`
-                  const isOpen = openItems.includes(itemId)
-                  
-                  return (
-                    <div key={index} className="border-b border-border">
-                      <button
-                        onClick={() => toggleItem(itemId)}
-                        className="w-full py-7 flex items-center justify-between text-left group"
-                      >
-                        <span className="text-foreground font-medium pr-8 group-hover:text-foreground/70 transition-colors">
-                          {faq.q}
-                        </span>
-                        <ChevronDown 
-                          size={18} 
-                          className={`text-foreground/40 shrink-0 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
-                        />
-                      </button>
-                      <div 
-                        className={`overflow-hidden transition-all duration-300 ease-out ${
-                          isOpen ? "max-h-96 pb-7" : "max-h-0"
-                        }`}
-                      >
-                        <p className="text-foreground/60 leading-relaxed pr-12">
-                          {faq.a}
-                        </p>
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
-            </div>
+      {/* Divider */}
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="h-px bg-border" />
+      </div>
+
+      {/* Mobile category strip */}
+      <div className="lg:hidden overflow-x-auto border-b border-border">
+        <div className="flex px-6 gap-6 py-4 min-w-max">
+          {faqs.map((section) => (
+            <a
+              key={section.id}
+              href={`#${section.id}`}
+              className="text-[11px] uppercase tracking-[0.3em] text-foreground/50 hover:text-foreground whitespace-nowrap transition-colors duration-200 py-1"
+            >
+              {section.category}
+            </a>
           ))}
         </div>
-      </section>
+      </div>
 
-      {/* Contact CTA */}
-      <section className="pb-40 px-6 lg:px-8">
-        <div className="mx-auto max-w-3xl text-center">
-          <p className="text-foreground/60 text-lg font-light mb-8">
-            Still have questions?
-          </p>
-          <a
-            href="https://wa.me/263771234567"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block px-10 py-4 bg-primary text-primary-foreground text-[11px] uppercase tracking-[0.25em] font-medium hover:bg-primary/90 transition-colors"
-          >
-            Contact Us
-          </a>
+      {/* FAQ Content */}
+      <section className="py-24 px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+
+            {/* Sticky category nav — desktop only */}
+            <aside className="hidden lg:block lg:col-span-3">
+              <div className="sticky top-40">
+                <p className="text-[10px] uppercase tracking-[0.4em] text-foreground/30 mb-6">
+                  Topics
+                </p>
+                <nav className="flex flex-col gap-1">
+                  {faqs.map((section) => (
+                    <a
+                      key={section.id}
+                      href={`#${section.id}`}
+                      className="text-[13px] text-foreground/40 hover:text-foreground py-2 transition-colors duration-200 tracking-wide"
+                    >
+                      {section.category}
+                    </a>
+                  ))}
+                </nav>
+
+                <div className="mt-16 pt-10 border-t border-border">
+                  <p className="text-[13px] text-foreground/50 leading-relaxed mb-6">
+                    Still have questions?
+                  </p>
+                  <a
+                    href="https://wa.me/263719140346"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[11px] uppercase tracking-[0.25em] font-medium text-foreground hover:text-foreground/60 transition-colors duration-200"
+                  >
+                    Contact us →
+                  </a>
+                </div>
+              </div>
+            </aside>
+
+            {/* Questions */}
+            <div className="lg:col-span-9">
+              {faqs.map((section, sectionIndex) => (
+                <div
+                  key={section.id}
+                  id={section.id}
+                  className={sectionIndex > 0 ? "mt-20 pt-20 border-t border-border" : ""}
+                >
+                  <h2 className="font-serif text-3xl md:text-4xl font-light tracking-[-0.01em] text-foreground mb-12">
+                    {section.category}
+                  </h2>
+
+                  <div className="divide-y divide-border">
+                    {section.questions.map((faq, index) => {
+                      const itemId = `${section.id}-${index}`
+                      const isOpen = openItems.includes(itemId)
+
+                      return (
+                        <div key={index}>
+                          <button
+                            onClick={() => toggleItem(itemId)}
+                            aria-expanded={isOpen}
+                            className="w-full py-8 flex items-start justify-between text-left gap-8 group"
+                          >
+                            <span className={`text-[16px] leading-snug tracking-wide transition-colors duration-200 ${isOpen ? "text-foreground" : "text-foreground/70 group-hover:text-foreground"}`}>
+                              {faq.q}
+                            </span>
+                            <span className="shrink-0 mt-0.5 w-5 h-5 flex items-center justify-center text-foreground/30 group-hover:text-foreground/60 transition-colors duration-200">
+                              {isOpen
+                                ? <Minus size={16} strokeWidth={1.5} />
+                                : <Plus size={16} strokeWidth={1.5} />
+                              }
+                            </span>
+                          </button>
+
+                          <div className={`overflow-hidden transition-all duration-300 ease-out ${isOpen ? "max-h-96 pb-8" : "max-h-0"}`}>
+                            <p className="text-[15px] text-foreground/55 leading-[1.9] max-w-2xl pr-4 md:pr-12">
+                              {faq.a}
+                            </p>
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+          </div>
         </div>
       </section>
+
+      {/* Bottom CTA */}
+      <section className="py-32 px-6 lg:px-8 bg-secondary/40">
+        <div className="mx-auto max-w-7xl flex flex-col md:flex-row items-start md:items-end justify-between gap-10">
+          <div>
+            <p className="text-[11px] uppercase tracking-[0.5em] text-foreground/40 mb-6">
+              Ready to begin?
+            </p>
+            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-light tracking-[-0.02em] text-foreground leading-[1.05]">
+              Book your first session
+            </h2>
+          </div>
+          <Link
+            href="/book"
+            className="shrink-0 inline-block text-[11px] uppercase tracking-[0.25em] font-medium px-10 py-4 bg-foreground text-background hover:bg-foreground/90 transition-colors duration-300"
+          >
+            Reserve a spot
+          </Link>
+        </div>
+      </section>
+
+      <Footer />
     </main>
   )
 }
