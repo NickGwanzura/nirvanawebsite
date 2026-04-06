@@ -32,7 +32,7 @@ export async function createBooking(data: Omit<Booking, '_id' | 'createdAt'>): P
       ...data,
       _id: `local-${++localId}`,
       createdAt: new Date(),
-    } as Booking
+    }
     localBookings.push(booking)
     return booking
   }
@@ -76,7 +76,7 @@ export function addBooking(data: Omit<Booking, '_id' | 'createdAt' | 'status'>):
     _id: `local-${++localId}`,
     status: 'pending',
     createdAt: new Date(),
-  } as Booking
+  }
   localBookings.push(booking)
   return booking
 }

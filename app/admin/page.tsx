@@ -38,6 +38,11 @@ export default function AdminPage() {
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null)
   const [view, setView] = useState<"calendar" | "list">("calendar")
 
+  const refreshBookings = async () => {
+    const nextBookings = await getBookings()
+    setBookings(nextBookings)
+  }
+
   const handleLogout = async () => {
     await fetch("/api/admin/auth", { method: "DELETE" })
     router.replace("/admin/login")
@@ -52,12 +57,13 @@ export default function AdminPage() {
   ]
 
   useEffect(() => {
-    getBookings().then(setBookings)
-  }, [])
+    const loadBookings = async () => {
+      const nextBookings = await getBookings()
+      setBookings(nextBookings)
+    }
 
-  const refreshBookings = async () => {
-    setBookings(await getBookings())
-  }
+    void loadBookings()
+  }, [])
 
   const getDaysInMonth = (year: number, month: number) => {
     return new Date(year, month + 1, 0).getDate()
