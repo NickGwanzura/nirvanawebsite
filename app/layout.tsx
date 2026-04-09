@@ -20,7 +20,7 @@ const dmSans = DM_Sans({
 
 export const metadata: Metadata = {
   title: 'Nirvana Pilates Studio | Hillside, Bulawayo',
-  description: 'A refined Pilates experience in Hillside, Bulawayo. Group sessions, semi-private training, and personalised one-on-one attention.',
+  description: 'A refined STOTT Pilates experience in Hillside, Bulawayo. Standard, group, and private one-on-one sessions.',
   generator: 'v0.app',
   icons: {
     icon: [

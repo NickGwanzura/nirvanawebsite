@@ -6,7 +6,7 @@ export interface IBooking {
   phone: string
   date: string
   time: string
-  sessionType: 'group' | 'semi-private' | 'private' | 'corporate'
+  sessionType: 'standard' | 'group' | 'private' | 'corporate'
   notes?: string
   status: 'confirmed' | 'pending' | 'cancelled'
   createdAt: Date
@@ -40,7 +40,7 @@ const BookingSchema = new mongoose.Schema<IBooking>(
     },
     sessionType: {
       type: String,
-      enum: ['group', 'semi-private', 'private', 'corporate'],
+      enum: ['standard', 'group', 'private', 'corporate'],
       required: [true, 'Session type is required'],
     },
     notes: {

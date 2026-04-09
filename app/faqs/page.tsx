@@ -30,12 +30,12 @@ const faqs = [
     category: "Classes & Sessions",
     questions: [
       {
-        q: "What is the difference between group, semi-private, and private sessions?",
-        a: "Group sessions accommodate up to 8 participants, offering a community atmosphere. Semi-private sessions have 2–4 participants, allowing for more personalised attention. Private sessions are one-on-one with an instructor, fully tailored to your specific needs and goals."
+        q: "What is the difference between standard, group, and private sessions?",
+        a: "Standard sessions are individual bookings at $15 per person. Group sessions (up to 8) are open classes you join with others at $30 — no need to bring a group. Private sessions are one-on-one with an instructor at $45, fully tailored to your specific needs and goals."
       },
       {
         q: "How long are the classes?",
-        a: "Group and semi-private sessions are 55 minutes. Private sessions can be 55 or 90 minutes depending on your preference and goals."
+        a: "All sessions are 45–50 minutes."
       },
       {
         q: "How often should I practice?",

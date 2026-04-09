@@ -19,8 +19,8 @@ import {
 import { getBookings, updateBooking, deleteBooking, type Booking } from "@/lib/booking-store"
 
 const sessionLabels: Record<string, string> = {
+  standard: "Standard",
   group: "Group",
-  "semi-private": "Semi-Private",
   private: "Private",
   corporate: "Corporate",
 }
