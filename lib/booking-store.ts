@@ -84,8 +84,8 @@ export function addBooking(data: Omit<Booking, '_id' | 'createdAt' | 'status'>):
 export function getWhatsAppLink(booking: Booking): string {
   const phone = '+263719140346'
   const sessionLabels: Record<string, string> = {
-    group: 'Group Session',
-    'semi-private': 'Semi-Private',
+    standard: 'Standard Class',
+    group: 'Group Class',
     private: 'Private Session',
     corporate: 'Corporate Wellness',
   }

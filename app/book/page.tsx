@@ -8,10 +8,10 @@ import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 
 const sessionTypes = [
-  { id: "group", label: "Group Session", price: "$15", duration: "55 min" },
-  { id: "semi-private", label: "Semi-Private", price: "$25", duration: "55 min" },
-  { id: "private", label: "Private Session", price: "$40", duration: "55 min" },
-  { id: "corporate", label: "Corporate Wellness", price: "Custom", duration: "60+ min" },
+  { id: "standard", label: "Standard Class", price: "$15", duration: "45–50 min" },
+  { id: "group", label: "Group Class", price: "$30", duration: "45–50 min" },
+  { id: "private", label: "Private Session", price: "$45", duration: "45–50 min" },
+  { id: "corporate", label: "Corporate Wellness", price: "Custom", duration: "45–50 min" },
 ] as const
 
 const timeSlots = [
@@ -20,8 +20,8 @@ const timeSlots = [
 ]
 
 const maxCapacity: Record<string, number> = {
+  standard: 1,
   group: 8,
-  "semi-private": 4,
   private: 1,
   corporate: 1,
 }
@@ -281,7 +281,7 @@ export default function BookingPage() {
                             }`}
                           >
                             {time}
-                            {selectedSession === "group" && isAvailable && (
+                            {selectedSession === "group" && isAvailable && maxCapacity.group > 1 && (
                               <span className={`block text-xs mt-1 ${isSelected ? "text-background/60" : "text-foreground/40"}`}>
                                 {available}/{max} spots
                               </span>

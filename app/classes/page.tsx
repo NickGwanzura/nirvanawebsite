@@ -8,26 +8,26 @@ import { Footer } from "@/components/footer"
 
 const services = [
   {
+    icon: User,
+    title: "Standard",
+    price: "$15",
+    duration: "45–50 min",
+    capacity: "Per person",
+    description: "Your personal session in a calm, focused studio environment. A great entry point for all levels.",
+  },
+  {
     icon: Users,
     title: "Group",
-    price: "$15",
-    duration: "55 min",
+    price: "$30",
+    duration: "45–50 min",
     capacity: "Up to 8",
-    description: "Scheduled classes in a calm, focused environment. A shared practice that builds community and consistency.",
+    description: "Join a class with others — no need to bring a group. A shared practice that builds community and consistency.",
   },
   {
     icon: UserCheck,
-    title: "Semi-Private",
-    price: "$25",
-    duration: "55 min",
-    capacity: "2–4 people",
-    description: "Train with a friend or partner. More personal attention without sacrificing the energy of shared movement.",
-  },
-  {
-    icon: User,
     title: "Private",
-    price: "$40",
-    duration: "55 min",
+    price: "$45",
+    duration: "45–50 min",
     capacity: "1-on-1",
     description: "Fully personalised, one-on-one instruction tailored precisely to your body, goals, and pace.",
   },
@@ -35,7 +35,7 @@ const services = [
     icon: Building2,
     title: "Corporate",
     price: "Custom",
-    duration: "60+ min",
+    duration: "45–50 min",
     capacity: "5–20 people",
     description: "Tailored wellness programs brought to your workplace. Designed for teams who move and think better together.",
     premium: true,
@@ -45,8 +45,8 @@ const services = [
 
 const faqs = [
   {
-    q: "What is the difference between group, semi-private, and private sessions?",
-    a: "Group sessions accommodate up to 8 participants, offering a community atmosphere. Semi-private sessions have 2–4 participants, allowing for more personalised attention. Private sessions are one-on-one with an instructor, fully tailored to your specific needs and goals.",
+    q: "What is the difference between standard, group, and private sessions?",
+    a: "Standard sessions are individual bookings at $15 per person. Group sessions (up to 8) are open classes you join with others at $30 — no need to bring a group. Private sessions are one-on-one with an instructor at $45, fully tailored to your specific needs and goals.",
   },
   {
     q: "Do I need prior experience to join a class?",
@@ -54,7 +54,7 @@ const faqs = [
   },
   {
     q: "How long are the classes?",
-    a: "Group and semi-private sessions are 55 minutes. Private sessions can be 55 or 90 minutes depending on your preference and goals.",
+    a: "All sessions are 45–50 minutes.",
   },
   {
     q: "What should I wear?",
