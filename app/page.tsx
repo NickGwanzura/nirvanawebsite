@@ -1,9 +1,11 @@
 import { Navbar } from "@/components/navbar"
 import { Hero } from "@/components/hero"
+import { StudioShowcase } from "@/components/studio-showcase"
 import { WhyPilates } from "@/components/why-pilates"
 import { Services } from "@/components/services"
 import { GroupExperience } from "@/components/group-experience"
 import { Schedule } from "@/components/schedule"
+import { MonthlyBundles } from "@/components/monthly-bundles"
 import { Booking } from "@/components/booking"
 import { Footer } from "@/components/footer"
 
@@ -12,12 +14,14 @@ export default function Home() {
     <main>
       <Navbar />
       <Hero />
+      <StudioShowcase />
       <WhyPilates />
       <Services />
-<GroupExperience />
+      <MonthlyBundles />
+      <GroupExperience />
       <Schedule />
       <Booking />
-<Footer />
+      <Footer />
     </main>
   )
 }

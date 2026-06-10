@@ -1,5 +1,10 @@
+"use client"
+
 import Link from "next/link"
 import { Logo } from "./logo"
+import { CtaLink } from "@/components/ui/cta-link"
+import { motion } from "framer-motion"
+import { fadeUp, fadeIn, staggerContainer, viewportOptions } from "@/lib/animations"
 
 const studioLinks = [
   { href: "/", label: "Home" },
@@ -9,10 +14,12 @@ const studioLinks = [
   { href: "/book", label: "Book a Session" },
 ]
 
-const faqLinks = [
+const supportLinks = [
   { href: "/faqs#getting-started", label: "Getting started" },
-  { href: "/faqs#classes", label: "Classes & sessions" },
-  { href: "/faqs#booking", label: "Booking & cancellation" },
+  { href: "/faqs#classes", label: "Classes and sessions" },
+  { href: "/faqs#booking", label: "Booking and cancellation" },
+  { href: "/faqs#etiquette", label: "Studio etiquette" },
+  { href: "/faqs#pricing", label: "Pricing and bundles" },
   { href: "/faqs#corporate", label: "Corporate wellness" },
 ]
 
@@ -20,132 +27,203 @@ export function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="bg-foreground text-background">
+    <footer className="bg-foreground text-background overflow-hidden">
 
-      {/* Main */}
-      <div className="mx-auto max-w-7xl px-6 lg:px-8 pt-24 pb-16 lg:pt-32 lg:pb-20">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-8">
+      {/* ── PRE-FOOTER CTA ─────────────────────────────────────────── */}
+      <div className="border-b border-background/[0.08]">
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportOptions}
+          className="mx-auto max-w-7xl px-6 lg:px-8 py-24 md:py-32 lg:py-44"
+        >
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-end">
 
-          {/* Brand — spans 5 cols */}
-          <div className="lg:col-span-5 flex flex-col justify-between">
+            {/* Left: headline */}
             <div>
-              <Link href="/" className="inline-flex select-none h-20 lg:h-24 w-56 lg:w-72 items-center mb-12">
-                <Logo className="w-full h-full" fill="#faf9f7" />
-              </Link>
-              <p className="font-serif text-3xl lg:text-4xl text-background/75 font-light tracking-[-0.01em] leading-[1.35] max-w-xs">
-                Move with intention.<br />Live with clarity.
-              </p>
+              <motion.p variants={fadeUp} className="text-[11px] uppercase tracking-[0.5em] text-background/35 mb-8 font-medium">
+                Hillside, Bulawayo · Mon – Sat
+              </motion.p>
+              <motion.h2 variants={fadeUp} className="font-serif text-6xl md:text-7xl lg:text-[5.5rem] xl:text-[6.5rem] font-light tracking-[-0.03em] text-background leading-[0.92]">
+                Begin your<br />
+                <span className="italic text-background/45">practice.</span>
+              </motion.h2>
             </div>
 
-            <Link
-              href="/book"
-              className="mt-8 lg:mt-14 inline-block w-fit text-[11px] uppercase tracking-[0.25em] font-medium px-8 py-4 border border-background/20 text-background/60 hover:border-background/60 hover:text-background transition-all duration-300"
-            >
-              Book a Session
-            </Link>
+            {/* Right: sub-copy + CTAs */}
+            <div className="lg:pb-2">
+              <motion.p variants={fadeUp} className="text-background/50 text-lg leading-relaxed mb-10 max-w-sm">
+                Classes from $15. Private sessions available. No prior experience necessary.
+              </motion.p>
+              <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4">
+                <CtaLink
+                  href="/book"
+                  variant="light"
+                  className="text-[11px] tracking-[0.3em] px-8 py-4 w-fit"
+                >
+                  Book a Session
+                </CtaLink>
+                <a
+                  href="https://wa.me/263719140346"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center px-8 py-4 text-[11px] tracking-[0.3em] uppercase font-medium text-background/55 border border-background/20 hover:border-background/50 hover:text-background transition-all duration-400 w-fit"
+                >
+                  WhatsApp Us
+                </a>
+              </motion.div>
+            </div>
+
           </div>
+        </motion.div>
+      </div>
+
+      {/* ── MAIN FOOTER ────────────────────────────────────────────── */}
+      <motion.div
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewportOptions}
+        className="mx-auto max-w-7xl px-6 lg:px-8 pt-16 pb-10 lg:pt-20 lg:pb-14"
+      >
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8">
+
+          {/* Brand */}
+          <motion.div
+            variants={fadeUp}
+            className="lg:col-span-4 flex flex-col gap-6 pb-10 border-b border-background/[0.08] lg:border-0 lg:pb-0"
+          >
+            <Link href="/" className="inline-flex select-none items-center group text-background w-fit">
+              <Logo
+                className="h-6 lg:h-8 w-18 lg:w-24 transition-opacity duration-300 group-hover:opacity-50"
+                fill="currentColor"
+              />
+            </Link>
+
+            <p className="font-serif text-base text-background/45 font-light tracking-[-0.01em] leading-[1.65] max-w-[190px]">
+              Move with intention.<br />Live with clarity.
+            </p>
+
+            <div className="flex flex-col gap-1.5 text-[12px] text-background/30 leading-[1.9]">
+              <span>26 Moffat Street, Hillside</span>
+              <span>Bulawayo, Zimbabwe</span>
+              <span className="mt-1">Mon – Sat · 07:00 to 18:00</span>
+            </div>
+          </motion.div>
 
           {/* Spacer */}
           <div className="hidden lg:block lg:col-span-1" />
 
-          {/* Studio */}
-          <div className="lg:col-span-2">
-            <p className="text-[10px] uppercase tracking-[0.4em] text-background/30 mb-8">
-              Studio
-            </p>
-            <nav className="flex flex-col gap-4">
-              {studioLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="text-[14px] text-background/50 hover:text-background transition-colors duration-300 w-fit tracking-wide"
+          {/* Nav columns */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-10 gap-y-10 lg:col-span-7 lg:grid-cols-3">
+
+            {/* Studio */}
+            <motion.div variants={fadeUp}>
+              <p className="text-[10px] uppercase tracking-[0.45em] text-background/30 mb-6 font-medium">
+                Studio
+              </p>
+              <nav className="flex flex-col gap-3.5">
+                {studioLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="text-[13px] text-background/50 hover:text-background transition-colors duration-300 w-fit"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </nav>
+            </motion.div>
+
+            {/* Support */}
+            <motion.div variants={fadeUp}>
+              <p className="text-[10px] uppercase tracking-[0.45em] text-background/30 mb-6 font-medium">
+                Support
+              </p>
+              <nav className="flex flex-col gap-3.5">
+                {supportLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="text-[13px] text-background/50 hover:text-background transition-colors duration-300 w-fit"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </nav>
+            </motion.div>
+
+            {/* Contact */}
+            <motion.div variants={fadeUp} className="col-span-2 sm:col-span-1">
+              <p className="text-[10px] uppercase tracking-[0.45em] text-background/30 mb-6 font-medium">
+                Contact
+              </p>
+              <div className="flex flex-col gap-3.5">
+                <a
+                  href="tel:+263719140346"
+                  className="text-[13px] text-background/50 hover:text-background transition-colors duration-300 w-fit"
                 >
-                  {link.label}
-                </Link>
-              ))}
-            </nav>
-          </div>
-
-          {/* FAQs */}
-          <div className="lg:col-span-2">
-            <p className="text-[10px] uppercase tracking-[0.4em] text-background/30 mb-8">
-              FAQs
-            </p>
-            <nav className="flex flex-col gap-4">
-              {faqLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="text-[14px] text-background/50 hover:text-background transition-colors duration-300 w-fit tracking-wide"
+                  +263 719 140 346
+                </a>
+                <a
+                  href="https://wa.me/263719140346"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[13px] text-background/50 hover:text-background transition-colors duration-300 w-fit"
                 >
-                  {link.label}
-                </Link>
-              ))}
-              <Link
-                href="/faqs"
-                className="mt-2 text-[11px] uppercase tracking-[0.25em] text-background/30 hover:text-background/70 transition-colors duration-300 w-fit"
-              >
-                View all →
-              </Link>
-            </nav>
+                  WhatsApp
+                </a>
+                <a
+                  href="https://www.instagram.com/nirvanapilatesbyo"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[13px] text-background/50 hover:text-background transition-colors duration-300 w-fit"
+                >
+                  Instagram
+                </a>
+              </div>
+            </motion.div>
+
           </div>
-
-          {/* Visit & Contact */}
-          <div className="lg:col-span-2">
-            <p className="text-[10px] uppercase tracking-[0.4em] text-background/30 mb-8">
-              Visit
-            </p>
-            <address className="not-italic text-[14px] text-background/50 leading-[2] tracking-wide mb-10">
-              26 Moffat Street<br />
-              Hillside<br />
-              Bulawayo, Zimbabwe
-            </address>
-
-            <p className="text-[10px] uppercase tracking-[0.4em] text-background/30 mb-6">
-              Contact
-            </p>
-            <div className="flex flex-col gap-3">
-              <a
-                href="tel:+263719140346"
-                className="text-[14px] text-background/50 hover:text-background transition-colors duration-300 w-fit tracking-wide"
-              >
-                +263 719 140 346
-              </a>
-              <a
-                href="https://wa.me/263719140346"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[14px] text-background/50 hover:text-background transition-colors duration-300 w-fit tracking-wide"
-              >
-                WhatsApp
-              </a>
-            </div>
-          </div>
-
         </div>
-      </div>
+      </motion.div>
 
       {/* Divider */}
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="h-px bg-background/10" />
+        <div className="h-px bg-background/[0.07]" />
       </div>
 
       {/* Bottom bar */}
-      <div className="mx-auto max-w-7xl px-6 lg:px-8 py-7">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-3">
-          <p className="text-[11px] tracking-[0.15em] text-background/25 uppercase">
-            © {currentYear} Nirvana Pilates Studio. All rights reserved.
-          </p>
+      <motion.div
+        variants={fadeIn}
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewportOptions}
+        className="mx-auto max-w-7xl px-6 lg:px-8 py-5"
+      >
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="flex items-center gap-5">
+            <p className="text-[10px] tracking-[0.15em] text-background/30 uppercase">
+              © {currentYear} Nirvana Pilates Studio
+            </p>
+            <Link
+              href="/privacy"
+              className="text-[10px] tracking-[0.15em] text-background/22 hover:text-background/50 uppercase transition-colors duration-300"
+            >
+              Privacy
+            </Link>
+          </div>
           <a
             href="https://wa.me/263777816368"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[11px] tracking-[0.15em] text-background/20 hover:text-background/50 uppercase transition-colors duration-300"
+            className="text-[10px] tracking-[0.15em] text-background/22 hover:text-background/50 uppercase transition-colors duration-500"
           >
-            Designed & Built by NT Global
+            Designed &amp; Built by NT Global
           </a>
         </div>
-      </div>
+      </motion.div>
 
     </footer>
   )

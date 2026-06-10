@@ -3,15 +3,17 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Menu, X, Lock } from "lucide-react"
+import { Menu, X } from "lucide-react"
 import { Logo } from "./logo"
+import { CtaLink } from "@/components/ui/cta-link"
+import { motion, AnimatePresence } from "framer-motion"
 
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
   { href: "/classes", label: "Classes" },
   { href: "/#schedule", label: "Schedule" },
-  { href: "/book", label: "Book" },
+  { href: "/faqs", label: "FAQs" },
 ]
 
 export function Navbar() {
@@ -19,134 +21,186 @@ export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const pathname = usePathname()
 
-  // Only go transparent over the hero on the homepage
   const isHome = pathname === "/"
   const isTransparent = isHome && !isScrolled
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
-    }
+    const handleScroll = () => setIsScrolled(window.scrollY > 50)
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
   const isActive = (href: string) => {
-    if (href.startsWith("/#")) {
-      return pathname === "/"
-    }
+    if (href.startsWith("/#")) return false
     return pathname === href
   }
 
   return (
     <>
-      <header
+      <motion.header
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out ${
           isTransparent
             ? "bg-transparent"
-            : "bg-[#faf9f7]/90 backdrop-blur-md"
+            : "bg-background/95 backdrop-blur-xl border-b border-foreground/[0.07] shadow-[0_1px_24px_rgba(0,0,0,0.07)]"
         }`}
       >
         <nav className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="flex h-20 lg:h-28 items-center justify-between">
-            <Link href="/" className="select-none h-12 lg:h-20 w-36 lg:w-56 flex items-center">
-              <Logo className="w-full h-full transition-all duration-500" fill={isTransparent ? "#ffffff" : "#1a1a1a"} />
+          <div className="flex h-16 lg:h-20 items-center justify-between">
+
+            {/* Logo */}
+            <Link
+              href="/"
+              className={`select-none flex items-center transition-colors duration-500 ${
+                isTransparent ? "text-white" : "text-foreground"
+              }`}
+            >
+              <Logo className="h-7 lg:h-10 w-24 lg:w-36" fill="currentColor" />
             </Link>
 
-            {/* Desktop Navigation — Center */}
-            <div className="hidden md:flex md:items-center md:gap-12 lg:gap-16">
-              {navLinks.map((link) => (
-                <Link
+            {/* Desktop Nav */}
+            <div className="hidden md:flex md:items-center md:gap-8 lg:gap-12">
+              {navLinks.map((link, i) => (
+                <motion.div
                   key={link.href}
-                  href={link.href}
-                  className={`relative text-[12px] uppercase tracking-[0.2em] transition-all duration-300 font-medium ${
-                    isTransparent
-                      ? isActive(link.href) ? "text-white" : "text-white/60 hover:text-white"
-                      : isActive(link.href) ? "text-foreground" : "text-foreground/50 hover:text-foreground/80"
-                  }`}
+                  initial={{ opacity: 0, y: -8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.05 * i + 0.2, duration: 0.5, ease: "easeOut" }}
                 >
-                  {link.label}
-                  <span 
-                    className={`absolute -bottom-1 left-0 h-px bg-foreground/30 transition-all duration-300 ${
-                      isActive(link.href) ? "w-full" : "w-0 group-hover:w-full"
+                  <Link
+                    href={link.href}
+                    className={`relative text-[11px] uppercase tracking-[0.2em] font-medium group transition-colors duration-300 ${
+                      isTransparent
+                        ? isActive(link.href) ? "text-white" : "text-white/60 hover:text-white"
+                        : isActive(link.href) ? "text-foreground" : "text-foreground/50 hover:text-foreground"
                     }`}
-                  />
-                </Link>
+                  >
+                    {link.label}
+                    <span
+                      className={`absolute -bottom-1 left-0 h-px transition-all duration-500 ease-out ${
+                        isTransparent ? "bg-white" : "bg-brand"
+                      } ${isActive(link.href) ? "w-full" : "w-0 group-hover:w-full"}`}
+                    />
+                  </Link>
+                </motion.div>
               ))}
             </div>
 
-            {/* Right Side — CTA + Admin */}
-            <div className="hidden md:flex md:items-center md:gap-6">
-              {/* Primary CTA */}
-              <Link
-                href="/book"
-                className={`text-[11px] uppercase tracking-[0.15em] font-medium px-6 py-3 transition-all duration-300 hover:shadow-lg ${
-                  isTransparent
-                    ? "bg-white text-foreground hover:bg-white/90"
-                    : "bg-foreground text-background hover:bg-foreground/90"
-                }`}
+            {/* Right — CTA + Admin */}
+            <div className="hidden md:flex md:items-center md:gap-4">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.5, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
               >
-                Book a Session
-              </Link>
+                <CtaLink
+                  href="/book"
+                  variant={isTransparent ? "light" : "dark"}
+                  className="text-[11px] tracking-[0.18em] px-6 py-2.5"
+                >
+                  Book a Session
+                </CtaLink>
+              </motion.div>
 
-              {/* Admin Access — discreet lock icon only */}
-              <Link
-                href="/admin"
-                className={`transition-all duration-300 ${
-                  isTransparent ? "text-white/30 hover:text-white/60" : "text-foreground/20 hover:text-foreground/50"
-                }`}
-                aria-label="Admin access"
-              >
-                <Lock size={13} strokeWidth={1.5} />
-              </Link>
             </div>
 
-            {/* Mobile Menu Button */}
+            {/* Mobile Hamburger */}
             <button
-              className={`md:hidden p-2 transition-colors ${isTransparent ? "text-white/80 hover:text-white" : "text-foreground/80 hover:text-foreground"}`}
+              className={`md:hidden p-2 -mr-2 transition-colors ${
+                isTransparent ? "text-white/80 hover:text-white" : "text-foreground/80 hover:text-foreground"
+              }`}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle menu"
             >
-              {isMobileMenuOpen ? <X size={22} strokeWidth={1.5} /> : <Menu size={22} strokeWidth={1.5} />}
+              <AnimatePresence mode="wait" initial={false}>
+                {isMobileMenuOpen ? (
+                  <motion.span
+                    key="close"
+                    initial={{ rotate: -45, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: 45, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <X size={20} strokeWidth={1.5} />
+                  </motion.span>
+                ) : (
+                  <motion.span
+                    key="menu"
+                    initial={{ rotate: 45, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: -45, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Menu size={20} strokeWidth={1.5} />
+                  </motion.span>
+                )}
+              </AnimatePresence>
             </button>
           </div>
 
           {/* Mobile Menu */}
-          <div
-            className={`md:hidden transition-all duration-500 ease-out overflow-hidden ${
-              isMobileMenuOpen ? "max-h-[400px] opacity-100" : "max-h-0 opacity-0"
-            }`}
-          >
-            <div className="flex flex-col gap-6 pt-6 pb-10 border-t border-foreground/10 mt-2">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={`block py-3 text-[12px] uppercase tracking-[0.2em] font-medium transition-colors ${
-                    isActive(link.href)
-                      ? "text-foreground"
-                      : "text-foreground/50 hover:text-foreground/80"
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              ))}
-              
-              {/* Mobile CTA */}
-              <Link
-                href="/book"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="inline-flex w-fit text-[11px] uppercase tracking-[0.15em] font-medium px-6 py-3 bg-foreground text-background mt-2"
+          <AnimatePresence>
+            {isMobileMenuOpen && (
+              <motion.div
+                key="mobile-menu"
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                className="md:hidden overflow-hidden"
               >
-                Book a Session
-              </Link>
-
-              {/* Admin — intentionally omitted from mobile menu */}
-            </div>
-          </div>
+                <motion.div
+                  initial="hidden"
+                  animate="visible"
+                  variants={{
+                    hidden: {},
+                    visible: { transition: { staggerChildren: 0.07, delayChildren: 0.08 } },
+                  }}
+                  className="flex flex-col pt-3 pb-6 border-t border-foreground/8 mt-1"
+                >
+                  {navLinks.map((link) => (
+                    <motion.div
+                      key={link.href}
+                      variants={{
+                        hidden: { opacity: 0, x: -12 },
+                        visible: { opacity: 1, x: 0, transition: { duration: 0.35, ease: "easeOut" } },
+                      }}
+                    >
+                      <Link
+                        href={link.href}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className={`block py-3 text-[11px] uppercase tracking-[0.2em] font-medium transition-colors ${
+                          isActive(link.href) ? "text-foreground" : "text-foreground/50 hover:text-foreground"
+                        }`}
+                      >
+                        {link.label}
+                      </Link>
+                    </motion.div>
+                  ))}
+                  <motion.div
+                    variants={{
+                      hidden: { opacity: 0, x: -12 },
+                      visible: { opacity: 1, x: 0, transition: { duration: 0.35, ease: "easeOut" } },
+                    }}
+                    className="pt-4"
+                  >
+                    <CtaLink
+                      href="/book"
+                      variant="dark"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="w-fit text-[11px] tracking-[0.18em] px-6 py-3"
+                    >
+                      Book a Session
+                    </CtaLink>
+                  </motion.div>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </nav>
-      </header>
+      </motion.header>
     </>
   )
 }

@@ -2,26 +2,30 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { Users, UserCheck, User, Building2, Check, Plus, Minus } from "lucide-react"
+import { Users, UserCheck, UserPlus, Building2, Check, Plus } from "lucide-react"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
+import { MonthlyBundles } from "@/components/monthly-bundles"
+import { CtaLink } from "@/components/ui/cta-link"
+import { motion, AnimatePresence } from "framer-motion"
+import { fadeUp, staggerContainer, scaleIn, viewportOptions } from "@/lib/animations"
 
 const services = [
   {
-    icon: User,
+    icon: Users,
     title: "Standard",
     price: "$15",
     duration: "45–50 min",
-    capacity: "Per person",
-    description: "Your personal session in a calm, focused studio environment. A great entry point for all levels.",
+    capacity: "Up to 8",
+    description: "Join a standard group class of up to 8. A focused, instructor-led session open to all levels.",
   },
   {
-    icon: Users,
-    title: "Group",
-    price: "$30",
+    icon: UserPlus,
+    title: "Semi-Private",
+    price: "$25 pp",
     duration: "45–50 min",
-    capacity: "Up to 8",
-    description: "Join a class with others — no need to bring a group. A shared practice that builds community and consistency.",
+    capacity: "2 people",
+    description: "A focused session for two. Shared instruction at a personal level. Ideal for friends or partners.",
   },
   {
     icon: UserCheck,
@@ -29,7 +33,7 @@ const services = [
     price: "$45",
     duration: "45–50 min",
     capacity: "1-on-1",
-    description: "Fully personalised, one-on-one instruction tailored precisely to your body, goals, and pace.",
+    description: "One-on-one instruction tailored precisely to your body, goals, and pace.",
   },
   {
     icon: Building2,
@@ -45,8 +49,8 @@ const services = [
 
 const faqs = [
   {
-    q: "What is the difference between standard, group, and private sessions?",
-    a: "Standard sessions are individual bookings at $15 per person. Group sessions (up to 8) are open classes you join with others at $30 — no need to bring a group. Private sessions are one-on-one with an instructor at $45, fully tailored to your specific needs and goals.",
+    q: "What is the difference between standard, semi-private, and private sessions?",
+    a: "Standard classes are open group sessions (up to 8 people) at $15 per person. You join a class already in progress. Semi-private sessions are for exactly 2 people at $25 per person, ideal for friends or partners wanting shared but personal instruction. Private sessions are fully one-on-one at $45, tailored entirely to your goals.",
   },
   {
     q: "Do I need prior experience to join a class?",
@@ -58,11 +62,11 @@ const faqs = [
   },
   {
     q: "What should I wear?",
-    a: "Comfortable, form-fitting clothing that allows for a full range of movement. Pilates is practiced barefoot or in grip socks — no shoes required.",
+    a: "Comfortable, form-fitting clothing that allows for a full range of movement. Pilates is practiced barefoot or in grip socks. No shoes required.",
   },
   {
     q: "How often should I practice?",
-    a: "For optimal results, we recommend 2–3 sessions per week. Consistency matters more than frequency — even one session a week delivers meaningful benefits over time.",
+    a: "For optimal results, we recommend 2 to 3 sessions per week. Consistency matters more than frequency. Even one session a week delivers meaningful benefits over time.",
   },
   {
     q: "What equipment do I need to bring?",
@@ -78,135 +82,192 @@ export default function ClassesPage() {
       <Navbar />
 
       {/* Hero */}
-      <section className="pt-48 pb-20 px-6 lg:px-8">
+      <section className="pt-48 pb-20 px-6 lg:px-8 overflow-hidden">
         <div className="mx-auto max-w-7xl">
-          <p className="text-[11px] uppercase tracking-[0.5em] text-foreground/40 mb-8">
-            The Practice
-          </p>
-          <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light tracking-[-0.02em] text-foreground leading-[1.05] max-w-3xl">
-            Choose your practice
-          </h1>
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            animate="visible"
+          >
+            <motion.p variants={fadeUp} className="text-[11px] uppercase tracking-[0.5em] text-foreground/40 mb-8">
+              The Practice
+            </motion.p>
+            <motion.h1 variants={fadeUp} className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-light tracking-[-0.02em] text-foreground leading-[1.05] max-w-3xl">
+              Choose your practice
+            </motion.h1>
+          </motion.div>
         </div>
       </section>
 
-      {/* Divider */}
+      {/* Animated divider */}
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="h-px bg-border" />
+        <motion.div
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.4 }}
+          style={{ originX: 0 }}
+          className="h-px bg-border"
+        />
       </div>
 
       {/* Classes grid */}
       <section className="py-24 px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {services.map((service) => {
-              const isAccent = "premium" in service && service.premium
-              return (
-                <div
-                  key={service.title}
-                  className={`group relative flex flex-col p-10 lg:p-12 bg-secondary/40
-                    hover:bg-secondary/70 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5
-                    transition-all duration-400 ease-out
-                    ${isAccent ? "ring-1 ring-foreground/10" : ""}
-                  `}
-                >
-                  <service.icon
-                    className="w-5 h-5 mb-10 text-foreground/30 group-hover:text-foreground/50 transition-colors duration-300"
-                    strokeWidth={1.5}
-                  />
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOptions}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-border"
+          >
+            {services.map((service) => (
+              <motion.div
+                key={service.title}
+                variants={fadeUp}
+                className="group relative bg-background p-8 lg:p-10 flex flex-col overflow-hidden cursor-default"
+              >
+                {/* Top brand sweep */}
+                <span className="absolute top-0 left-0 h-[2px] w-0 bg-brand/50 group-hover:w-full transition-all duration-700 ease-out" />
 
-                  <h2 className="font-serif text-3xl font-light tracking-[-0.01em] mb-2 text-foreground group-hover:tracking-[-0.02em] transition-all duration-300">
-                    {service.title}
-                  </h2>
+                {/* Ghost icon */}
+                <service.icon
+                  aria-hidden="true"
+                  className="absolute -bottom-3 -right-2 w-28 h-28 text-foreground/[0.04] group-hover:text-foreground/[0.08] transition-colors duration-500 pointer-events-none select-none"
+                  strokeWidth={0.8}
+                />
 
-                  <p className="text-[12px] uppercase tracking-[0.25em] text-foreground/35 mb-8 group-hover:text-foreground/50 transition-colors duration-300">
-                    {service.price} · {service.duration}
-                  </p>
+                {/* Small icon */}
+                <service.icon
+                  className="w-4 h-4 mb-8 text-brand/50 group-hover:text-brand/80 transition-colors duration-300"
+                  strokeWidth={1.5}
+                />
 
-                  <p className="text-[14px] text-foreground/55 leading-[1.8] mb-6 group-hover:text-foreground/70 transition-colors duration-300">
-                    {service.description}
-                  </p>
+                {/* Price eyebrow */}
+                <span className="block text-[10px] tracking-[0.45em] text-brand/55 mb-5 font-medium uppercase">
+                  {service.price} · {service.duration}
+                </span>
 
-                  <p className="text-[11px] uppercase tracking-[0.3em] text-foreground/25 mt-auto group-hover:text-foreground/40 transition-colors duration-300">
-                    {service.capacity}
-                  </p>
+                <h2 className="font-serif text-[1.45rem] md:text-2xl text-foreground font-light tracking-[-0.02em] mb-5 leading-[1.2]">
+                  {service.title}
+                </h2>
 
-                  {"features" in service && service.features && (
-                    <ul className="mt-8 space-y-3 border-t border-foreground/8 pt-8">
-                      {service.features.map((f: string) => (
-                        <li key={f} className="flex items-center gap-3 text-[13px] text-foreground/45 group-hover:text-foreground/60 transition-colors duration-300">
-                          <Check className="w-3 h-3 shrink-0 text-foreground/25" />
-                          {f}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
+                <p className="text-[13.5px] text-foreground/55 leading-[1.85] group-hover:text-foreground/70 transition-colors duration-300">
+                  {service.description}
+                </p>
+
+                {"features" in service && service.features && (
+                  <ul className="mt-8 space-y-3 border-t border-border pt-8">
+                    {service.features.map((f: string) => (
+                      <li key={f} className="flex items-center gap-3 text-[13px] text-foreground/45 group-hover:text-foreground/60 transition-colors duration-300">
+                        <Check className="w-3 h-3 shrink-0 text-foreground/25" strokeWidth={2} />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+
+                {/* Bottom: line + arrow */}
+                <div className="mt-auto pt-8 flex items-center gap-3">
+                  <div className="h-px flex-1 bg-border group-hover:bg-brand/20 transition-colors duration-500" />
+                  <span className="text-foreground/20 text-sm group-hover:text-brand/40 group-hover:translate-x-1 transition-all duration-300 ease-out">
+                    →
+                  </span>
                 </div>
-              )
-            })}
-          </div>
+              </motion.div>
+            ))}
+          </motion.div>
 
           {/* Book CTA */}
-          <div className="mt-12 flex justify-end">
-            <Link
-              href="/book"
-              className="text-[11px] uppercase tracking-[0.25em] font-medium px-10 py-4 bg-foreground text-background hover:bg-foreground/90 transition-colors duration-300"
-            >
-              Book a Session
-            </Link>
-          </div>
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOptions}
+            className="mt-14 flex justify-end"
+          >
+            <CtaLink href="/book" variant="dark" className="text-[11px] tracking-[0.3em] px-10 py-4">
+              Book a Session →
+            </CtaLink>
+          </motion.div>
         </div>
       </section>
 
-      {/* Divider */}
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="h-px bg-border" />
-      </div>
+      <MonthlyBundles />
 
       {/* FAQs */}
       <section className="py-24 px-6 lg:px-8">
         <div className="mx-auto max-w-7xl grid grid-cols-1 lg:grid-cols-12 gap-16">
 
-          <div className="lg:col-span-4">
-            <p className="text-[11px] uppercase tracking-[0.5em] text-foreground/40 mb-6">
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOptions}
+            className="lg:col-span-4"
+          >
+            <motion.p variants={fadeUp} className="text-[11px] uppercase tracking-[0.5em] text-foreground/40 mb-6">
               Questions
-            </p>
-            <h2 className="font-serif text-4xl md:text-5xl font-light tracking-[-0.02em] text-foreground leading-[1.1] mb-8">
+            </motion.p>
+            <motion.h2 variants={fadeUp} className="font-serif text-4xl md:text-5xl font-light tracking-[-0.02em] text-foreground leading-[1.1] mb-8">
               Everything you need to know
-            </h2>
-            <Link
-              href="/faqs"
-              className="text-[11px] uppercase tracking-[0.25em] text-foreground/40 hover:text-foreground transition-colors duration-200"
-            >
-              View all FAQs →
-            </Link>
-          </div>
+            </motion.h2>
+            <motion.div variants={fadeUp}>
+              <Link
+                href="/faqs"
+                className="text-[11px] uppercase tracking-[0.3em] text-foreground/35 hover:text-foreground transition-colors duration-300"
+              >
+                View all FAQs →
+              </Link>
+            </motion.div>
+          </motion.div>
 
-          <div className="lg:col-span-8 divide-y divide-border">
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOptions}
+            className="lg:col-span-8 divide-y divide-border"
+          >
             {faqs.map((faq, index) => {
               const isOpen = openIndex === index
               return (
-                <div key={index}>
+                <motion.div key={index} variants={fadeUp}>
                   <button
                     onClick={() => setOpenIndex(isOpen ? null : index)}
                     aria-expanded={isOpen}
                     className="w-full py-7 flex items-start justify-between text-left gap-8 group"
                   >
-                    <span className={`text-[15px] leading-snug tracking-wide transition-colors duration-200 ${isOpen ? "text-foreground" : "text-foreground/60 group-hover:text-foreground"}`}>
+                    <span className={`text-[15px] leading-snug tracking-wide transition-colors duration-300 ${isOpen ? "text-foreground" : "text-foreground/60 group-hover:text-foreground"}`}>
                       {faq.q}
                     </span>
-                    <span className="shrink-0 mt-0.5 text-foreground/30 group-hover:text-foreground/60 transition-colors duration-200">
-                      {isOpen ? <Minus size={16} strokeWidth={1.5} /> : <Plus size={16} strokeWidth={1.5} />}
-                    </span>
+                    <motion.span
+                      animate={{ rotate: isOpen ? 45 : 0 }}
+                      transition={{ duration: 0.3, ease: "easeOut" }}
+                      className="shrink-0 mt-0.5 text-foreground/30 group-hover:text-foreground/60 transition-colors duration-200"
+                    >
+                      <Plus size={16} strokeWidth={1.5} />
+                    </motion.span>
                   </button>
-                  <div className={`overflow-hidden transition-all duration-300 ease-out ${isOpen ? "max-h-64 pb-7" : "max-h-0"}`}>
-                    <p className="text-[14px] text-foreground/50 leading-[1.9] pr-4 md:pr-12">
-                      {faq.a}
-                    </p>
-                  </div>
-                </div>
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        key="answer"
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                        className="overflow-hidden"
+                      >
+                        <p className="text-[14px] text-foreground/50 leading-[1.9] pb-7 pr-4 md:pr-12">
+                          {faq.a}
+                        </p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
               )
             })}
-          </div>
+          </motion.div>
 
         </div>
       </section>

@@ -1,12 +1,13 @@
 import type { Metadata } from 'next'
-import { Cormorant_Garamond, DM_Sans } from 'next/font/google'
+import { Instrument_Serif, DM_Sans } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { WhatsAppWidget } from '@/components/whatsapp-widget'
 import './globals.css'
 
-const cormorant = Cormorant_Garamond({ 
+const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
-  weight: ["300", "400", "500"],
+  weight: ["400"],
+  style: ["normal", "italic"],
   variable: '--font-serif',
   display: 'swap',
 });
@@ -20,8 +21,13 @@ const dmSans = DM_Sans({
 
 export const metadata: Metadata = {
   title: 'Nirvana Pilates Studio | Hillside, Bulawayo',
-  description: 'A refined STOTT Pilates experience in Hillside, Bulawayo. Standard, group, and private one-on-one sessions.',
-  generator: 'v0.app',
+  description: 'A refined Pilates studio in Hillside, Bulawayo. Standard, semi-private, and private one-on-one sessions with expert instruction.',
+  keywords: ['Pilates', 'Bulawayo', 'Hillside', 'STOTT Pilates', 'Pilates studio', 'Zimbabwe', 'wellness', 'fitness'],
+  openGraph: {
+    title: 'Nirvana Pilates Studio | Hillside, Bulawayo',
+    description: 'A refined STOTT Pilates experience in Hillside, Bulawayo.',
+    type: 'website',
+  },
   icons: {
     icon: [
       {
@@ -47,7 +53,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${cormorant.variable} ${dmSans.variable}`}>
+    <html lang="en" className={`${instrumentSerif.variable} ${dmSans.variable}`}>
       <body className="font-sans antialiased scroll-smooth">
         {children}
         <WhatsAppWidget />

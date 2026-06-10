@@ -6,12 +6,12 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 
 const slides = [
   {
-    src: "/images/hero/SKC01884-67-2.jpg",
-    alt: "Wellness journey",
+    src: "/images/hero/hero-african-woman.png",
+    alt: "African woman practising Pilates on a reformer at Nirvana Pilates Studio",
   },
   {
-    src: "/images/hero/reformer-session.png",
-    alt: "Reformer Pilates session",
+    src: "/images/hero/hero-mat-pilates.png",
+    alt: "Elegant Pilates mat practice at Nirvana Studio",
   },
 ]
 
@@ -64,8 +64,8 @@ export function HeroSlider() {
             className="object-cover"
             sizes="100vw"
           />
-          {/* Minimal overlay — text readability only */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20" />
+          {/* Overlay — keeps white hero text readable over bright slides */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-black/35" />
         </div>
       ))}
 

@@ -1,6 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import connectDB from '@/lib/db'
 import Booking from '@/models/Booking'
+import { getExpectedAdminToken } from '@/lib/admin-auth'
+
+async function isAdminRequest(request: NextRequest): Promise<boolean> {
+  const token = request.cookies.get('admin_token')?.value
+  if (!token) return false
+  const expected = await getExpectedAdminToken()
+  return token === expected
+}
 
 // GET /api/bookings/[id] - Get a single booking
 export async function GET(
@@ -10,14 +18,14 @@ export async function GET(
   try {
     await connectDB()
     const booking = await Booking.findById(params.id)
-    
+
     if (!booking) {
       return NextResponse.json(
         { error: 'Booking not found' },
         { status: 404 }
       )
     }
-    
+
     return NextResponse.json(booking)
   } catch (error) {
     console.error('Error fetching booking:', error)
@@ -28,40 +36,44 @@ export async function GET(
   }
 }
 
-// PATCH /api/bookings/[id] - Update a booking
+// PATCH /api/bookings/[id] - Admin only: update a booking
 export async function PATCH(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  if (!(await isAdminRequest(request))) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   try {
     const body = await request.json()
-    
+
     await connectDB()
-    
+
     const booking = await Booking.findByIdAndUpdate(
       params.id,
       { $set: body },
       { new: true, runValidators: true }
     )
-    
+
     if (!booking) {
       return NextResponse.json(
         { error: 'Booking not found' },
         { status: 404 }
       )
     }
-    
+
     return NextResponse.json(booking)
   } catch (error: any) {
     console.error('Error updating booking:', error)
-    
+
     if (error.name === 'ValidationError') {
       return NextResponse.json(
         { error: error.message },
         { status: 400 }
       )
     }
-    
+
     return NextResponse.json(
       { error: 'Failed to update booking' },
       { status: 500 }
@@ -69,23 +81,27 @@ export async function PATCH(
   }
 }
 
-// DELETE /api/bookings/[id] - Delete a booking
+// DELETE /api/bookings/[id] - Admin only: delete a booking
 export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  if (!(await isAdminRequest(request))) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   try {
     await connectDB()
-    
+
     const booking = await Booking.findByIdAndDelete(params.id)
-    
+
     if (!booking) {
       return NextResponse.json(
         { error: 'Booking not found' },
         { status: 404 }
       )
     }
-    
+
     return NextResponse.json({ message: 'Booking deleted successfully' })
   } catch (error) {
     console.error('Error deleting booking:', error)

@@ -1,36 +1,44 @@
 "use client"
 
-import { Users, UserCheck, User, Building2 } from "lucide-react"
+import { motion } from "framer-motion"
+import { Users, UserCheck, UserPlus, Building2 } from "lucide-react"
+import { fadeUp, staggerContainer, viewportOptions } from "@/lib/animations"
+import type { LucideIcon } from "lucide-react"
 
-const services = [
+const services: {
+  icon: LucideIcon
+  title: string
+  price: string
+  duration: string
+  description: string
+}[] = [
   {
-    icon: User,
+    icon: Users,
     title: "Standard",
     price: "$15",
     duration: "45–50 min",
-    description: "Your personal session in a calm, focused studio environment.",
+    description: "Join a standard group class of up to 8. A focused, instructor-led session open to all levels.",
   },
   {
-    icon: Users,
-    title: "Group",
-    price: "$30",
+    icon: UserPlus,
+    title: "Semi-Private",
+    price: "$25 pp",
     duration: "45–50 min",
-    description: "Join a class with others — no need to bring a group.",
+    description: "A session for two. Shared instruction at a personal level. Bring a friend or partner.",
   },
   {
     icon: UserCheck,
     title: "Private",
     price: "$45",
     duration: "45–50 min",
-    description: "Personalised, one-on-one attention.",
+    description: "One-on-one instruction tailored precisely to your body, goals, and pace.",
   },
   {
     icon: Building2,
     title: "Corporate",
     price: "Custom",
     duration: "45–50 min",
-    description: "Tailored wellness programs for your workplace.",
-    accent: true,
+    description: "Tailored wellness programs for your workplace. Designed for teams who move and think better together.",
   },
 ]
 
@@ -40,45 +48,74 @@ export function Services() {
       <div className="mx-auto max-w-6xl px-6 lg:px-8">
 
         {/* Header */}
-        <div className="text-center mb-24 lg:mb-32">
-          <p className="text-[11px] uppercase tracking-[0.5em] text-foreground/50 mb-8">
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportOptions}
+          className="text-center mb-14 md:mb-24 lg:mb-32"
+        >
+          <motion.p variants={fadeUp} className="text-[11px] uppercase tracking-[0.5em] pl-[0.5em] text-foreground/50 mb-8">
             Services
-          </p>
-          <h2 className="font-serif text-5xl md:text-6xl lg:text-7xl text-foreground tracking-[-0.02em] font-light">
+          </motion.p>
+          <motion.h2 variants={fadeUp} className="font-serif text-5xl md:text-6xl lg:text-7xl text-foreground tracking-[-0.02em] font-light">
             Choose your practice
-          </h2>
-        </div>
+          </motion.h2>
+        </motion.div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Grid — gap-px border flush */}
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportOptions}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-border"
+        >
           {services.map((service) => (
-            <div
+            <motion.div
               key={service.title}
-              className={`group relative flex flex-col p-10 lg:p-12 bg-secondary/40
-                hover:bg-secondary/70 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)]
-                transition-all duration-400 ease-out
-                ${service.accent ? "ring-1 ring-foreground/10" : ""}
-              `}
+              variants={fadeUp}
+              className="group relative bg-background p-8 lg:p-10 flex flex-col overflow-hidden cursor-default"
             >
+              {/* Top brand sweep */}
+              <span className="absolute top-0 left-0 h-[2px] w-0 bg-brand/50 group-hover:w-full transition-all duration-700 ease-out" />
+
+              {/* Ghost icon */}
               <service.icon
-                className="w-5 h-5 mb-10 text-foreground/30 group-hover:text-foreground/50 transition-colors duration-300"
+                aria-hidden="true"
+                className="absolute -bottom-3 -right-2 w-28 h-28 text-foreground/[0.04] group-hover:text-foreground/[0.08] transition-colors duration-500 pointer-events-none select-none"
+                strokeWidth={0.8}
+              />
+
+              {/* Small icon */}
+              <service.icon
+                className="w-4 h-4 mb-8 text-brand/50 group-hover:text-brand/80 transition-colors duration-300"
                 strokeWidth={1.5}
               />
 
-              <h3 className="font-serif text-3xl text-foreground font-light tracking-[-0.01em] mb-2 group-hover:tracking-[-0.02em] transition-all duration-300">
+              {/* Price eyebrow */}
+              <span className="block text-[10px] tracking-[0.45em] text-brand/55 mb-5 font-medium uppercase">
+                {service.price} · {service.duration}
+              </span>
+
+              <h3 className="font-serif text-[1.45rem] md:text-2xl text-foreground font-light tracking-[-0.02em] mb-5 leading-[1.2]">
                 {service.title}
               </h3>
 
-              <p className="text-[12px] uppercase tracking-[0.25em] text-foreground/35 mb-8 transition-colors duration-300 group-hover:text-foreground/50">
-                {service.price} · {service.duration}
-              </p>
-
-              <p className="text-[14px] text-foreground/55 leading-[1.8] mt-auto transition-colors duration-300 group-hover:text-foreground/70">
+              <p className="text-[13.5px] text-foreground/55 leading-[1.85] mt-auto group-hover:text-foreground/70 transition-colors duration-300">
                 {service.description}
               </p>
-            </div>
+
+              {/* Bottom: expanding line + arrow */}
+              <div className="mt-8 flex items-center gap-3">
+                <div className="h-px flex-1 bg-border group-hover:bg-brand/20 transition-colors duration-500" />
+                <span className="text-foreground/20 text-sm group-hover:text-brand/40 group-hover:translate-x-1 transition-all duration-300 ease-out">
+                  →
+                </span>
+              </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
       </div>
     </section>

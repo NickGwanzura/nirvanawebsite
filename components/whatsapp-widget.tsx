@@ -30,7 +30,7 @@ export function WhatsAppWidget() {
       >
         <div className="bg-white shadow-lg p-4 mb-1 max-w-[220px] rounded-lg rounded-br-none">
           <p className="text-[13px] text-foreground/70 leading-relaxed">
-            Hi there — how can we help?
+            Hi there. How can we help?
           </p>
         </div>
       </div>
@@ -42,7 +42,7 @@ export function WhatsAppWidget() {
           target="_blank"
           rel="noopener noreferrer"
           onClick={() => setIsOpen(false)}
-          className="flex items-center justify-center w-11 h-11 md:w-14 md:h-14 bg-[#25D366] rounded-full shadow-md hover:shadow-lg hover:scale-105 active:scale-95 transition-all duration-200 ease-out"
+          className="flex items-center justify-center w-11 h-11 md:w-14 md:h-14 bg-foreground hover:bg-foreground/90 rounded-full ring-1 ring-white/25 shadow-md hover:shadow-lg hover:scale-105 active:scale-95 transition-all duration-200 ease-out"
           aria-label="Chat on WhatsApp"
         >
           <MessageCircle className="w-5 h-5 md:w-6 md:h-6 text-white fill-white" />

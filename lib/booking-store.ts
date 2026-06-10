@@ -2,100 +2,83 @@ import { IBooking } from '@/models/Booking'
 
 export type Booking = IBooking & { _id: string }
 
-// In-memory fallback for client-side when API is not available
+// Lightweight in-memory cache used only for availability display fallback
 let localBookings: Booking[] = []
-let localId = 0
 
-// Client-side API functions
+// GET all bookings (admin-authenticated; public path returns 401 for non-admins)
 export async function getBookings(): Promise<Booking[]> {
   try {
-    const response = await fetch('/api/bookings')
-    if (!response.ok) throw new Error('Failed to fetch')
-    return response.json()
+    const response = await fetch('/api/bookings', { credentials: 'include' })
+    if (!response.ok) {
+      // If 401 (not admin), return empty — the booking page only needs availability per-date
+      if (response.status === 401) return localBookings
+      throw new Error('Failed to fetch bookings')
+    }
+    const bookings = await response.json()
+    localBookings = bookings // cache for local availability fallback
+    return bookings
   } catch {
     return localBookings
   }
 }
 
+// Create a booking — throws on failure so the user sees a real error
 export async function createBooking(data: Omit<Booking, '_id' | 'createdAt'>): Promise<Booking> {
-  try {
-    const response = await fetch('/api/bookings', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    })
-    if (!response.ok) throw new Error('Failed to create')
-    return response.json()
-  } catch {
-    // Fallback to local for client-side demo
-    const booking: Booking = {
-      ...data,
-      _id: `local-${++localId}`,
-      createdAt: new Date(),
-    }
-    localBookings.push(booking)
-    return booking
+  const response = await fetch('/api/bookings', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+    credentials: 'include',
+  })
+  if (!response.ok) {
+    const body = await response.json().catch(() => ({}))
+    throw new Error(body.error || 'Failed to create booking. Please try again.')
   }
+  return response.json()
 }
 
+// Update a booking — admin only, throws on failure
 export async function updateBooking(id: string, data: Partial<Booking>): Promise<Booking> {
-  try {
-    const response = await fetch(`/api/bookings/${id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    })
-    if (!response.ok) throw new Error('Failed to update')
-    return response.json()
-  } catch {
-    const index = localBookings.findIndex(b => b._id === id)
-    if (index >= 0) {
-      localBookings[index] = { ...localBookings[index], ...data }
-      return localBookings[index]
-    }
-    throw new Error('Booking not found')
+  const response = await fetch(`/api/bookings/${id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+    credentials: 'include',
+  })
+  if (!response.ok) {
+    const body = await response.json().catch(() => ({}))
+    throw new Error(body.error || 'Failed to update booking.')
   }
+  return response.json()
 }
 
+// Delete a booking — admin only, throws on failure
 export async function deleteBooking(id: string): Promise<void> {
-  try {
-    await fetch(`/api/bookings/${id}`, { method: 'DELETE' })
-  } catch {
-    localBookings = localBookings.filter(b => b._id !== id)
+  const response = await fetch(`/api/bookings/${id}`, {
+    method: 'DELETE',
+    credentials: 'include',
+  })
+  if (!response.ok) {
+    const body = await response.json().catch(() => ({}))
+    throw new Error(body.error || 'Failed to delete booking.')
   }
-}
-
-// Client-side synchronous functions for compatibility
-export function getBookingsByDate(date: string): Booking[] {
-  return localBookings.filter(b => b.date === date)
-}
-
-export function addBooking(data: Omit<Booking, '_id' | 'createdAt' | 'status'>): Booking {
-  const booking: Booking = {
-    ...data,
-    _id: `local-${++localId}`,
-    status: 'pending',
-    createdAt: new Date(),
-  }
-  localBookings.push(booking)
-  return booking
 }
 
 export function getWhatsAppLink(booking: Booking): string {
   const phone = '+263719140346'
   const sessionLabels: Record<string, string> = {
     standard: 'Standard Class',
-    group: 'Group Class',
+    'semi-private': 'Semi-Private Session',
     private: 'Private Session',
     corporate: 'Corporate Wellness',
   }
   const message = encodeURIComponent(
-    `Hi Nirvana Pilates! I'd like to confirm my booking:\n\n` +
+    `Hi Nirvana Pilates! I'd like to notify you of my booking:\n\n` +
     `Name: ${booking.name}\n` +
     `Session: ${sessionLabels[booking.sessionType] || booking.sessionType}\n` +
     `Date: ${booking.date}\n` +
     `Time: ${booking.time}\n\n` +
-    `Please confirm my reservation. Thank you!`
+    `Thank you!`
   )
   return `https://wa.me/${phone}?text=${message}`
 }

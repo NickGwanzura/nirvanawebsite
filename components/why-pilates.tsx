@@ -1,8 +1,13 @@
+"use client"
+
+import { motion } from "framer-motion"
+import { fadeUp, staggerContainer, viewportOptions } from "@/lib/animations"
+
 const reasons = [
   {
     number: "01",
     title: "Builds deep strength",
-    body: "Pilates targets the stabilising muscles that conventional training misses — creating functional strength that protects your spine, joints, and posture from the inside out.",
+    body: "Pilates targets the stabilising muscles that conventional training misses, creating functional strength that protects your spine, joints, and posture from the inside out.",
   },
   {
     number: "02",
@@ -17,7 +22,7 @@ const reasons = [
   {
     number: "04",
     title: "A practice for life",
-    body: "Unlike high-impact training, Pilates works with your body — not against it. Adaptable to every age, fitness level, and stage of life, it's a practice you can return to forever.",
+    body: "Unlike high-impact training, Pilates works with your body, not against it. Adaptable to every age, fitness level, and stage of life, it is a practice you can return to forever.",
   },
 ]
 
@@ -27,37 +32,74 @@ export function WhyPilates() {
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
 
         {/* Header */}
-        <div className="mb-24 lg:mb-32 max-w-xl">
-          <p className="text-[11px] uppercase tracking-[0.5em] text-foreground/50 mb-8">
-            The Practice
-          </p>
-          <h2 className="font-serif text-5xl md:text-6xl lg:text-7xl text-foreground tracking-[-0.02em] font-light leading-[1.05]">
-            Why Pilates
-          </h2>
-        </div>
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportOptions}
+          className="mb-16 md:mb-24 flex flex-col md:flex-row md:items-end md:justify-between gap-6"
+        >
+          <div>
+            <motion.p variants={fadeUp} className="text-[11px] uppercase tracking-[0.5em] text-foreground/50 mb-6">
+              The Practice
+            </motion.p>
+            <motion.h2 variants={fadeUp} className="font-serif text-5xl md:text-6xl lg:text-7xl text-foreground tracking-[-0.02em] font-light leading-[1.0]">
+              Why Pilates
+            </motion.h2>
+          </div>
+          <motion.p variants={fadeUp} className="text-foreground/55 text-base max-w-xs leading-relaxed md:text-right md:pb-1">
+            Four reasons our clients keep coming back, session after session.
+          </motion.p>
+        </motion.div>
 
-        {/* Reasons grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Cards grid */}
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportOptions}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-border"
+        >
           {reasons.map((reason) => (
-            <div
+            <motion.div
               key={reason.number}
-              className="group bg-background p-10 lg:p-12 flex flex-col
-                hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)]
-                hover:-translate-y-0.5
-                transition-all duration-400 ease-out"
+              variants={fadeUp}
+              className="group relative bg-background p-8 lg:p-10 flex flex-col overflow-hidden cursor-default"
             >
-              <span className="block font-serif text-[11px] tracking-[0.3em] text-foreground/20 mb-10 transition-colors duration-300 group-hover:text-foreground/40">
+              {/* Animated top-border sweep */}
+              <span className="absolute top-0 left-0 h-[2px] w-0 bg-brand/50 group-hover:w-full transition-all duration-700 ease-out" />
+
+              {/* Large ghost number */}
+              <span
+                aria-hidden="true"
+                className="absolute -bottom-6 -right-3 font-serif text-[9rem] leading-none text-foreground/[0.045] select-none pointer-events-none group-hover:text-foreground/[0.08] transition-colors duration-500"
+              >
                 {reason.number}
               </span>
-              <h3 className="font-serif text-2xl md:text-3xl text-foreground font-light tracking-[-0.01em] mb-6 leading-[1.2] transition-all duration-300 group-hover:tracking-[-0.02em]">
+
+              {/* Small eyebrow number */}
+              <span className="block text-[10px] tracking-[0.45em] text-brand/55 mb-8 font-medium uppercase">
+                {reason.number}
+              </span>
+
+              <h3 className="font-serif text-[1.45rem] md:text-2xl text-foreground font-light tracking-[-0.02em] mb-5 leading-[1.2]">
                 {reason.title}
               </h3>
-              <p className="text-[15px] text-foreground/50 leading-[1.8] mt-auto transition-colors duration-300 group-hover:text-foreground/70">
+
+              <p className="text-[13.5px] text-foreground/55 leading-[1.85] mt-auto group-hover:text-foreground/70 transition-colors duration-400">
                 {reason.body}
               </p>
-            </div>
+
+              {/* Bottom row: line + arrow */}
+              <div className="mt-8 flex items-center gap-3">
+                <div className="h-px flex-1 bg-border group-hover:bg-brand/20 transition-colors duration-500" />
+                <span className="text-foreground/20 text-sm group-hover:text-brand/40 group-hover:translate-x-1 transition-all duration-300 ease-out">
+                  →
+                </span>
+              </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
       </div>
     </section>
