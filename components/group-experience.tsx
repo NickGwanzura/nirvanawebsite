@@ -25,8 +25,8 @@ export function GroupExperience() {
             className="relative aspect-[4/5] overflow-hidden"
           >
             <Image
-              src="/images/SECTION.jpg"
-              alt="Group Pilates session at Nirvana"
+              src="/images/group-experience-portrait.png"
+              alt="Beautiful African woman in activewear at Nirvana Pilates"
               fill
               className="object-cover transition-transform duration-700 hover:scale-[1.03]"
             />

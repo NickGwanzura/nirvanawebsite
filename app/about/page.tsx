@@ -216,7 +216,7 @@ export default function AboutPage() {
             viewport={viewportOptions}
             className="grid grid-cols-1 md:grid-cols-2 gap-4"
           >
-            {["/images/about/SKC01880-64.jpg", "/images/about/SKC01881-65.jpg"].map((src, i) => (
+            {["/images/about/about-class-1.png", "/images/about/about-class-2.png"].map((src, i) => (
               <motion.div
                 key={src}
                 variants={i === 0 ? fadeLeft : fadeRight}
