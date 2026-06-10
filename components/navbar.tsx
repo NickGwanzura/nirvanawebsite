@@ -108,7 +108,7 @@ export function Navbar() {
 
             {/* Mobile Hamburger */}
             <button
-              className={`md:hidden p-2 -mr-2 transition-colors ${
+              className={`md:hidden p-2.5 -mr-2 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center ${
                 isTransparent ? "text-white/80 hover:text-white" : "text-foreground/80 hover:text-foreground"
               }`}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -149,7 +149,7 @@ export function Navbar() {
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                className="md:hidden overflow-hidden"
+                className="md:hidden overflow-hidden bg-background"
               >
                 <motion.div
                   initial="hidden"
@@ -158,7 +158,7 @@ export function Navbar() {
                     hidden: {},
                     visible: { transition: { staggerChildren: 0.07, delayChildren: 0.08 } },
                   }}
-                  className="flex flex-col pt-3 pb-6 border-t border-foreground/8 mt-1"
+                  className="flex flex-col pt-3 pb-6 border-t border-foreground/10 mt-1"
                 >
                   {navLinks.map((link) => (
                     <motion.div
@@ -171,7 +171,7 @@ export function Navbar() {
                       <Link
                         href={link.href}
                         onClick={() => setIsMobileMenuOpen(false)}
-                        className={`block py-3 text-[11px] uppercase tracking-[0.2em] font-medium transition-colors ${
+                        className={`block py-3.5 text-[11px] uppercase tracking-[0.2em] font-medium transition-colors ${
                           isActive(link.href) ? "text-foreground" : "text-foreground/50 hover:text-foreground"
                         }`}
                       >
@@ -190,7 +190,7 @@ export function Navbar() {
                       href="/book"
                       variant="dark"
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="w-fit text-[11px] tracking-[0.18em] px-6 py-3"
+                      className="w-fit text-[11px] tracking-[0.18em] px-6 py-3.5"
                     >
                       Book a Session
                     </CtaLink>

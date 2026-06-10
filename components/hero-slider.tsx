@@ -95,7 +95,7 @@ export function HeroSlider() {
             onClick={() => goToSlide(index, index > currentIndex ? "right" : "left")}
             disabled={isTransitioning}
             className={`relative flex items-center justify-center h-11 transition-all duration-500 ${
-              index === currentIndex ? "w-12" : "w-8"
+              index === currentIndex ? "w-12" : "w-11"
             }`}
             aria-label={`Go to slide ${index + 1}`}
           >

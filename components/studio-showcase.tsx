@@ -28,7 +28,7 @@ export function StudioShowcase() {
               variant="dark"
               className="mt-10 text-[11px] tracking-[0.35em] px-10 py-3.5"
             >
-              Meet Noma →
+              Meet Lindiwe →
             </CtaLink>
           </div>
         }

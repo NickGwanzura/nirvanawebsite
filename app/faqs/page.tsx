@@ -226,7 +226,7 @@ export default function FAQsPage() {
       <Navbar />
 
       {/* Hero */}
-      <section className="pt-48 pb-20 px-6 lg:px-8 overflow-hidden">
+      <section className="pt-32 md:pt-48 pb-20 px-6 lg:px-8 overflow-hidden">
         <div className="mx-auto max-w-7xl">
           <motion.div
             variants={staggerContainer}
@@ -264,7 +264,7 @@ export default function FAQsPage() {
             <a
               key={section.id}
               href={`#${section.id}`}
-              className="text-[11px] uppercase tracking-[0.3em] text-foreground/45 hover:text-foreground whitespace-nowrap transition-colors duration-200 py-1"
+              className="text-[11px] uppercase tracking-[0.3em] text-foreground/45 hover:text-foreground whitespace-nowrap transition-colors duration-200 py-2"
             >
               {section.category}
             </a>
@@ -332,7 +332,7 @@ export default function FAQsPage() {
                   initial="hidden"
                   whileInView="visible"
                   viewport={viewportOptions}
-                  className={`scroll-mt-32 ${sectionIndex > 0 ? "mt-20 pt-20 border-t border-border/60" : ""}`}
+                  className={`scroll-mt-24 lg:scroll-mt-32 ${sectionIndex > 0 ? "mt-16 pt-16 lg:mt-20 lg:pt-20 border-t border-border/60" : ""}`}
                 >
                   {/* Section header */}
                   <motion.div variants={fadeUp} className="flex items-baseline justify-between mb-10">

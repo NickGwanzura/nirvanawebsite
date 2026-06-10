@@ -44,7 +44,7 @@ export default function AboutPage() {
               Our Story
             </motion.p>
             <motion.h1 variants={fadeUp} className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-light leading-[0.95] tracking-[-0.02em] text-foreground mb-10">
-              Meet Noma
+              Meet Lindiwe
             </motion.h1>
             <motion.p variants={fadeUp} className="text-lg md:text-xl text-foreground/55 leading-relaxed max-w-2xl">
               The heart and soul behind Nirvana Pilates Studio, dedicated to bringing mindful movement and holistic wellness to Bulawayo.
@@ -92,8 +92,8 @@ export default function AboutPage() {
               </motion.h2>
               <motion.div variants={staggerContainer} className="space-y-6 text-foreground/60 leading-[1.85]">
                 {[
-                  "Noma discovered Pilates during a pivotal moment in her life, seeking balance amidst the demands of modern living. What began as a personal practice quickly evolved into a profound passion for helping others discover the transformative power of mindful movement.",
-                  "After years of dedicated study and certification from internationally recognised Pilates institutions, Noma returned to her home city of Bulawayo with a vision: to create a sanctuary where movement becomes meditation, and where every body is welcomed and celebrated.",
+                  "Lindiwe discovered Pilates during a pivotal moment in her life, seeking balance amidst the demands of modern living. What began as a personal practice quickly evolved into a profound passion for helping others discover the transformative power of mindful movement.",
+                  "After years of dedicated study and certification from internationally recognised Pilates institutions, Lindiwe returned to her home city of Bulawayo with a vision: to create a sanctuary where movement becomes meditation, and where every body is welcomed and celebrated.",
                   "Her teaching philosophy centres on the belief that Pilates is not merely exercise, but a practice of self-care that nurtures both physical strength and mental clarity.",
                 ].map((text, i) => (
                   <motion.p key={i} variants={fadeUp} className="text-[15px]">
@@ -134,7 +134,7 @@ export default function AboutPage() {
               Movement should feel like a gift you give yourself, not a punishment for what you ate.
             </motion.blockquote>
             <motion.p variants={fadeUp} className="text-foreground/40 tracking-[0.2em] text-[13px] uppercase">
-              Noma
+              Lindiwe
             </motion.p>
           </motion.div>
         </div>
@@ -268,7 +268,7 @@ export default function AboutPage() {
               Ready to experience<br />Nirvana?
             </motion.h2>
             <motion.p variants={fadeUp} className="text-background/55 max-w-lg mx-auto mb-14 leading-relaxed text-lg">
-              Join Noma and our community of mindful movers. Your first session is the beginning of something beautiful.
+              Join Lindiwe and our community of mindful movers. Your first session is the beginning of something beautiful.
             </motion.p>
             <motion.div variants={scaleIn}>
               <Link

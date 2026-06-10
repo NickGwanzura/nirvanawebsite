@@ -68,7 +68,7 @@ export function Footer() {
                   href="https://wa.me/263719140346"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center px-8 py-4 text-[11px] tracking-[0.3em] uppercase font-medium text-background/55 border border-background/20 hover:border-background/50 hover:text-background transition-all duration-400 w-fit"
+                  className="inline-flex items-center justify-center px-8 py-4 text-[11px] tracking-[0.3em] uppercase font-medium text-background/55 border border-background/20 hover:border-background/50 hover:text-background transition-all duration-500 w-fit min-h-[44px]"
                 >
                   WhatsApp Us
                 </a>
@@ -96,7 +96,7 @@ export function Footer() {
           >
             <Link href="/" className="inline-flex select-none items-center group text-background w-fit">
               <Logo
-                className="h-6 lg:h-8 w-18 lg:w-24 transition-opacity duration-300 group-hover:opacity-50"
+                className="h-6 lg:h-8 w-20 lg:w-24 transition-opacity duration-300 group-hover:opacity-50"
                 fill="currentColor"
               />
             </Link>
@@ -120,15 +120,15 @@ export function Footer() {
 
             {/* Studio */}
             <motion.div variants={fadeUp}>
-              <p className="text-[10px] uppercase tracking-[0.45em] text-background/30 mb-6 font-medium">
+              <p className="text-[11px] uppercase tracking-[0.3em] text-background/30 mb-6 font-medium">
                 Studio
               </p>
-              <nav className="flex flex-col gap-3.5">
+              <nav className="flex flex-col gap-1">
                 {studioLinks.map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
-                    className="text-[13px] text-background/50 hover:text-background transition-colors duration-300 w-fit"
+                    className="text-[13px] text-background/50 hover:text-background transition-colors duration-300 w-fit py-2"
                   >
                     {link.label}
                   </Link>
@@ -138,15 +138,15 @@ export function Footer() {
 
             {/* Support */}
             <motion.div variants={fadeUp}>
-              <p className="text-[10px] uppercase tracking-[0.45em] text-background/30 mb-6 font-medium">
+              <p className="text-[11px] uppercase tracking-[0.3em] text-background/30 mb-6 font-medium">
                 Support
               </p>
-              <nav className="flex flex-col gap-3.5">
+              <nav className="flex flex-col gap-1">
                 {supportLinks.map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
-                    className="text-[13px] text-background/50 hover:text-background transition-colors duration-300 w-fit"
+                    className="text-[13px] text-background/50 hover:text-background transition-colors duration-300 w-fit py-2"
                   >
                     {link.label}
                   </Link>
@@ -156,13 +156,13 @@ export function Footer() {
 
             {/* Contact */}
             <motion.div variants={fadeUp} className="col-span-2 sm:col-span-1">
-              <p className="text-[10px] uppercase tracking-[0.45em] text-background/30 mb-6 font-medium">
+              <p className="text-[11px] uppercase tracking-[0.3em] text-background/30 mb-6 font-medium">
                 Contact
               </p>
-              <div className="flex flex-col gap-3.5">
+              <div className="flex flex-col gap-1">
                 <a
                   href="tel:+263719140346"
-                  className="text-[13px] text-background/50 hover:text-background transition-colors duration-300 w-fit"
+                  className="text-[13px] text-background/50 hover:text-background transition-colors duration-300 w-fit py-2"
                 >
                   +263 719 140 346
                 </a>
@@ -170,7 +170,7 @@ export function Footer() {
                   href="https://wa.me/263719140346"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[13px] text-background/50 hover:text-background transition-colors duration-300 w-fit"
+                  className="text-[13px] text-background/50 hover:text-background transition-colors duration-300 w-fit py-2"
                 >
                   WhatsApp
                 </a>
@@ -178,7 +178,7 @@ export function Footer() {
                   href="https://www.instagram.com/nirvanapilatesbyo"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[13px] text-background/50 hover:text-background transition-colors duration-300 w-fit"
+                  className="text-[13px] text-background/50 hover:text-background transition-colors duration-300 w-fit py-2"
                 >
                   Instagram
                 </a>
@@ -204,12 +204,12 @@ export function Footer() {
       >
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-5">
-            <p className="text-[10px] tracking-[0.15em] text-background/30 uppercase">
+            <p className="text-[11px] tracking-[0.15em] text-background/30 uppercase">
               © {currentYear} Nirvana Pilates Studio
             </p>
             <Link
               href="/privacy"
-              className="text-[10px] tracking-[0.15em] text-background/22 hover:text-background/50 uppercase transition-colors duration-300"
+              className="text-[11px] tracking-[0.15em] text-background/30 hover:text-background/50 uppercase transition-colors duration-300 py-2"
             >
               Privacy
             </Link>

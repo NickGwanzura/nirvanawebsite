@@ -19,7 +19,7 @@ const eveningSlots = ["16:30", "17:30"]
 const timeSlots = [...morningSlots, ...eveningSlots]
 
 const maxCapacity: Record<string, number> = {
-  standard: 8,
+  standard: 6,
   "semi-private": 2,
   private: 1,
   corporate: 20,
@@ -393,6 +393,19 @@ export default function BookingPage() {
                     >
                       Continue
                     </button>
+
+                    {/* Mobile Continue */}
+                    <button
+                      onClick={handleContinue}
+                      disabled={!selectedTime || slotsLoading}
+                      className={`md:hidden w-full py-4 text-[11px] uppercase tracking-[0.25em] font-medium transition-colors ${
+                        selectedTime && !slotsLoading
+                          ? "bg-foreground text-background hover:bg-foreground/90"
+                          : "bg-muted text-foreground/30 cursor-not-allowed"
+                      }`}
+                    >
+                      Continue
+                    </button>
                   </>
                 ) : (
                   <div className="py-20 text-center text-foreground/40">
@@ -626,10 +639,16 @@ export default function BookingPage() {
       {step === "calendar" && selectedTime && (
         <div className="md:hidden fixed bottom-0 inset-x-0 z-40 p-4 bg-background border-t border-border">
           <button
+            type="button"
             onClick={handleContinue}
-            className="w-full py-4 bg-foreground text-background text-[11px] uppercase tracking-[0.25em] font-medium"
+            disabled={slotsLoading}
+            className={`w-full py-4 text-[11px] uppercase tracking-[0.25em] font-medium transition-colors ${
+              !slotsLoading
+                ? "bg-foreground text-background hover:bg-foreground/90"
+                : "bg-muted text-foreground/30 cursor-not-allowed"
+            }`}
           >
-            Continue →
+            {slotsLoading ? "Loading…" : "Continue →"}
           </button>
         </div>
       )}

@@ -80,7 +80,7 @@ export function Schedule() {
                   >
                     <Link
                       href="/book"
-                      className="text-[15px] text-foreground/70 tabular-nums tracking-wide hover:text-brand transition-colors duration-200"
+                      className="inline-block py-2 text-[15px] text-foreground/70 tabular-nums tracking-wide hover:text-brand transition-colors duration-200"
                     >
                       {time}
                     </Link>

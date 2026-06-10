@@ -5,7 +5,7 @@ import type { ComponentProps } from "react"
 type Variant = "dark" | "light" | "outline"
 
 const base =
-  "group relative inline-flex items-center justify-center overflow-hidden uppercase font-medium transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+  "group relative inline-flex items-center justify-center overflow-hidden uppercase font-medium transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 min-h-[44px] min-w-[44px]"
 
 const variantClasses: Record<Variant, string> = {
   dark: "bg-foreground text-background hover:bg-foreground/85 focus-visible:ring-offset-background",

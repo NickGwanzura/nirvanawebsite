@@ -118,7 +118,7 @@ export function Hero() {
           className="absolute top-[88px] left-6 lg:left-8 flex items-center gap-2"
         >
           <div className="w-4 h-px bg-white/25" />
-          <span className="text-[9px] uppercase tracking-[0.45em] text-white/30">Est. 2024</span>
+          <span className="text-[10px] uppercase tracking-[0.4em] text-white/30">Est. 2024</span>
         </motion.div>
       </motion.div>
 
@@ -206,7 +206,7 @@ export function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 2, duration: 0.6 }}
-          className="text-[9px] uppercase tracking-[0.45em] text-white/30"
+          className="text-[10px] uppercase tracking-[0.4em] text-white/30"
         >
           Scroll
         </motion.span>

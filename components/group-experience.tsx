@@ -5,7 +5,7 @@ import { motion } from "framer-motion"
 import { fadeUp, fadeLeft, fadeRight, staggerContainer, viewportOptions } from "@/lib/animations"
 
 const stats = [
-  { number: "8", label: "Max class size" },
+  { number: "6", label: "Max class size" },
   { number: "50", label: "Minutes" },
   { number: "5+", label: "Years" },
 ]
@@ -14,7 +14,7 @@ export function GroupExperience() {
   return (
     <section className="py-20 md:py-32 lg:py-40 bg-secondary/40 overflow-hidden">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 lg:gap-32 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-20 lg:gap-32 items-center">
 
           {/* Image */}
           <motion.div
@@ -57,7 +57,7 @@ export function GroupExperience() {
             {/* Stats */}
             <motion.div
               variants={staggerContainer}
-              className="mt-20 flex gap-10 md:gap-16 lg:gap-20"
+              className="mt-20 flex flex-wrap gap-10 md:gap-16 lg:gap-20"
             >
               {stats.map((stat) => (
                 <motion.div key={stat.label} variants={fadeUp}>

@@ -85,7 +85,7 @@ export function MonthlyBundles() {
                   {bundle.frequency}
                 </span>
                 {bundle.recommended && (
-                  <span className="hidden sm:inline text-[10px] uppercase tracking-[0.3em] text-brand border border-brand/40 px-2 py-0.5">
+                  <span className="text-[10px] uppercase tracking-[0.3em] text-brand border border-brand/40 px-2 py-0.5">
                     Popular
                   </span>
                 )}
@@ -95,15 +95,15 @@ export function MonthlyBundles() {
               <div className="flex items-baseline gap-8 sm:gap-10">
                 <div className="text-center">
                   <div className="font-serif text-2xl text-foreground font-light">{bundle.sessions}</div>
-                  <div className="text-[10px] uppercase tracking-[0.25em] text-foreground/40 mt-1">sessions</div>
+                  <div className="text-[11px] uppercase tracking-[0.2em] text-foreground/40 mt-1">sessions</div>
                 </div>
                 <div className="text-center">
                   <div className="text-[13px] text-foreground/50">{bundle.perSession}</div>
-                  <div className="text-[10px] uppercase tracking-[0.25em] text-foreground/40 mt-1">per session</div>
+                  <div className="text-[11px] uppercase tracking-[0.2em] text-foreground/40 mt-1">per session</div>
                 </div>
                 <div className="text-center">
                   <div className="font-serif text-3xl text-brand font-light">{bundle.price}</div>
-                  <div className="text-[10px] uppercase tracking-[0.25em] text-foreground/40 mt-1">per month</div>
+                  <div className="text-[11px] uppercase tracking-[0.2em] text-foreground/40 mt-1">per month</div>
                 </div>
               </div>
             </motion.div>

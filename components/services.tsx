@@ -17,7 +17,7 @@ const services: {
     title: "Standard",
     price: "$15",
     duration: "45–50 min",
-    description: "Join a standard group class of up to 8. A focused, instructor-led session open to all levels.",
+    description: "Join a standard group class of up to 6. A focused, instructor-led session open to all levels.",
   },
   {
     icon: UserPlus,
@@ -94,7 +94,7 @@ export function Services() {
               />
 
               {/* Price eyebrow */}
-              <span className="block text-[10px] tracking-[0.45em] text-brand/55 mb-5 font-medium uppercase">
+              <span className="block text-[11px] tracking-[0.35em] text-brand/55 mb-5 font-medium uppercase">
                 {service.price} · {service.duration}
               </span>
 

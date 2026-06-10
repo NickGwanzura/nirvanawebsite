@@ -34,7 +34,7 @@ export const ContainerScroll = ({
     return (
       <div className="flex flex-col items-center px-6 py-20">
         <div className="w-full text-center mb-10">{titleComponent}</div>
-        <div className="w-full overflow-hidden rounded-2xl">{children}</div>
+        <div className="w-full overflow-hidden rounded-2xl aspect-video relative">{children}</div>
       </div>
     );
   }

@@ -16,8 +16,8 @@ const services = [
     title: "Standard",
     price: "$15",
     duration: "45–50 min",
-    capacity: "Up to 8",
-    description: "Join a standard group class of up to 8. A focused, instructor-led session open to all levels.",
+    capacity: "Up to 6",
+    description: "Join a standard group class of up to 6. A focused, instructor-led session open to all levels.",
   },
   {
     icon: UserPlus,
@@ -82,7 +82,7 @@ export default function ClassesPage() {
       <Navbar />
 
       {/* Hero */}
-      <section className="pt-48 pb-20 px-6 lg:px-8 overflow-hidden">
+      <section className="pt-32 md:pt-48 pb-20 px-6 lg:px-8 overflow-hidden">
         <div className="mx-auto max-w-7xl">
           <motion.div
             variants={staggerContainer}
