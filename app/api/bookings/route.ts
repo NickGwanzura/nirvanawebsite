@@ -4,10 +4,14 @@ import Booking from '@/models/Booking'
 import { getExpectedAdminToken } from '@/lib/admin-auth'
 
 async function isAdminRequest(request: NextRequest): Promise<boolean> {
-  const token = request.cookies.get('admin_token')?.value
-  if (!token) return false
-  const expected = await getExpectedAdminToken()
-  return token === expected
+  try {
+    const token = request.cookies.get('admin_token')?.value
+    if (!token) return false
+    const expected = await getExpectedAdminToken()
+    return token === expected
+  } catch {
+    return false
+  }
 }
 
 // GET /api/bookings - Admin only: returns all bookings

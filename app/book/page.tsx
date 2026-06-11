@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { ArrowLeft, ChevronLeft, ChevronRight, Check, MessageCircle, RefreshCw } from "lucide-react"
-import { createBooking, getBookings, getWhatsAppLink, type Booking } from "@/lib/booking-store"
+import { createBooking, getAvailability, getWhatsAppLink, type Booking } from "@/lib/booking-store"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 
@@ -84,8 +84,21 @@ export default function BookingPage() {
     if (!selectedDate) return
     const dateStr = toDateStr(selectedDate)
     setSlotsLoading(true)
-    getBookings().then((all) => {
-      setBookedSlots(all.filter((b) => b.date === dateStr))
+    getAvailability(dateStr).then((counts) => {
+      // Convert availability counts to Booking-like objects for compatibility
+      const mapped: Booking[] = counts.map((c) => ({
+        _id: `${c.time}-${c.sessionType}`,
+        name: '',
+        email: '',
+        phone: '',
+        date: dateStr,
+        time: c.time,
+        sessionType: c.sessionType as Booking['sessionType'],
+        notes: '',
+        status: 'confirmed',
+        createdAt: new Date(),
+      }))
+      setBookedSlots(mapped)
     }).finally(() => setSlotsLoading(false))
   }, [selectedDate])
 
