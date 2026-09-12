@@ -22,12 +22,19 @@ export function Navbar() {
   const pathname = usePathname()
 
   const isHome = pathname === "/"
-  const isTransparent = isHome && !isScrolled
+  const isTransparent = isHome && !isScrolled && !isMobileMenuOpen
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50)
-    window.addEventListener("scroll", handleScroll)
+    handleScroll()
+    window.addEventListener("scroll", handleScroll, { passive: true })
     return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  useEffect(() => {
+    const close = (event: KeyboardEvent) => { if (event.key === "Escape") setIsMobileMenuOpen(false) }
+    window.addEventListener("keydown", close)
+    return () => window.removeEventListener("keydown", close)
   }, [])
 
   const isActive = (href: string) => {
@@ -38,7 +45,7 @@ export function Navbar() {
   return (
     <>
       <motion.header
-        initial={{ y: -20, opacity: 0 }}
+        initial={false}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out ${
@@ -65,7 +72,7 @@ export function Navbar() {
               {navLinks.map((link, i) => (
                 <motion.div
                   key={link.href}
-                  initial={{ opacity: 0, y: -8 }}
+                  initial={false}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.05 * i + 0.2, duration: 0.5, ease: "easeOut" }}
                 >
@@ -73,8 +80,8 @@ export function Navbar() {
                     href={link.href}
                     className={`relative text-[11px] uppercase tracking-[0.2em] font-medium group transition-colors duration-300 ${
                       isTransparent
-                        ? isActive(link.href) ? "text-white" : "text-white/60 hover:text-white"
-                        : isActive(link.href) ? "text-foreground" : "text-foreground/50 hover:text-foreground"
+                        ? isActive(link.href) ? "text-white" : "text-white/85 hover:text-white"
+                        : isActive(link.href) ? "text-foreground" : "text-foreground/70 hover:text-foreground"
                     }`}
                   >
                     {link.label}
@@ -91,7 +98,7 @@ export function Navbar() {
             {/* Right — CTA + Admin */}
             <div className="hidden md:flex md:items-center md:gap-4">
               <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
+                initial={false}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.5, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
               >
@@ -112,7 +119,9 @@ export function Navbar() {
                 isTransparent ? "text-white/80 hover:text-white" : "text-foreground/80 hover:text-foreground"
               }`}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              aria-label="Toggle menu"
+              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-navigation"
             >
               <AnimatePresence mode="wait" initial={false}>
                 {isMobileMenuOpen ? (
@@ -145,6 +154,7 @@ export function Navbar() {
             {isMobileMenuOpen && (
               <motion.div
                 key="mobile-menu"
+                id="mobile-navigation"
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
@@ -172,7 +182,7 @@ export function Navbar() {
                         href={link.href}
                         onClick={() => setIsMobileMenuOpen(false)}
                         className={`block py-3.5 text-[11px] uppercase tracking-[0.2em] font-medium transition-colors ${
-                          isActive(link.href) ? "text-foreground" : "text-foreground/50 hover:text-foreground"
+                          isActive(link.href) ? "text-foreground" : "text-foreground/70 hover:text-foreground"
                         }`}
                       >
                         {link.label}

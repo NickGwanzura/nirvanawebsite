@@ -39,7 +39,7 @@ export function Hero() {
     <section
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      className="relative min-h-[100svh] py-40 flex items-center justify-center overflow-hidden"
     >
 
       {/* ── LAYER 0: Background slider — extends beyond edges for parallax room ── */}
@@ -129,7 +129,7 @@ export function Hero() {
       >
         {/* Eyebrow */}
         <motion.p
-          initial={{ opacity: 0, y: 12 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
           className="text-[11px] uppercase tracking-[0.6em] pl-[0.6em] text-white/60 mb-12"
@@ -138,7 +138,7 @@ export function Hero() {
         </motion.p>
 
         {/* H1 — word-by-word clip reveal */}
-        <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[7.5rem] text-white leading-[1.05] tracking-[-0.02em] font-light">
+        <h1 aria-label="Find your balance" className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[7.5rem] text-white leading-[1.05] tracking-[-0.02em] font-light">
           {WORDS.map((word, i) => (
             <span
               key={word}
@@ -146,7 +146,7 @@ export function Hero() {
             >
               <motion.span
                 className="inline-block"
-                initial={{ y: "115%", opacity: 0.4 }}
+                initial={false}
                 animate={{ y: "0%", opacity: 1 }}
                 transition={{
                   duration: 1.15,
@@ -162,17 +162,18 @@ export function Hero() {
 
         {/* Subline */}
         <motion.p
-          initial={{ opacity: 0, y: 18 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.9 }}
           className="mt-10 text-base md:text-lg text-white/70 max-w-xs mx-auto font-light leading-relaxed tracking-wide"
         >
-          A refined Pilates experience
+          Expert-led Pilates in Hillside, Bulawayo.
+          Small classes. All levels welcome.
         </motion.p>
 
         {/* CTAs */}
         <motion.div
-          initial={{ opacity: 0, y: 18 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 1.05 }}
           className="mt-14 flex flex-col sm:flex-row items-center justify-center gap-4"
@@ -186,7 +187,7 @@ export function Hero() {
           </CtaLink>
           <a
             href="#classes"
-            className="text-[11px] uppercase tracking-[0.35em] text-white/50 hover:text-white/80 transition-colors duration-300 h-14 flex items-center px-4"
+            className="text-[11px] uppercase tracking-[0.35em] text-white/85 hover:text-white transition-colors duration-300 h-14 flex items-center px-4"
           >
             Explore classes
           </a>
@@ -199,7 +200,7 @@ export function Hero() {
         animate={{ opacity: 1, scaleY: 1 }}
         transition={{ duration: 1.2, delay: 1.5, ease: [0.22, 1, 0.36, 1] }}
         style={{ originY: 0 }}
-        className="absolute bottom-14 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-3"
+        className="absolute bottom-6 hidden sm:flex left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-3"
       >
         <div className="w-px h-16 bg-gradient-to-b from-white/35 to-transparent" />
         <motion.span

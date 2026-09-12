@@ -4,7 +4,8 @@ import { Footer } from "@/components/footer"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | Nirvana Pilates Studio",
+  title: "Privacy Policy",
+  alternates: { canonical: "/privacy" },
   description: "How Nirvana Pilates Studio collects and uses your information.",
 }
 

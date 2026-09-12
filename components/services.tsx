@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { motion } from "framer-motion"
 import { Users, UserCheck, UserPlus, Building2 } from "lucide-react"
 import { fadeUp, staggerContainer, viewportOptions } from "@/lib/animations"
@@ -94,7 +95,7 @@ export function Services() {
               />
 
               {/* Price eyebrow */}
-              <span className="block text-[11px] tracking-[0.35em] text-brand/55 mb-5 font-medium uppercase">
+              <span className="block text-[11px] tracking-[0.35em] text-brand mb-5 font-medium uppercase">
                 {service.price} · {service.duration}
               </span>
 
@@ -102,17 +103,18 @@ export function Services() {
                 {service.title}
               </h3>
 
-              <p className="text-[13.5px] text-foreground/55 leading-[1.85] mt-auto group-hover:text-foreground/70 transition-colors duration-300">
+              <p className="text-[13.5px] text-foreground/75 leading-[1.85] mt-auto group-hover:text-foreground/70 transition-colors duration-300">
                 {service.description}
               </p>
 
               {/* Bottom: expanding line + arrow */}
-              <div className="mt-8 flex items-center gap-3">
+              <Link href={service.title === "Corporate" ? "/classes" : "/book"} aria-label={`Explore ${service.title.toLowerCase()} sessions`} className="mt-8 min-h-11 flex items-center gap-3 text-sm text-brand">
+                <span>{service.title === "Corporate" ? "Explore sessions" : "Book a session"}</span>
                 <div className="h-px flex-1 bg-border group-hover:bg-brand/20 transition-colors duration-500" />
                 <span className="text-foreground/20 text-sm group-hover:text-brand/40 group-hover:translate-x-1 transition-all duration-300 ease-out">
                   →
                 </span>
-              </div>
+              </Link>
             </motion.div>
           ))}
         </motion.div>

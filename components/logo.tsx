@@ -1,7 +1,9 @@
-export function Logo({ className, fill = "#1a1a1a" }: { className?: string; fill?: string }) {
+export function Logo({ className, fill = "#1a1a1a", viewBox = "30 145 780 220" }: { className?: string; fill?: string; viewBox?: string }) {
   return (
     <svg
-      viewBox="0 0 841.89 595.28"
+      width="100%"
+      height="100%"
+      viewBox={viewBox}
       xmlns="http://www.w3.org/2000/svg"
       preserveAspectRatio="xMidYMid meet"
       className={className}

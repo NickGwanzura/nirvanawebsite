@@ -19,7 +19,7 @@ const dmSans = DM_Sans({
   display: 'swap',
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://nirvanapilatesbyo.com'
+const siteUrl = 'https://nirvanastudiozw.com'
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -50,9 +50,11 @@ export const metadata: Metadata = {
     locale: 'en_ZW',
     siteName: 'Nirvana Pilates Studio',
     url: siteUrl,
+    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Nirvana Pilates Studio — Hillside, Bulawayo' }],
   },
   twitter: {
     card: 'summary_large_image',
+    images: ['/opengraph-image'],
     title: 'Nirvana Pilates Studio | Hillside, Bulawayo',
     description: 'A refined STOTT Pilates experience in Hillside, Bulawayo. Book your session today.',
   },
@@ -70,20 +72,15 @@ const jsonLd = {
   telephone: '+263719140346',
   address: {
     '@type': 'PostalAddress',
-    streetAddress: 'Hillside',
+    streetAddress: '26 Moffat Street, Hillside',
     addressLocality: 'Bulawayo',
     addressCountry: 'ZW',
-  },
-  geo: {
-    '@type': 'GeoCoordinates',
-    latitude: '-20.1719',
-    longitude: '28.5813',
   },
   openingHoursSpecification: [
     {
       '@type': 'OpeningHoursSpecification',
       dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-      opens: '06:00',
+      opens: '07:00',
       closes: '18:00',
     },
     {
@@ -94,7 +91,8 @@ const jsonLd = {
     },
   ],
   priceRange: '$$',
-  image: `${siteUrl}/images/studio-showcase.png`,
+  image: `${siteUrl}/opengraph-image`,
+  logo: `${siteUrl}/images/logo.svg`,
   sameAs: [
     'https://www.instagram.com/nirvanapilatesbyo',
   ],
