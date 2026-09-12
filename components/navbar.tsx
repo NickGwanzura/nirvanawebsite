@@ -64,7 +64,7 @@ export function Navbar() {
                 isTransparent ? "text-white" : "text-foreground"
               }`}
             >
-              <Logo className="h-7 lg:h-10 w-24 lg:w-36" fill="currentColor" />
+              <Logo className="h-10 w-36 lg:h-14 lg:w-48" fill="currentColor" />
             </Link>
 
             {/* Desktop Nav */}
