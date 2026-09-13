@@ -1,0 +1,2 @@
+export const subscriptionPolicy = 'Your monthly subscription starts on the day you pay and ends on the same date the following month. Unused sessions may be used for up to one week after the subscription month ends; the extension does not go beyond that week.'
+export const latenessPolicy = 'A five-minute grace period is allowed. For safety and to avoid disrupting the flow of other clients, anyone arriving more than five minutes late will not be allowed to join the class. The full session fee is still payable, or one session will be deducted from your subscription.'

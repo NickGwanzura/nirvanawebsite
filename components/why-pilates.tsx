@@ -4,26 +4,10 @@ import { motion } from "framer-motion"
 import { fadeUp, staggerContainer, viewportOptions } from "@/lib/animations"
 
 const reasons = [
-  {
-    number: "01",
-    title: "Builds deep strength",
-    body: "Pilates targets the stabilising muscles that conventional training misses, creating functional strength that protects your spine, joints, and posture from the inside out.",
-  },
-  {
-    number: "02",
-    title: "Restores your posture",
-    body: "Hours at a desk rewire your body into imbalance. Pilates systematically corrects these patterns, realigning your body so you stand, sit, and move with ease.",
-  },
-  {
-    number: "03",
-    title: "Clears your mind",
-    body: "Every session demands complete presence. The focused, breath-led movement quiets mental noise and leaves you sharper, calmer, and more grounded.",
-  },
-  {
-    number: "04",
-    title: "A practice for life",
-    body: "Unlike high-impact training, Pilates works with your body, not against it. Adaptable to every age, fitness level, and stage of life, it is a practice you can return to forever.",
-  },
+  { number: "01", title: "Rehabilitation", body: "Controlled, guided movement to support your rehabilitation journey." },
+  { number: "02", title: "Core strength & stability", body: "Focused exercises for core strengthening, tightening, and stability." },
+  { number: "03", title: "Spinal & posture correction", body: "Mindful movement with a focus on spinal alignment and posture." },
+  { number: "04", title: "Muscle toning", body: "Purposeful resistance and controlled movement to strengthen and tone your muscles." },
 ]
 
 export function WhyPilates() {
@@ -48,7 +32,7 @@ export function WhyPilates() {
             </motion.h2>
           </div>
           <motion.p variants={fadeUp} className="text-foreground/55 text-base max-w-xs leading-relaxed md:text-right md:pb-1">
-            Four reasons our clients keep coming back, session after session.
+            Four reasons to practise Pilates, just to mention a few.
           </motion.p>
         </motion.div>
 

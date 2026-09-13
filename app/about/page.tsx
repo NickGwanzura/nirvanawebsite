@@ -68,7 +68,7 @@ export default function AboutPage() {
             >
               <Image
                 src="/images/noma.jpg"
-                alt="Noma, founder of Nirvana Pilates Studio"
+                alt="Lindiwe, founder of Nirvana Pilates Studio"
                 fill
                 className="object-cover transition-transform duration-700 hover:scale-[1.02]"
                 priority
@@ -93,7 +93,7 @@ export default function AboutPage() {
               <motion.div variants={staggerContainer} className="space-y-6 text-foreground/60 leading-[1.85]">
                 {[
                   "Lindiwe discovered Pilates during a pivotal moment in her life, seeking balance amidst the demands of modern living. What began as a personal practice quickly evolved into a profound passion for helping others discover the transformative power of mindful movement.",
-                  "After years of dedicated study and certification from internationally recognised Pilates institutions, Lindiwe returned to her home city of Bulawayo with a vision: to create a sanctuary where movement becomes meditation, and where every body is welcomed and celebrated.",
+                  "After studying and earning her STOTT Pilates qualification, Lindiwe set out with a vision: to create a sanctuary where movement becomes meditation, and where every body is welcomed and celebrated.",
                   "Her teaching philosophy centres on the belief that Pilates is not merely exercise, but a practice of self-care that nurtures both physical strength and mental clarity.",
                 ].map((text, i) => (
                   <motion.p key={i} variants={fadeUp} className="text-[15px]">

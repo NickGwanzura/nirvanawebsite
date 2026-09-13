@@ -108,7 +108,8 @@ export function Footer() {
             <div className="flex flex-col gap-1.5 text-[12px] text-background/30 leading-[1.9]">
               <span>26 Moffat Street, Hillside</span>
               <span>Bulawayo, Zimbabwe</span>
-              <span className="mt-1">Mon – Sat · 07:00 to 18:00</span>
+              <span className="mt-1">Mon – Fri · 7, 8, 9 am &amp; 4:30, 5:30 pm</span>
+              <span>Sat · 7, 8, 9, 10 am</span>
             </div>
           </motion.div>
 

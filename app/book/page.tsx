@@ -1,5 +1,6 @@
 "use client"
 
+import { subscriptionPolicy, latenessPolicy } from "@/lib/studio-policies"
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { ArrowLeft, ChevronLeft, ChevronRight, Check, MessageCircle, RefreshCw } from "lucide-react"
@@ -16,7 +17,7 @@ const sessionTypes = [
 
 const morningSlots = ["07:00", "08:00", "09:00"]
 const eveningSlots = ["16:30", "17:30"]
-const timeSlots = [...morningSlots, ...eveningSlots]
+const saturdaySlots = [...morningSlots, "10:00"]
 
 const maxCapacity: Record<string, number> = {
   standard: 6,
@@ -110,7 +111,7 @@ export default function BookingPage() {
   const isDateSelectable = (day: number) => {
     const date = new Date(year, month, day)
     date.setHours(0, 0, 0, 0)
-    return date >= today
+    return date >= today && date.getDay() !== 0
   }
 
   const getSlotAvailability = (time: string) => {
@@ -381,7 +382,7 @@ export default function BookingPage() {
                       </div>
                     ) : (
                       <div className="mb-12">
-                        <SlotGroup label="Morning · Mon – Sat" slots={morningSlots} />
+                        <SlotGroup label={selectedDate.getDay() === 6 ? "Saturday morning" : "Morning · Mon – Fri"} slots={selectedDate.getDay() === 6 ? saturdaySlots : morningSlots} />
                         <SlotGroup
                           label="Evening · Mon – Fri"
                           slots={eveningSlots}
@@ -555,6 +556,13 @@ export default function BookingPage() {
                     </p>
                   </div>
                 </div>
+
+                <section aria-label="Studio policies" className="mt-8 border-t border-border pt-6 space-y-4 text-sm text-foreground/75 leading-relaxed">
+                  <h3 className="font-serif text-2xl text-foreground">Studio policies</h3>
+                  <p><strong>Monthly subscriptions. </strong>{subscriptionPolicy}</p>
+                  <p><strong>Lateness. </strong>{latenessPolicy}</p>
+                  <Link href="/faqs#booking" className="inline-block underline underline-offset-4">Read booking and cancellation policies</Link>
+                </section>
 
                 {submitError && (
                   <p className="mt-6 text-[13px] text-foreground/60 italic text-center">{submitError}</p>

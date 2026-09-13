@@ -9,13 +9,14 @@ const scheduleData = [
   {
     period: "Morning",
     times: ["07:00", "08:00", "09:00"],
-    days: "Mon – Sat",
+    days: "Mon – Fri",
   },
   {
     period: "Evening",
     times: ["16:30", "17:30"],
     days: "Mon – Fri",
   },
+  { period: "Saturday", times: ["07:00", "08:00", "09:00", "10:00"], days: "Morning" },
 ]
 
 export function Schedule() {

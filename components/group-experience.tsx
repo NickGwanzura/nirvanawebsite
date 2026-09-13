@@ -7,7 +7,7 @@ import { fadeUp, fadeLeft, fadeRight, staggerContainer, viewportOptions } from "
 const stats = [
   { number: "6", label: "Max class size" },
   { number: "50", label: "Minutes" },
-  { number: "5+", label: "Years" },
+  { number: "STOTT", label: "Pilates qualification" },
 ]
 
 export function GroupExperience() {

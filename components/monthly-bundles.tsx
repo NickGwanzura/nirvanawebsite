@@ -129,7 +129,7 @@ export function MonthlyBundles() {
           className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-6"
         >
           <motion.p variants={fadeUp} className="text-[13px] text-foreground/50 tracking-wide">
-            Standard classes only · Bundles reset monthly · No carry-over
+            Standard classes only · Monthly from your payment date · One-week extension for unused sessions
           </motion.p>
           <motion.div variants={fadeUp}>
             <CtaLink

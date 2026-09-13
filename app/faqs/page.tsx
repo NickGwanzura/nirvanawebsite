@@ -1,5 +1,7 @@
 "use client"
 
+import { subscriptionPolicy, latenessPolicy } from "@/lib/studio-policies"
+
 import { useState } from "react"
 import { Plus } from "lucide-react"
 import { Navbar } from "@/components/navbar"
@@ -98,7 +100,7 @@ const faqs = [
       },
       {
         q: "What happens if I arrive late?",
-        a: "If you arrive more than 5 minutes after a class has started, you will not be admitted. Late entry disrupts the session for everyone and poses a safety risk, as warming up properly is essential on the reformer. A late arrival will be treated as a cancellation and no refund or credit will be issued.",
+        a: latenessPolicy,
       },
       {
         q: "What is your no-show policy?",
@@ -124,7 +126,7 @@ const faqs = [
     questions: [
       {
         q: "What are the core studio rules?",
-        a: "Please arrive on time. Grip socks are required. Phones must be silenced and put away during sessions. No food is permitted in the studio. Do not enter a session already in progress. Move mindfully and respectfully of the space and other clients. Your body is your responsibility — always work within your limits.",
+        a: "Please arrive on time. Grip socks are required. Phones must be silenced and put away during sessions. No food is permitted in the studio. A five-minute grace period applies; after that, you cannot join the class. Move mindfully and respectfully of the space and other clients. Your body is your responsibility — always work within your limits.",
       },
       {
         q: "Why are grip socks required?",
@@ -170,7 +172,7 @@ const faqs = [
       },
       {
         q: "What are the terms of the monthly bundles?",
-        a: "Bundles are valid for one calendar month from the date of purchase. Unused sessions do not carry over to the following month. Bundle payments are non-refundable once the month has begun. Bundles apply to standard classes only and cannot be used toward semi-private, private, or corporate sessions.",
+        a: subscriptionPolicy + " Subscriptions apply to standard classes only. Payments are non-refundable once the subscription period has begun.",
       },
       {
         q: "Is there a trial class or introductory offer?",
