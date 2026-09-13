@@ -138,6 +138,7 @@ export default function ClassesPage() {
 
                 {/* Small icon */}
                 <service.icon
+                  aria-hidden="true"
                   className="w-4 h-4 mb-8 text-brand/50 group-hover:text-brand/80 transition-colors duration-300"
                   strokeWidth={1.5}
                 />

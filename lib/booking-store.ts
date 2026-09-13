@@ -82,7 +82,7 @@ export async function deleteBooking(id: string): Promise<void> {
 }
 
 export function getWhatsAppLink(booking: Booking): string {
-  const phone = '+263719140346'
+  const phone = '263719140346'
   const sessionLabels: Record<string, string> = {
     standard: 'Standard Class',
     'semi-private': 'Semi-Private Session',
@@ -90,11 +90,15 @@ export function getWhatsAppLink(booking: Booking): string {
     corporate: 'Corporate Wellness',
   }
   const message = encodeURIComponent(
-    `Hi Nirvana Pilates! I'd like to notify you of my booking:\n\n` +
+    `Hi Nirvana Pilates! I’ve submitted a booking request:\n\n` +
     `Name: ${booking.name}\n` +
+    `Email: ${booking.email}\n` +
+    `WhatsApp: ${booking.phone}\n` +
     `Session: ${sessionLabels[booking.sessionType] || booking.sessionType}\n` +
     `Date: ${booking.date}\n` +
-    `Time: ${booking.time}\n\n` +
+    `Time: ${booking.time}\n` +
+    (booking.notes ? `Notes: ${booking.notes}\n` : '') +
+    `\n` +
     `Thank you!`
   )
   return `https://wa.me/${phone}?text=${message}`

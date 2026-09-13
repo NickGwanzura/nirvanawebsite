@@ -159,7 +159,7 @@ export function Navbar() {
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                className="md:hidden overflow-hidden bg-background"
+                className="md:hidden fixed inset-x-0 top-16 min-h-[calc(100svh-4rem)] overflow-y-auto bg-white shadow-[0_12px_30px_rgba(0,0,0,0.06)]"
               >
                 <motion.div
                   initial="hidden"

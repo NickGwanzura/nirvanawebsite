@@ -42,8 +42,8 @@ export function Footer() {
 
             {/* Left: headline */}
             <div>
-              <motion.p variants={fadeUp} className="text-[11px] uppercase tracking-[0.5em] text-background/35 mb-8 font-medium">
-                Hillside, Bulawayo · Mon – Sat
+              <motion.p variants={fadeUp} className="text-[11px] uppercase tracking-[0.5em] text-background/50 mb-8 font-medium">
+                Hillside, Bulawayo · Mon – Fri + Sat morning
               </motion.p>
               <motion.h2 variants={fadeUp} className="font-serif text-6xl md:text-7xl lg:text-[5.5rem] xl:text-[6.5rem] font-light tracking-[-0.03em] text-background leading-[0.92]">
                 Begin your<br />
@@ -96,16 +96,16 @@ export function Footer() {
           >
             <Link href="/" className="inline-flex select-none items-center group text-background w-fit">
               <Logo
-                className="h-6 lg:h-8 w-20 lg:w-24 transition-opacity duration-300 group-hover:opacity-50"
+                className="h-10 lg:h-12 w-36 lg:w-48 transition-opacity duration-300 group-hover:opacity-50"
                 fill="currentColor"
               />
             </Link>
 
-            <p className="font-serif text-base text-background/45 font-light tracking-[-0.01em] leading-[1.65] max-w-[190px]">
+            <p className="font-serif text-base text-background/60 font-light tracking-[-0.01em] leading-[1.65] max-w-[190px]">
               Move with intention.<br />Live with clarity.
             </p>
 
-            <div className="flex flex-col gap-1.5 text-[12px] text-background/30 leading-[1.9]">
+            <div className="flex flex-col gap-1.5 text-[12px] text-background/50 leading-[1.9]">
               <span>26 Moffat Street, Hillside</span>
               <span>Bulawayo, Zimbabwe</span>
               <span className="mt-1">Mon – Fri · 7, 8, 9 am &amp; 4:30, 5:30 pm</span>
@@ -121,7 +121,7 @@ export function Footer() {
 
             {/* Studio */}
             <motion.div variants={fadeUp}>
-              <p className="text-[11px] uppercase tracking-[0.3em] text-background/30 mb-6 font-medium">
+              <p className="text-[11px] uppercase tracking-[0.3em] text-background/50 mb-6 font-medium">
                 Studio
               </p>
               <nav className="flex flex-col gap-1">
@@ -129,7 +129,7 @@ export function Footer() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className="text-[13px] text-background/50 hover:text-background transition-colors duration-300 w-fit py-2"
+                    className="text-[13px] text-background/70 hover:text-background transition-colors duration-300 w-fit py-2"
                   >
                     {link.label}
                   </Link>
@@ -139,7 +139,7 @@ export function Footer() {
 
             {/* Support */}
             <motion.div variants={fadeUp}>
-              <p className="text-[11px] uppercase tracking-[0.3em] text-background/30 mb-6 font-medium">
+              <p className="text-[11px] uppercase tracking-[0.3em] text-background/50 mb-6 font-medium">
                 Support
               </p>
               <nav className="flex flex-col gap-1">
@@ -147,7 +147,7 @@ export function Footer() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className="text-[13px] text-background/50 hover:text-background transition-colors duration-300 w-fit py-2"
+                    className="text-[13px] text-background/70 hover:text-background transition-colors duration-300 w-fit py-2"
                   >
                     {link.label}
                   </Link>
@@ -157,13 +157,13 @@ export function Footer() {
 
             {/* Contact */}
             <motion.div variants={fadeUp} className="col-span-2 sm:col-span-1">
-              <p className="text-[11px] uppercase tracking-[0.3em] text-background/30 mb-6 font-medium">
+              <p className="text-[11px] uppercase tracking-[0.3em] text-background/50 mb-6 font-medium">
                 Contact
               </p>
               <div className="flex flex-col gap-1">
                 <a
                   href="tel:+263719140346"
-                  className="text-[13px] text-background/50 hover:text-background transition-colors duration-300 w-fit py-2"
+                  className="text-[13px] text-background/70 hover:text-background transition-colors duration-300 w-fit py-2"
                 >
                   +263 719 140 346
                 </a>
@@ -171,7 +171,7 @@ export function Footer() {
                   href="https://wa.me/263719140346"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[13px] text-background/50 hover:text-background transition-colors duration-300 w-fit py-2"
+                  className="text-[13px] text-background/70 hover:text-background transition-colors duration-300 w-fit py-2"
                 >
                   WhatsApp
                 </a>
@@ -179,7 +179,7 @@ export function Footer() {
                   href="https://www.instagram.com/nirvanapilatesbyo"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[13px] text-background/50 hover:text-background transition-colors duration-300 w-fit py-2"
+                  className="text-[13px] text-background/70 hover:text-background transition-colors duration-300 w-fit py-2"
                 >
                   Instagram
                 </a>
@@ -216,12 +216,12 @@ export function Footer() {
             </Link>
           </div>
           <a
-            href="https://wa.me/263777816368"
+            href="https://spiritusglobal.tech/"
             target="_blank"
             rel="noopener noreferrer"
             className="text-[10px] tracking-[0.15em] text-background/22 hover:text-background/50 uppercase transition-colors duration-500"
           >
-            Designed &amp; Built by NT Global
+            Designed &amp; Built by Spiritus Systems
           </a>
         </div>
       </motion.div>

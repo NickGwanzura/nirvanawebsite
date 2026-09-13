@@ -45,7 +45,7 @@ export function HeroSlider() {
   }, [nextSlide])
 
   return (
-    <div className="relative w-full h-full overflow-hidden bg-secondary/20">
+    <div className="relative w-full h-full overflow-hidden bg-white">
       {/* Slides */}
       {slides.map((slide, index) => (
         <div
@@ -61,7 +61,7 @@ export function HeroSlider() {
             alt={slide.alt}
             fill
             priority={index === 0}
-            className="object-cover"
+            className="object-cover object-[center_35%] md:object-center"
             sizes="100vw"
           />
           {/* Overlay — keeps white hero text readable over bright slides */}

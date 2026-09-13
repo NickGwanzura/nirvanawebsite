@@ -168,6 +168,10 @@ export default function BookingPage() {
     setSubmitting(true)
     setSubmitError("")
 
+    // Open during the submit tap so mobile browsers allow the WhatsApp handoff
+    // after the booking request finishes saving.
+    const whatsappWindow = window.open("about:blank", "_blank")
+
     try {
       const booking = await createBooking({
         name: formData.name.trim(),
@@ -181,9 +185,14 @@ export default function BookingPage() {
       })
       setConfirmedBooking(booking)
       setStep("confirmation")
-      // Auto-notify studio via WhatsApp
-      window.open(getWhatsAppLink(booking), "_blank", "noopener,noreferrer")
+      // Auto-notify the studio via WhatsApp with the complete client details.
+      if (whatsappWindow) {
+        whatsappWindow.location.href = getWhatsAppLink(booking)
+      } else {
+        window.open(getWhatsAppLink(booking), "_blank", "noopener,noreferrer")
+      }
     } catch (err: any) {
+      whatsappWindow?.close()
       setSubmitError(err.message || "Something went wrong. Please try again.")
     } finally {
       setSubmitting(false)
