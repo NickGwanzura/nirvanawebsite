@@ -219,9 +219,12 @@ export function Footer() {
             href="https://spiritusglobal.tech/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[10px] tracking-[0.15em] text-background/22 hover:text-background/50 uppercase transition-colors duration-500"
+            aria-label="Visit Spiritus Systems, the developer of this website"
+            className="inline-flex items-center gap-2 rounded-full border border-background/20 bg-background/[0.05] px-3.5 py-2 text-[10px] tracking-[0.13em] text-background/70 uppercase transition-all duration-300 hover:border-background/40 hover:bg-background/[0.1] hover:text-background"
           >
-            Designed &amp; Built by Spiritus Systems
+            <span className="text-background/45">Developer</span>
+            <span aria-hidden="true" className="h-3 w-px bg-background/25" />
+            <span className="text-background">Spiritus Systems</span>
           </a>
         </div>
       </motion.div>
