@@ -11,7 +11,7 @@ export function StudioShowcase() {
     <section className="bg-background overflow-hidden">
       <ContainerScroll
         titleComponent={
-          <div className="mb-20 px-4 pt-20 lg:pt-28">
+          <div className="mb-20 px-4 pt-36 lg:pt-40">
             <p className="text-[11px] uppercase tracking-[0.5em] pl-[0.5em] text-foreground/50 mb-6">
               The Studio
             </p>
@@ -38,7 +38,7 @@ export function StudioShowcase() {
           alt="Nirvana Pilates Studio — luxury reformer Pilates space in Hillside, Bulawayo"
           width={1400}
           height={800}
-          className="mx-auto rounded-xl object-cover h-full w-full object-center"
+          className="mx-auto rounded-2xl object-cover h-full w-full object-center transition-transform duration-700 ease-out motion-safe:hover:scale-[1.01]"
           draggable={false}
           priority={false}
         />

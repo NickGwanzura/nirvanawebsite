@@ -54,7 +54,7 @@ export function Footer() {
             {/* Right: sub-copy + CTAs */}
             <div className="lg:pb-2">
               <motion.p variants={fadeUp} className="text-background/50 text-lg leading-relaxed mb-10 max-w-sm">
-                Classes from $15. Private sessions available. No prior experience necessary.
+                Classes from US$15. Private sessions available. No prior experience necessary.
               </motion.p>
               <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4">
                 <CtaLink

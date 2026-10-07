@@ -3,15 +3,15 @@
 import { subscriptionPolicy, latenessPolicy } from "@/lib/studio-policies"
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { ArrowLeft, ChevronLeft, ChevronRight, Check, MessageCircle, RefreshCw } from "lucide-react"
+import { ArrowLeft, ChevronLeft, ChevronRight, Check, Clock3, MessageCircle, RefreshCw } from "lucide-react"
 import { createBooking, getAvailability, getWhatsAppLink, type Booking } from "@/lib/booking-store"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 
 const sessionTypes = [
-  { id: "standard", label: "Standard Class", price: "$15 pp", duration: "45–50 min" },
-  { id: "semi-private", label: "Semi-Private", price: "$25 pp", duration: "45–50 min" },
-  { id: "private", label: "Private Session", price: "$45", duration: "45–50 min" },
+  { id: "standard", label: "Standard Class", price: "US$15 pp", duration: "45–50 min" },
+  { id: "semi-private", label: "Semi-Private", price: "US$25 pp", duration: "45–50 min" },
+  { id: "private", label: "Private Session", price: "US$45", duration: "45–50 min" },
   { id: "corporate", label: "Corporate Wellness", price: "Custom", duration: "45–50 min" },
 ] as const
 
@@ -579,7 +579,7 @@ export default function BookingPage() {
 
                 <button
                   type="submit"
-                  disabled={submitting}
+                disabled={submitting}
                   className="w-full mt-10 py-4 bg-foreground text-background text-[11px] uppercase tracking-[0.25em] font-medium hover:bg-foreground/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
                   {submitting ? (
@@ -587,7 +587,7 @@ export default function BookingPage() {
                       <RefreshCw size={13} className="animate-spin" />
                       Confirming…
                     </>
-                  ) : "Confirm Booking"}
+                  ) : "Submit Booking Request"}
                 </button>
               </form>
             </div>
@@ -597,15 +597,17 @@ export default function BookingPage() {
             <div className="max-w-xl mx-auto text-center">
               {/* Success mark */}
               <div className="w-16 h-16 mx-auto mb-10 bg-foreground flex items-center justify-center">
-                <Check size={28} strokeWidth={1.5} className="text-background" />
+                <Clock3 size={28} strokeWidth={1.5} className="text-background" />
               </div>
 
-              <h2 className="font-serif text-4xl md:text-5xl font-light tracking-[-0.02em] text-foreground mb-6">
-                You&apos;re booked in
-              </h2>
-              <p className="text-foreground/60 text-lg mb-12">
-                We&apos;ll see you soon, {confirmedBooking.name.split(" ")[0]}.
-              </p>
+              <div role="status" aria-live="polite">
+                <h2 className="font-serif text-4xl md:text-5xl font-light tracking-[-0.02em] text-foreground mb-6">
+                  Booking request received
+                </h2>
+                <p className="text-foreground/60 text-lg mb-12">
+                  Thanks, {confirmedBooking.name.split(" ")[0]}. Your request is saved and waiting for studio confirmation.
+                </p>
+              </div>
 
               {/* Booking Details */}
               <div className="p-8 bg-secondary/50 text-left mb-8">
@@ -634,7 +636,8 @@ export default function BookingPage() {
               {/* WhatsApp follow-up */}
               <div className="p-6 bg-secondary/30 border border-border mb-8 text-left">
                 <p className="text-sm text-foreground/65 mb-4 leading-relaxed">
-                  A WhatsApp message should have opened automatically. If it didn&apos;t, tap below to notify us directly.
+                  <strong className="block text-foreground mb-2">One last step: send your WhatsApp request.</strong>
+                  Your booking is not confirmed yet. A prepared WhatsApp message should have opened; send it to the studio so they can confirm your time. If it did not open, use the button below.
                 </p>
                 <button
                   onClick={() => window.open(getWhatsAppLink(confirmedBooking), "_blank", "noopener,noreferrer")}

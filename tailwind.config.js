@@ -61,7 +61,7 @@ module.exports = {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        sans: ['var(--font-sans)', 'DM Sans', 'system-ui', 'sans-serif'],
+        sans: ['Geist', 'system-ui', 'sans-serif'],
         serif: ['var(--font-serif)', 'Instrument Serif', 'Georgia', 'serif'],
       },
       keyframes: {

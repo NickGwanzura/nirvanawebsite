@@ -22,13 +22,13 @@ export function GroupExperience() {
             initial="hidden"
             whileInView="visible"
             viewport={viewportOptions}
-            className="relative aspect-[4/5] overflow-hidden"
+            className="group relative aspect-[4/5] overflow-hidden rounded-2xl"
           >
             <Image
               src="/images/group-experience-portrait.png"
               alt="Beautiful African woman in activewear at Nirvana Pilates"
               fill
-              className="object-cover transition-transform duration-700 hover:scale-[1.03]"
+              className="object-cover transition-transform duration-700 ease-out motion-safe:group-hover:scale-[1.04]"
             />
             {/* Overlay shimmer on hover */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent" />

@@ -17,19 +17,8 @@ const navLinks = [
 ]
 
 export function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const pathname = usePathname()
-
-  const isHome = pathname === "/"
-  const isTransparent = isHome && !isScrolled && !isMobileMenuOpen
-
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50)
-    handleScroll()
-    window.addEventListener("scroll", handleScroll, { passive: true })
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
 
   useEffect(() => {
     const close = (event: KeyboardEvent) => { if (event.key === "Escape") setIsMobileMenuOpen(false) }
@@ -48,11 +37,7 @@ export function Navbar() {
         initial={false}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out ${
-          isTransparent
-            ? "bg-transparent"
-            : "bg-background/95 backdrop-blur-xl border-b border-foreground/[0.07] shadow-[0_1px_24px_rgba(0,0,0,0.07)]"
-        }`}
+        className="fixed top-0 left-0 right-0 z-50 border-b border-foreground/[0.07] bg-background/95 shadow-[0_1px_24px_rgba(0,0,0,0.04)] backdrop-blur-xl transition-all duration-500 ease-out"
       >
         <nav className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="flex h-16 lg:h-20 items-center justify-between">
@@ -60,9 +45,7 @@ export function Navbar() {
             {/* Logo */}
             <Link
               href="/"
-              className={`select-none flex items-center transition-colors duration-500 ${
-                isTransparent ? "text-white" : "text-foreground"
-              }`}
+              className="select-none flex items-center text-foreground transition-colors duration-500"
             >
               <Logo className="h-10 w-36 lg:h-14 lg:w-48" fill="currentColor" />
             </Link>
@@ -79,16 +62,12 @@ export function Navbar() {
                   <Link
                     href={link.href}
                     className={`relative text-[11px] uppercase tracking-[0.2em] font-medium group transition-colors duration-300 ${
-                      isTransparent
-                        ? isActive(link.href) ? "text-white" : "text-white/85 hover:text-white"
-                        : isActive(link.href) ? "text-foreground" : "text-foreground/70 hover:text-foreground"
+                      isActive(link.href) ? "text-foreground" : "text-foreground/70 hover:text-foreground"
                     }`}
                   >
                     {link.label}
                     <span
-                      className={`absolute -bottom-1 left-0 h-px transition-all duration-500 ease-out ${
-                        isTransparent ? "bg-white" : "bg-brand"
-                      } ${isActive(link.href) ? "w-full" : "w-0 group-hover:w-full"}`}
+                      className={`absolute -bottom-1 left-0 h-px bg-brand transition-all duration-500 ease-out ${isActive(link.href) ? "w-full" : "w-0 group-hover:w-full"}`}
                     />
                   </Link>
                 </motion.div>
@@ -104,7 +83,7 @@ export function Navbar() {
               >
                 <CtaLink
                   href="/book"
-                  variant={isTransparent ? "light" : "dark"}
+                  variant="dark"
                   className="text-[11px] tracking-[0.18em] px-6 py-2.5"
                 >
                   Book a Session
@@ -115,9 +94,7 @@ export function Navbar() {
 
             {/* Mobile Hamburger */}
             <button
-              className={`md:hidden p-2.5 -mr-2 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center ${
-                isTransparent ? "text-white/80 hover:text-white" : "text-foreground/80 hover:text-foreground"
-              }`}
+              className="md:hidden p-2.5 -mr-2 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center text-foreground/80 hover:text-foreground"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
               aria-expanded={isMobileMenuOpen}

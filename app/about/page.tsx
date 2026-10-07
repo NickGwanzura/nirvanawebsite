@@ -64,13 +64,13 @@ export default function AboutPage() {
               initial="hidden"
               whileInView="visible"
               viewport={viewportOptions}
-              className="relative aspect-[4/5] overflow-hidden"
+              className="group relative aspect-[4/5] overflow-hidden rounded-2xl"
             >
               <Image
                 src="/images/noma.jpg"
                 alt="Lindiwe, founder of Nirvana Pilates Studio"
                 fill
-                className="object-cover transition-transform duration-700 hover:scale-[1.02]"
+                className="object-cover transition-transform duration-700 ease-out motion-safe:group-hover:scale-[1.04]"
                 priority
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent" />
@@ -220,13 +220,13 @@ export default function AboutPage() {
               <motion.div
                 key={src}
                 variants={i === 0 ? fadeLeft : fadeRight}
-                className="relative aspect-[4/5] overflow-hidden"
+                className="group relative aspect-[4/5] overflow-hidden rounded-2xl"
               >
                 <Image
                   src={src}
                   alt="Nirvana Pilates Studio interior"
                   fill
-                  className="object-cover hover:scale-[1.03] transition-transform duration-700 ease-out"
+                  className="object-cover transition-transform duration-700 ease-out motion-safe:group-hover:scale-[1.04]"
                 />
               </motion.div>
             ))}

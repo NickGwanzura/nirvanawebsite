@@ -28,11 +28,11 @@ export const ContainerScroll = ({
 
   const rotate = useTransform(scrollYProgress, [0, 0.7], [14, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.7], [1.03, 1]);
-  const translate = useTransform(scrollYProgress, [0, 0.7], [0, -80]);
+  const translate = useTransform(scrollYProgress, [0, 0.7], [0, -16]);
 
   if (isMobile) {
     return (
-      <div className="flex flex-col items-center px-6 py-20">
+      <div className="flex flex-col items-center px-6 pt-10 pb-20">
         <div className="w-full text-center mb-10">{titleComponent}</div>
         <div className="w-full overflow-hidden rounded-2xl aspect-video relative">{children}</div>
       </div>

@@ -14,7 +14,7 @@ const services = [
   {
     icon: Users,
     title: "Standard",
-    price: "$15",
+    price: "US$15",
     duration: "45–50 min",
     capacity: "Up to 6",
     description: "Join a standard group class of up to 6. A focused, instructor-led session open to all levels.",
@@ -22,7 +22,7 @@ const services = [
   {
     icon: UserPlus,
     title: "Semi-Private",
-    price: "$25 pp",
+    price: "US$25 pp",
     duration: "45–50 min",
     capacity: "2 people",
     description: "A focused session for two. Shared instruction at a personal level. Ideal for friends or partners.",
@@ -30,7 +30,7 @@ const services = [
   {
     icon: UserCheck,
     title: "Private",
-    price: "$45",
+    price: "US$45",
     duration: "45–50 min",
     capacity: "1-on-1",
     description: "One-on-one instruction tailored precisely to your body, goals, and pace.",
@@ -50,7 +50,7 @@ const services = [
 const faqs = [
   {
     q: "What is the difference between standard, semi-private, and private sessions?",
-    a: "Standard classes are open group sessions (up to 8 people) at $15 per person. You join a class already in progress. Semi-private sessions are for exactly 2 people at $25 per person, ideal for friends or partners wanting shared but personal instruction. Private sessions are fully one-on-one at $45, tailored entirely to your goals.",
+    a: "Standard classes are open group sessions for up to 6 people at US$15 per person. You join a class already in progress. Semi-private sessions are for exactly 2 people at US$25 per person, ideal for friends or partners wanting shared but personal instruction. Private sessions are fully one-on-one at US$45, tailored entirely to your goals.",
   },
   {
     q: "Do I need prior experience to join a class?",
@@ -62,7 +62,7 @@ const faqs = [
   },
   {
     q: "What should I wear?",
-    a: "Comfortable, form-fitting clothing that allows for a full range of movement. Pilates is practiced barefoot or in grip socks. No shoes required.",
+    a: "Wear comfortable, form-fitting clothing that allows for a full range of movement. Grip socks are required for all classes. Please wear grip socks rather than going barefoot on the reformer.",
   },
   {
     q: "How often should I practice?",

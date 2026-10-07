@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Instrument_Serif, DM_Sans } from 'next/font/google'
+import { Instrument_Serif } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { WhatsAppWidget } from '@/components/whatsapp-widget'
 import './globals.css'
@@ -9,13 +9,6 @@ const instrumentSerif = Instrument_Serif({
   weight: ["400"],
   style: ["normal", "italic"],
   variable: '--font-serif',
-  display: 'swap',
-});
-
-const dmSans = DM_Sans({ 
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  variable: '--font-sans',
   display: 'swap',
 });
 
@@ -104,7 +97,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${instrumentSerif.variable} ${dmSans.variable}`}>
+    <html lang="en" className={instrumentSerif.variable}>
       <body className="font-sans antialiased scroll-smooth">
         <script
           type="application/ld+json"

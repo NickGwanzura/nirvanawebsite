@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react"
 import Image from "next/image"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { ChevronRight, Pause, Play } from "lucide-react"
 
 const TRANSITION_MS = 700
 const AUTOPLAY_MS = 6500
@@ -31,6 +31,7 @@ export function HeroSlider() {
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [direction, setDirection] = useState<"left" | "right">("right")
   const [isPaused, setIsPaused] = useState(false)
+  const [isManuallyPaused, setIsManuallyPaused] = useState(false)
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
   const transitionTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -48,19 +49,14 @@ export function HeroSlider() {
     goToSlide(newIndex, "right")
   }, [currentIndex, goToSlide])
 
-  const prevSlide = useCallback(() => {
-    const newIndex = (currentIndex - 1 + slides.length) % slides.length
-    goToSlide(newIndex, "left")
-  }, [currentIndex, goToSlide])
-
   // Auto-play
   useEffect(() => {
     if (prefersReducedMotion) return
     const interval = setInterval(() => {
-      if (!document.hidden && !isPaused) nextSlide()
+      if (!document.hidden && !isPaused && !isManuallyPaused) nextSlide()
     }, AUTOPLAY_MS)
     return () => clearInterval(interval)
-  }, [isPaused, nextSlide, prefersReducedMotion])
+  }, [isManuallyPaused, isPaused, nextSlide, prefersReducedMotion])
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
@@ -121,16 +117,7 @@ export function HeroSlider() {
         </div>
       ))}
 
-      {/* Navigation Arrows */}
-      <button
-        onClick={prevSlide}
-        disabled={isTransitioning}
-        type="button"
-        className="absolute left-4 lg:left-8 top-1/2 -translate-y-1/2 z-10 w-12 h-12 flex items-center justify-center rounded-full bg-black/20 backdrop-blur-md border border-white/30 text-white/90 shadow-lg shadow-black/10 hover:bg-black/35 hover:text-white transition-all duration-300 disabled:opacity-50"
-        aria-label="Previous slide"
-      >
-        <ChevronLeft className="w-5 h-5" strokeWidth={1.5} />
-      </button>
+      {/* Navigation Arrow */}
       <button
         onClick={nextSlide}
         disabled={isTransitioning}
@@ -162,6 +149,20 @@ export function HeroSlider() {
           </button>
         ))}
       </div>
+
+      <button
+        onClick={() => {
+          const shouldResume = isManuallyPaused
+          setIsManuallyPaused(!isManuallyPaused)
+          if (shouldResume) setIsPaused(false)
+        }}
+        type="button"
+        aria-label={isManuallyPaused ? "Play slideshow" : "Pause slideshow"}
+        aria-pressed={isManuallyPaused}
+        className="absolute bottom-8 left-4 lg:left-8 z-10 w-11 h-11 flex items-center justify-center rounded-full bg-black/25 backdrop-blur-md border border-white/30 text-white/90 hover:bg-black/40 hover:text-white transition-colors"
+      >
+        {isManuallyPaused ? <Play className="w-4 h-4" /> : <Pause className="w-4 h-4" />}
+      </button>
 
       {/* Slide Counter */}
       <div className="absolute bottom-8 right-4 lg:right-8 z-10 text-white/60 text-[11px] tracking-[0.2em] font-medium">

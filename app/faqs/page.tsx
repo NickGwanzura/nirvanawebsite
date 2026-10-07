@@ -54,7 +54,7 @@ const faqs = [
     questions: [
       {
         q: "What is the difference between standard, semi-private, and private sessions?",
-        a: "Standard classes are open group sessions for up to 8 people at $15 per person. You join a structured class led by an instructor. Semi-private sessions are for exactly 2 people at $25 per person — ideal for friends or partners who want shared but more focused instruction. Private sessions are fully one-on-one at $45, entirely tailored to your goals, body, and pace.",
+        a: "Standard classes are open group sessions for up to 6 people at US$15 per person. You join a structured class led by an instructor. Semi-private sessions are for exactly 2 people at US$25 per person — ideal for friends or partners who want shared but more focused instruction. Private sessions are fully one-on-one at US$45, entirely tailored to your goals, body, and pace.",
       },
       {
         q: "How long are the classes?",
@@ -164,11 +164,11 @@ const faqs = [
     questions: [
       {
         q: "What are the session prices?",
-        a: "Standard group classes are $15 per person. Semi-private sessions (2 people) are $25 per person. Private one-on-one sessions are $45. Corporate wellness packages are priced on request based on group size and frequency.",
+        a: "Standard group classes are US$15 per person. Semi-private sessions (2 people) are US$25 per person. Private one-on-one sessions are US$45. Corporate wellness packages are priced on request based on group size and frequency.",
       },
       {
         q: "Do you offer monthly bundles?",
-        a: "Yes. Our monthly bundles are designed for clients who want to build a consistent practice at a lower per-session rate. The Foundation bundle (4 sessions/month) is $50, the Consistent bundle (8 sessions/month) is $105, and the Dedicated bundle (12 sessions/month) is $160. All bundles are for standard classes only.",
+        a: "Yes. Our monthly bundles are designed for clients who want to build a consistent practice at a lower per-session rate. The Foundation bundle (4 sessions/month) is US$50, the Consistent bundle (8 sessions/month) is US$105, and the Dedicated bundle (12 sessions/month) is US$160. All bundles are for standard classes only.",
       },
       {
         q: "What are the terms of the monthly bundles?",
@@ -176,7 +176,7 @@ const faqs = [
       },
       {
         q: "Is there a trial class or introductory offer?",
-        a: "We do not currently offer a discounted trial class. Every standard session is $15, which we believe already reflects excellent value for the quality of instruction and individual attention you receive. You are welcome to book a single session before committing to a bundle.",
+        a: "We do not currently offer a discounted trial class. Every standard session is US$15, which we believe already reflects excellent value for the quality of instruction and individual attention you receive. You are welcome to book a single session before committing to a bundle.",
       },
       {
         q: "What payment methods do you accept?",

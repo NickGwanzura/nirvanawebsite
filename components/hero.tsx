@@ -1,218 +1,70 @@
-"use client"
-
+import { ArrowRight, MapPin } from "lucide-react"
 import { CtaLink } from "@/components/ui/cta-link"
 import { HeroSlider } from "./hero-slider"
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
-
-const WORDS = ["Find", "your", "balance"]
 
 export function Hero() {
-  // Mouse parallax values
-  const rawX = useMotionValue(0)
-  const rawY = useMotionValue(0)
-  const springX = useSpring(rawX, { stiffness: 45, damping: 22 })
-  const springY = useSpring(rawY, { stiffness: 45, damping: 22 })
-
-  // Background drifts in the mouse direction (slow)
-  const bgX = useTransform(springX, [-1, 1], ["-2.5%", "2.5%"])
-  const bgY = useTransform(springY, [-1, 1], ["-2.5%", "2.5%"])
-
-  // Content moves slightly opposite — creates sense of depth
-  const contentX = useTransform(springX, [-1, 1], ["10px", "-10px"])
-  const contentY = useTransform(springY, [-1, 1], ["6px", "-6px"])
-
-  // Decorative layer moves between the two for mid-depth
-  const midX = useTransform(springX, [-1, 1], ["-1%", "1%"])
-  const midY = useTransform(springY, [-1, 1], ["-1%", "1%"])
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-    rawX.set((e.clientX / window.innerWidth - 0.5) * 2)
-    rawY.set((e.clientY / window.innerHeight - 0.5) * 2)
-  }
-
-  const handleMouseLeave = () => {
-    rawX.set(0)
-    rawY.set(0)
-  }
-
   return (
-    <section
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      className="relative min-h-[100svh] py-40 flex items-center justify-center overflow-hidden"
-    >
+    <section className="bg-[#f4f1eb]">
+      <div className="grid min-h-[100svh] md:grid-cols-[0.94fr_1.06fr]">
+        <div className="flex flex-col justify-center px-6 pt-24 pb-14 sm:px-10 md:px-12 lg:px-16 xl:px-24 lg:py-20">
+          <p className="mb-7 flex items-center gap-3 text-[10px] uppercase tracking-[0.32em] text-foreground/55 sm:text-[11px]">
+            <span className="h-px w-8 bg-brand" aria-hidden="true" />
+            STOTT Pilates · Bulawayo
+          </p>
 
-      {/* ── LAYER 0: Background slider — extends beyond edges for parallax room ── */}
-      <motion.div
-        className="absolute inset-[-5%]"
-        style={{ x: bgX, y: bgY }}
-      >
-        <HeroSlider />
-      </motion.div>
+          <h1 className="max-w-[10ch] font-serif text-[clamp(3.5rem,6.2vw,6.25rem)] font-light leading-[0.94] tracking-[-0.045em] text-foreground">
+            Find your
+            <span className="mt-1 block italic text-[#576b5e]">balance.</span>
+          </h1>
 
-      {/* ── LAYER 1: Depth overlays ── */}
-      {/* Top vignette */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-transparent to-transparent pointer-events-none z-[1]" />
-      {/* Bottom vignette */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent pointer-events-none z-[1]" />
-      {/* Left vignette */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/35 via-transparent to-transparent pointer-events-none z-[1]" />
-      {/* Right vignette (subtle) */}
-      <div className="absolute inset-0 bg-gradient-to-l from-black/20 via-transparent to-transparent pointer-events-none z-[1]" />
+          <p className="mt-7 max-w-md text-[15px] leading-[1.8] text-foreground/65 sm:text-base">
+            Expert-led reformer Pilates in Hillside. Small classes, thoughtful coaching, and a welcoming place to move at your own pace.
+          </p>
 
-      {/* ── LAYER 2: Mid-depth decorative elements ── */}
-      <motion.div
-        className="absolute inset-0 pointer-events-none z-[2]"
-        style={{ x: midX, y: midY }}
-      >
-        {/* Horizontal rule — upper third */}
-        <motion.div
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: 1 }}
-          transition={{ duration: 2.5, ease: [0.22, 1, 0.36, 1], delay: 1.0 }}
-          style={{ originX: 0 }}
-          className="absolute top-[28%] left-0 right-0 h-px bg-white/[0.07]"
-        />
-        {/* Horizontal rule — lower third */}
-        <motion.div
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: 1 }}
-          transition={{ duration: 2.5, ease: [0.22, 1, 0.36, 1], delay: 1.2 }}
-          style={{ originX: 1 }}
-          className="absolute top-[70%] left-0 right-0 h-px bg-white/[0.07]"
-        />
-
-        {/* Ghost serif watermark — bottom right */}
-        <motion.span
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 2.5, delay: 0.6 }}
-          aria-hidden="true"
-          className="absolute -bottom-[8%] -right-[4%] font-serif italic text-[38vw] leading-none text-white/[0.028] select-none"
-        >
-          N
-        </motion.span>
-
-        {/* Vertical location tag — left edge */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.4 }}
-          className="hidden lg:flex absolute left-10 top-1/2 -translate-y-1/2 flex-col items-center gap-4"
-        >
-          <div className="h-16 w-px bg-white/20" />
-          <span
-            className="text-[9px] uppercase tracking-[0.5em] text-white/35 whitespace-nowrap"
-            style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
-          >
-            26 Moffat St · Hillside
-          </span>
-          <div className="h-16 w-px bg-white/20" />
-        </motion.div>
-
-        {/* Minimal corner marks */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.3 }}
-          className="absolute top-[88px] left-6 lg:left-8 flex items-center gap-2"
-        >
-          <div className="w-4 h-px bg-white/25" />
-          <span className="text-[10px] uppercase tracking-[0.4em] text-white/30">Est. 2024</span>
-        </motion.div>
-      </motion.div>
-
-      {/* ── LAYER 3: Main content — moves opposite to mouse ── */}
-      <motion.div
-        style={{ x: contentX, y: contentY }}
-        className="relative z-10 mx-auto max-w-5xl px-6 lg:px-8 text-center"
-      >
-        {/* Eyebrow */}
-        <motion.p
-          initial={false}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-          className="text-[11px] uppercase tracking-[0.6em] pl-[0.6em] text-white/60 mb-12"
-        >
-          Pilates Studio · Bulawayo
-        </motion.p>
-
-        {/* H1 — word-by-word clip reveal */}
-        <h1 aria-label="Find your balance" className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[7.5rem] text-white leading-[1.05] tracking-[-0.02em] font-light">
-          {WORDS.map((word, i) => (
-            <span
-              key={word}
-              className="inline-block overflow-hidden mr-[0.22em] last:mr-0 align-bottom"
+          <div className="mt-9 flex flex-wrap items-center gap-x-7 gap-y-4">
+            <CtaLink
+              href="/book"
+              variant="dark"
+              className="h-14 px-8 text-[11px] tracking-[0.16em]"
             >
-              <motion.span
-                className="inline-block"
-                initial={false}
-                animate={{ y: "0%", opacity: 1 }}
-                transition={{
-                  duration: 1.15,
-                  ease: [0.22, 1, 0.36, 1],
-                  delay: 0.38 + i * 0.14,
-                }}
-              >
-                {word}
-              </motion.span>
-            </span>
-          ))}
-        </h1>
+              Book a Session
+            </CtaLink>
+            <a
+              href="#classes"
+              className="inline-flex min-h-11 items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-foreground/70 transition-colors hover:text-brand"
+            >
+              Explore classes
+              <ArrowRight size={14} strokeWidth={1.5} aria-hidden="true" />
+            </a>
+          </div>
 
-        {/* Subline */}
-        <motion.p
-          initial={false}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.9 }}
-          className="mt-10 text-base md:text-lg text-white/70 max-w-xs mx-auto font-light leading-relaxed tracking-wide"
-        >
-          Expert-led Pilates in Hillside, Bulawayo.
-          Small classes. All levels welcome.
-        </motion.p>
+          <div className="mt-11 flex items-start gap-3 border-t border-foreground/10 pt-5">
+            <MapPin className="mt-0.5 shrink-0 text-brand" size={16} strokeWidth={1.5} aria-hidden="true" />
+            <div>
+              <p className="text-[10px] uppercase tracking-[0.25em] text-foreground/45">Visit the studio</p>
+              <p className="mt-1 text-sm text-foreground/75">26 Moffat Street · Hillside, Bulawayo</p>
+            </div>
+          </div>
+        </div>
 
-        {/* CTAs */}
-        <motion.div
-          initial={false}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 1.05 }}
-          className="mt-14 flex flex-col sm:flex-row items-center justify-center gap-4"
-        >
-          <CtaLink
-            href="/book"
-            variant="light"
-            className="px-12 h-14 text-[12px] tracking-[0.15em]"
-          >
-            Book a Session
-          </CtaLink>
-          <a
-            href="#classes"
-            className="text-[11px] uppercase tracking-[0.35em] text-white/85 hover:text-white transition-colors duration-300 h-14 flex items-center px-4"
-          >
-            Explore classes
-          </a>
-        </motion.div>
-      </motion.div>
-
-      {/* ── Scroll indicator ── */}
-      <motion.div
-        initial={{ opacity: 0, scaleY: 0 }}
-        animate={{ opacity: 1, scaleY: 1 }}
-        transition={{ duration: 1.2, delay: 1.5, ease: [0.22, 1, 0.36, 1] }}
-        style={{ originY: 0 }}
-        className="absolute bottom-6 hidden sm:flex left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-3"
-      >
-        <div className="w-px h-16 bg-gradient-to-b from-white/35 to-transparent" />
-        <motion.span
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2, duration: 0.6 }}
-          className="text-[10px] uppercase tracking-[0.4em] text-white/30"
-        >
-          Scroll
-        </motion.span>
-      </motion.div>
-
+        <div className="relative min-h-[42svh] md:min-h-0 lg:min-h-[100svh]">
+          <HeroSlider />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 top-0 z-[5] h-24 md:hidden"
+            style={{
+              background: "linear-gradient(180deg, #f4f1eb 0%, rgba(244,241,235,0.94) 28%, rgba(244,241,235,0.64) 58%, rgba(244,241,235,0.24) 82%, transparent 100%)",
+            }}
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-y-0 left-0 z-[5] hidden w-36 md:block lg:w-44 xl:w-52"
+            style={{
+              background: "linear-gradient(90deg, #f4f1eb 0%, rgba(244,241,235,0.96) 28%, rgba(244,241,235,0.78) 54%, rgba(244,241,235,0.38) 78%, transparent 100%)",
+            }}
+          />
+        </div>
+      </div>
     </section>
   )
 }
