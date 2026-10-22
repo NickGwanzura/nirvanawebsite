@@ -7,7 +7,7 @@ export function Hero() {
     <section className="bg-[#f4f1eb]">
       <div className="grid min-h-[100svh] md:grid-cols-[0.94fr_1.06fr]">
         <div className="flex flex-col justify-center px-6 pt-24 pb-14 sm:px-10 md:px-12 lg:px-16 xl:px-24 lg:py-20">
-          <p className="mb-7 flex items-center gap-3 text-[10px] uppercase tracking-[0.32em] text-foreground/55 sm:text-[11px]">
+          <p className="mb-7 flex items-center gap-3 pt-6 text-[10px] uppercase tracking-[0.32em] text-foreground/55 sm:pt-8 sm:text-[11px]">
             <span className="h-px w-8 bg-brand" aria-hidden="true" />
             STOTT Pilates · Bulawayo
           </p>
