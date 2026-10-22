@@ -24,19 +24,11 @@ export async function getBookings(): Promise<Booking[]> {
 
 // GET availability for a specific date (public endpoint)
 export async function getAvailability(date: string): Promise<{ time: string; sessionType: string }[]> {
-  try {
-    const response = await fetch(`/api/bookings/availability?date=${encodeURIComponent(date)}`)
-    if (!response.ok) {
-      const body = await response.json().catch(() => ({}))
-      console.warn('Availability fetch failed:', body.error || response.status)
-      return []
-    }
-    const data = await response.json()
-    return data.counts || []
-  } catch (err) {
-    console.warn('Availability fetch error:', err)
-    return []
-  }
+  const response = await fetch(`/api/bookings/availability?date=${encodeURIComponent(date)}`)
+  if (!response.ok) throw new Error('Availability is temporarily unavailable.')
+  const data = await response.json()
+  if (!Array.isArray(data.counts)) throw new Error('Availability is temporarily unavailable.')
+  return data.counts
 }
 
 // Create a booking — throws on failure so the user sees a real error

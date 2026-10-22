@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
   try {
     await connectDB()
 
-    const bookings = await Booking.find({ date }).select('time sessionType').lean()
+    const bookings = await Booking.find({ date, status: { $ne: 'cancelled' } }).select('time sessionType').lean()
 
     const counts = bookings.map((b) => ({
       time: b.time,

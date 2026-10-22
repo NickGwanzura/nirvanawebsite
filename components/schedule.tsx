@@ -80,7 +80,7 @@ export function Schedule() {
                     transition={{ delay: 0.4 + ti * 0.06, duration: 0.4 }}
                   >
                     <Link
-                      href="/book"
+                      href={`/book?time=${encodeURIComponent(time)}&day=${schedule.period === "Saturday" ? "saturday" : "weekday"}`}
                       className="inline-block py-2 text-[15px] text-foreground/70 tabular-nums tracking-wide hover:text-brand transition-colors duration-200"
                     >
                       {time}

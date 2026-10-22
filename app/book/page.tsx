@@ -1,9 +1,9 @@
 "use client"
 
 import { subscriptionPolicy, latenessPolicy } from "@/lib/studio-policies"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
-import { ArrowLeft, ChevronLeft, ChevronRight, Check, Clock3, MessageCircle, RefreshCw } from "lucide-react"
+import { ArrowLeft, ChevronLeft, ChevronRight, Clock3, MessageCircle, RefreshCw } from "lucide-react"
 import { createBooking, getAvailability, getWhatsAppLink, type Booking } from "@/lib/booking-store"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
@@ -62,6 +62,11 @@ export default function BookingPage() {
   const [touched, setTouched] = useState<Record<string, boolean>>({})
   const [bookedSlots, setBookedSlots] = useState<Booking[]>([])
   const [slotsLoading, setSlotsLoading] = useState(false)
+  const [slotsError, setSlotsError] = useState("")
+  const [availabilityRetry, setAvailabilityRetry] = useState(0)
+  const [preferredTime, setPreferredTime] = useState<string | null>(null)
+  const [preferredDay, setPreferredDay] = useState<"weekday" | "saturday" | null>(null)
+  const preferredTimeRef = useRef<string | null>(null)
   const [confirmedBooking, setConfirmedBooking] = useState<Booking | null>(null)
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState("")
@@ -82,11 +87,30 @@ export default function BookingPage() {
   const isCurrentMonth = year === today.getFullYear() && month === today.getMonth()
 
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const time = params.get("time")
+    if (time && [...morningSlots, ...eveningSlots, "10:00"].includes(time)) {
+      preferredTimeRef.current = time
+      setPreferredTime(time)
+      const day = params.get("day")
+      if (day === "weekday" || day === "saturday") setPreferredDay(day)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (step !== "calendar") window.scrollTo(0, 0)
+  }, [step])
+
+  useEffect(() => {
     if (!selectedDate) return
+    let active = true
     const dateStr = toDateStr(selectedDate)
     setSlotsLoading(true)
+    setSlotsError("")
+    setBookedSlots([])
+    setSelectedTime(null)
     getAvailability(dateStr).then((counts) => {
-      // Convert availability counts to Booking-like objects for compatibility
+      if (!active) return
       const mapped: Booking[] = counts.map((c) => ({
         _id: `${c.time}-${c.sessionType}`,
         name: '',
@@ -100,8 +124,21 @@ export default function BookingPage() {
         createdAt: new Date(),
       }))
       setBookedSlots(mapped)
-    }).finally(() => setSlotsLoading(false))
-  }, [selectedDate])
+      const requestedTime = preferredTimeRef.current
+      const allowedTimes = selectedDate.getDay() === 6 ? saturdaySlots : [...morningSlots, ...eveningSlots]
+      if (requestedTime && allowedTimes.includes(requestedTime)) {
+        const booked = counts.filter((c) => c.time === requestedTime && c.sessionType === selectedSession).length
+        if (booked < maxCapacity[selectedSession]) setSelectedTime(requestedTime)
+      }
+    }).catch(() => {
+      if (!active) return
+      setSlotsError("We couldn't check availability. Please try again before choosing a time.")
+      setSelectedTime(null)
+    }).finally(() => {
+      if (active) setSlotsLoading(false)
+    })
+    return () => { active = false }
+  }, [selectedDate, selectedSession, availabilityRetry])
 
   const navigateMonth = (direction: number) => {
     if (direction === -1 && isCurrentMonth) return
@@ -115,6 +152,7 @@ export default function BookingPage() {
   }
 
   const getSlotAvailability = (time: string) => {
+    if (slotsLoading || slotsError) return { booked: 0, available: 0, max: maxCapacity[selectedSession] }
     if (selectedDate && eveningSlots.includes(time) && isWeekendDay(selectedDate)) {
       return { booked: 0, available: 0, max: 0 }
     }
@@ -125,17 +163,28 @@ export default function BookingPage() {
 
   const handleDateSelect = (day: number) => {
     if (!isDateSelectable(day)) return
-    setSelectedDate(new Date(year, month, day))
+    const date = new Date(year, month, day)
+    if ((preferredDay === "saturday" && date.getDay() !== 6) || (preferredDay === "weekday" && date.getDay() === 6)) {
+      setPreferredDay(null)
+    }
+    setSlotsLoading(true)
+    setSlotsError("")
+    setSelectedDate(date)
     setSelectedTime(null)
   }
 
   const handleTimeSelect = (time: string) => {
     const { available } = getSlotAvailability(time)
-    if (available > 0) setSelectedTime(time)
+    if (available > 0) {
+      setSelectedTime(time)
+      preferredTimeRef.current = time
+      setPreferredTime(time)
+      setPreferredDay(null)
+    }
   }
 
   const handleContinue = () => {
-    if (selectedDate && selectedTime) setStep("details")
+    if (selectedDate && selectedTime && !slotsLoading && !slotsError) setStep("details")
   }
 
   const handleBlur = (field: string) => {
@@ -168,10 +217,6 @@ export default function BookingPage() {
     setSubmitting(true)
     setSubmitError("")
 
-    // Open during the submit tap so mobile browsers allow the WhatsApp handoff
-    // after the booking request finishes saving.
-    const whatsappWindow = window.open("about:blank", "_blank")
-
     try {
       const booking = await createBooking({
         name: formData.name.trim(),
@@ -185,14 +230,7 @@ export default function BookingPage() {
       })
       setConfirmedBooking(booking)
       setStep("confirmation")
-      // Auto-notify the studio via WhatsApp with the complete client details.
-      if (whatsappWindow) {
-        whatsappWindow.location.href = getWhatsAppLink(booking)
-      } else {
-        window.open(getWhatsAppLink(booking), "_blank", "noopener,noreferrer")
-      }
     } catch (err: any) {
-      whatsappWindow?.close()
       setSubmitError(err.message || "Something went wrong. Please try again.")
     } finally {
       setSubmitting(false)
@@ -208,6 +246,9 @@ export default function BookingPage() {
     setErrors({})
     setTouched({})
     setSubmitError("")
+    setPreferredTime(null)
+    setPreferredDay(null)
+    preferredTimeRef.current = null
   }
 
   const SlotGroup = ({ label, slots }: { label: string; slots: string[] }) => (
@@ -251,33 +292,38 @@ export default function BookingPage() {
     <main className="min-h-screen bg-background">
       <Navbar />
 
-      <section className="pt-36 pb-32 px-6 lg:px-8">
+      <section className="pt-24 md:pt-28 pb-24 px-6 lg:px-8">
         <div className="mx-auto max-w-5xl">
           {/* Page Title */}
-          <div className="text-center mb-16">
-            <p className="text-[11px] uppercase tracking-[0.5em] text-foreground/50 font-medium mb-6">
+          <div className="text-center mb-8 md:mb-10">
+            <p className="text-[11px] uppercase tracking-[0.5em] text-foreground/50 font-medium mb-3">
               Reserve Your Session
             </p>
-            <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl font-light tracking-[-0.02em] text-foreground leading-[0.95]">
+            <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-light tracking-[-0.02em] text-foreground leading-[0.95]">
               Book a Class
             </h1>
           </div>
 
           {step === "calendar" && (
-            <div className="grid lg:grid-cols-2 gap-16">
+            <div className="grid lg:grid-cols-2 gap-10 lg:gap-12">
               {/* Left: Session Type & Calendar */}
               <div>
                 {/* Session Type */}
-                <div className="mb-12">
-                  <p className="text-[11px] uppercase tracking-[0.25em] text-foreground/50 font-medium mb-6">
+                <div className="mb-8">
+                  <p className="text-[11px] uppercase tracking-[0.25em] text-foreground/50 font-medium mb-4">
                     Session Type
                   </p>
                   <div className="grid grid-cols-2 gap-3">
                     {sessionTypes.map((session) => (
                       <button
                         key={session.id}
-                        onClick={() => { setSelectedSession(session.id); setSelectedTime(null) }}
-                        className={`p-5 text-left border transition-all ${
+                        onClick={() => {
+                          if (session.id === selectedSession) return
+                          setSelectedSession(session.id)
+                          setSelectedTime(null)
+                          if (selectedDate) setSlotsLoading(true)
+                        }}
+                        className={`p-4 text-left border transition-all ${
                           selectedSession === session.id
                             ? "border-foreground bg-foreground text-background"
                             : "border-border hover:border-foreground/30"
@@ -296,11 +342,17 @@ export default function BookingPage() {
 
                 {/* Calendar */}
                 <div>
-                  <p className="text-[11px] uppercase tracking-[0.25em] text-foreground/50 font-medium mb-6">
+                  <p className="text-[11px] uppercase tracking-[0.25em] text-foreground/50 font-medium mb-4">
                     Select Date
                   </p>
 
-                  <div className="flex items-center justify-between mb-8">
+                  {preferredDay && preferredTime && (
+                    <p className="mb-4 border-l-2 border-brand bg-secondary/50 px-4 py-3 text-sm text-foreground/75" role="status">
+                      From the schedule: <strong>{preferredDay === "saturday" ? "Saturday " : "weekday "}{preferredTime}</strong>. Choose a date; we&apos;ll select this time if a place is available.
+                    </p>
+                  )}
+
+                  <div className="flex items-center justify-between mb-4">
                     <button
                       onClick={() => navigateMonth(-1)}
                       disabled={isCurrentMonth}
@@ -323,7 +375,7 @@ export default function BookingPage() {
 
                   <div className="grid grid-cols-7 gap-1 text-center">
                     {DAY_LABELS.map((day) => (
-                      <div key={day} className="py-3 text-[11px] uppercase tracking-[0.15em] text-foreground/40 font-medium">
+                      <div key={day} className="py-2 text-[11px] uppercase tracking-[0.15em] text-foreground/55 font-medium">
                         {day}
                       </div>
                     ))}
@@ -389,8 +441,24 @@ export default function BookingPage() {
                           ))}
                         </div>
                       </div>
+                    ) : slotsError ? (
+                      <div role="alert" className="mb-8 border border-brand/40 bg-secondary/50 p-5 text-sm text-foreground/80">
+                        <p>{slotsError}</p>
+                        <button
+                          type="button"
+                          onClick={() => setAvailabilityRetry((value) => value + 1)}
+                          className="mt-3 min-h-11 font-medium underline underline-offset-4 hover:text-brand"
+                        >
+                          Retry availability
+                        </button>
+                      </div>
                     ) : (
                       <div className="mb-12">
+                        {preferredTime && !selectedTime && (
+                          <p className="mb-5 text-sm text-foreground/70" role="status">
+                            {preferredTime} is unavailable on this date. Choose another time or date.
+                          </p>
+                        )}
                         <SlotGroup label={selectedDate.getDay() === 6 ? "Saturday morning" : "Morning · Mon – Fri"} slots={selectedDate.getDay() === 6 ? saturdaySlots : morningSlots} />
                         <SlotGroup
                           label="Evening · Mon – Fri"
@@ -404,25 +472,11 @@ export default function BookingPage() {
                       </div>
                     )}
 
-                    {/* Desktop Continue */}
                     <button
                       onClick={handleContinue}
-                      disabled={!selectedTime || slotsLoading}
+                      disabled={!selectedTime || slotsLoading || Boolean(slotsError)}
                       className={`hidden md:block w-full py-4 text-[11px] uppercase tracking-[0.25em] font-medium transition-colors ${
-                        selectedTime && !slotsLoading
-                          ? "bg-foreground text-background hover:bg-foreground/90"
-                          : "bg-muted text-foreground/30 cursor-not-allowed"
-                      }`}
-                    >
-                      Continue
-                    </button>
-
-                    {/* Mobile Continue */}
-                    <button
-                      onClick={handleContinue}
-                      disabled={!selectedTime || slotsLoading}
-                      className={`md:hidden w-full py-4 text-[11px] uppercase tracking-[0.25em] font-medium transition-colors ${
-                        selectedTime && !slotsLoading
+                        selectedTime && !slotsLoading && !slotsError
                           ? "bg-foreground text-background hover:bg-foreground/90"
                           : "bg-muted text-foreground/30 cursor-not-allowed"
                       }`}
@@ -577,17 +631,21 @@ export default function BookingPage() {
                   <p className="mt-6 text-[13px] text-foreground/60 italic text-center">{submitError}</p>
                 )}
 
+                <p className="mt-8 text-sm leading-relaxed text-foreground/70">
+                  We&apos;ll save your request first. Then send the prepared WhatsApp message so the studio can confirm your place.
+                </p>
+
                 <button
                   type="submit"
-                disabled={submitting}
+                  disabled={submitting}
                   className="w-full mt-10 py-4 bg-foreground text-background text-[11px] uppercase tracking-[0.25em] font-medium hover:bg-foreground/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
                   {submitting ? (
                     <>
                       <RefreshCw size={13} className="animate-spin" />
-                      Confirming…
+                      Saving…
                     </>
-                  ) : "Submit Booking Request"}
+                  ) : "Save Request & Continue to WhatsApp"}
                 </button>
               </form>
             </div>
@@ -602,11 +660,27 @@ export default function BookingPage() {
 
               <div role="status" aria-live="polite">
                 <h2 className="font-serif text-4xl md:text-5xl font-light tracking-[-0.02em] text-foreground mb-6">
-                  Booking request received
+                  Request saved. Message the studio.
                 </h2>
-                <p className="text-foreground/60 text-lg mb-12">
-                  Thanks, {confirmedBooking.name.split(" ")[0]}. Your request is saved and waiting for studio confirmation.
+                <p className="text-foreground/70 text-lg mb-8">
+                  Thanks, {confirmedBooking.name.split(" ")[0]}. Your request is saved, but your place is not confirmed yet.
                 </p>
+              </div>
+
+              <div className="p-6 bg-secondary/50 border border-brand/40 mb-8 text-left">
+                <p className="text-sm text-foreground/75 mb-4 leading-relaxed">
+                  <strong className="block text-foreground mb-2">Next: send your booking details on WhatsApp.</strong>
+                  Tap below, then press Send in WhatsApp. The studio will reply to confirm your time.
+                </p>
+                <a
+                  href={getWhatsAppLink(confirmedBooking)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full min-h-12 px-4 bg-foreground text-background text-[11px] uppercase tracking-[0.2em] font-medium hover:bg-foreground/90 transition-colors flex items-center justify-center gap-2 text-center"
+                >
+                  <MessageCircle size={16} aria-hidden="true" />
+                  Open WhatsApp Message
+                </a>
               </div>
 
               {/* Booking Details */}
@@ -633,21 +707,6 @@ export default function BookingPage() {
                 </div>
               </div>
 
-              {/* WhatsApp follow-up */}
-              <div className="p-6 bg-secondary/30 border border-border mb-8 text-left">
-                <p className="text-sm text-foreground/65 mb-4 leading-relaxed">
-                  <strong className="block text-foreground mb-2">One last step: send your WhatsApp request.</strong>
-                  Your booking is not confirmed yet. A prepared WhatsApp message should have opened; send it to the studio so they can confirm your time. If it did not open, use the button below.
-                </p>
-                <button
-                  onClick={() => window.open(getWhatsAppLink(confirmedBooking), "_blank", "noopener,noreferrer")}
-                  className="w-full py-3 bg-foreground text-background text-[11px] uppercase tracking-[0.25em] font-medium hover:bg-foreground/90 transition-colors flex items-center justify-center gap-2"
-                >
-                  <MessageCircle size={14} />
-                  Send WhatsApp Message
-                </button>
-              </div>
-
               <div className="flex flex-col sm:flex-row gap-4 justify-center mt-4">
                 <button
                   onClick={handleBookAnother}
@@ -669,19 +728,14 @@ export default function BookingPage() {
       </section>
 
       {/* Mobile sticky Continue — only shown on step 1 when a time is selected */}
-      {step === "calendar" && selectedTime && (
+      {step === "calendar" && selectedTime && !slotsLoading && !slotsError && (
         <div className="md:hidden fixed bottom-0 inset-x-0 z-40 p-4 bg-background border-t border-border">
           <button
             type="button"
             onClick={handleContinue}
-            disabled={slotsLoading}
-            className={`w-full py-4 text-[11px] uppercase tracking-[0.25em] font-medium transition-colors ${
-              !slotsLoading
-                ? "bg-foreground text-background hover:bg-foreground/90"
-                : "bg-muted text-foreground/30 cursor-not-allowed"
-            }`}
+            className="w-full py-4 bg-foreground text-background text-[11px] uppercase tracking-[0.25em] font-medium hover:bg-foreground/90 transition-colors"
           >
-            {slotsLoading ? "Loading…" : "Continue →"}
+            Continue →
           </button>
         </div>
       )}

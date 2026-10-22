@@ -122,30 +122,27 @@ export function HeroSlider() {
         onClick={nextSlide}
         disabled={isTransitioning}
         type="button"
-        className="absolute right-4 lg:right-8 top-1/2 -translate-y-1/2 z-10 w-12 h-12 flex items-center justify-center rounded-full bg-black/20 backdrop-blur-md border border-white/30 text-white/90 shadow-lg shadow-black/10 hover:bg-black/35 hover:text-white transition-all duration-300 disabled:opacity-50"
+        className="absolute right-4 lg:right-8 top-1/2 -translate-y-1/2 z-10 w-12 h-12 flex items-center justify-center rounded-full bg-black/60 backdrop-blur-md border border-white/60 text-white shadow-lg shadow-black/20 hover:bg-black/80 transition-colors duration-300 disabled:opacity-50"
         aria-label="Next slide"
       >
         <ChevronRight className="w-5 h-5" strokeWidth={1.5} />
       </button>
 
       {/* Dot Indicators */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex items-center gap-3">
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex items-center gap-1 rounded-full border border-white/40 bg-black/60 px-2 backdrop-blur-md" role="group" aria-label="Choose a slide">
         {slides.map((_, index) => (
           <button
             key={index}
             onClick={() => goToSlide(index, index > currentIndex ? "right" : "left")}
             disabled={isTransitioning}
             type="button"
-            className={`relative flex items-center justify-center h-11 transition-all duration-500 motion-reduce:duration-0 ${
+            className={`group relative flex items-center justify-center h-11 transition-all duration-500 motion-reduce:duration-0 ${
               index === currentIndex ? "w-12" : "w-11"
             }`}
             aria-label={`Go to slide ${index + 1}`}
             aria-current={index === currentIndex ? "true" : undefined}
           >
-            <span className={`absolute h-1 rounded-full transition-all duration-500 motion-reduce:duration-0 ${index === currentIndex ? "w-8 bg-white" : "w-4 bg-white/40 hover:bg-white/60"}`} />
-            {index === currentIndex && (
-              <span className={`absolute h-1 w-8 rounded-full bg-white/60 ${isPaused ? "" : "animate-pulse"}`} />
-            )}
+            <span className={`absolute h-1.5 rounded-full transition-all duration-500 motion-reduce:duration-0 ${index === currentIndex ? "w-8 bg-white" : "w-4 bg-white/75 group-hover:bg-white"}`} />
           </button>
         ))}
       </div>
@@ -159,13 +156,13 @@ export function HeroSlider() {
         type="button"
         aria-label={isManuallyPaused ? "Play slideshow" : "Pause slideshow"}
         aria-pressed={isManuallyPaused}
-        className="absolute bottom-8 left-4 lg:left-8 z-10 w-11 h-11 flex items-center justify-center rounded-full bg-black/25 backdrop-blur-md border border-white/30 text-white/90 hover:bg-black/40 hover:text-white transition-colors"
+        className="absolute bottom-6 left-4 lg:left-8 z-10 w-11 h-11 flex items-center justify-center rounded-full bg-black/60 backdrop-blur-md border border-white/60 text-white hover:bg-black/80 transition-colors"
       >
         {isManuallyPaused ? <Play className="w-4 h-4" /> : <Pause className="w-4 h-4" />}
       </button>
 
       {/* Slide Counter */}
-      <div className="absolute bottom-8 right-4 lg:right-8 z-10 text-white/60 text-[11px] tracking-[0.2em] font-medium">
+      <div className="absolute bottom-7 right-4 lg:right-8 z-10 hidden rounded-full border border-white/40 bg-black/60 px-3 py-2 text-white text-[11px] tracking-[0.16em] font-medium backdrop-blur-md sm:block" aria-label={`Slide ${currentIndex + 1} of ${slides.length}`}>
         <span className="text-white">{String(currentIndex + 1).padStart(2, "0")}</span>
         <span className="mx-2">/</span>
         <span>{String(slides.length).padStart(2, "0")}</span>
